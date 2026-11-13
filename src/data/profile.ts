@@ -48,7 +48,7 @@ export const timeline: TimelineEntry[] = [
   {
     period: "2023 \u2013 Present",
     org: "Freelance",
-    role: "Beverage recipe videos",
-    points: ["Around 40 recipe videos."],
+    role: "Short-form videos for businesses",
+    points: ["Around 40 beverage and food videos."],
   },
 ];
