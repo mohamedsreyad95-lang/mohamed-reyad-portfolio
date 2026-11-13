@@ -1,4 +1,10 @@
-export const CATEGORIES = ["Brand Content", "Events", "Sports & Editorial"] as const;
+export const CATEGORIES = [
+  "Brand Content",
+  "Restaurants & Caf\u00e9s",
+  "Creators",
+  "Events",
+  "Sports & Editorial",
+] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 export type Metric = {
@@ -19,6 +25,8 @@ export type Project = {
   subtitle?: string;
   client?: string;
   categories: Category[];
+  /** Narrower slot inside a category, e.g. weddings inside event coverage. */
+  subcategory?: "Weddings";
   url: string;
   platform: string;
   synopsis: string;
@@ -65,6 +73,7 @@ export const projects: Project[] = [
     subtitle: "Reel, 246K plays",
     client: "Wedding Show",
     categories: ["Events"],
+    subcategory: "Weddings",
     url: "https://www.instagram.com/reel/DeOlKbeJyS6/",
     platform: "Instagram Reel",
     synopsis: "A wedding reel published on the Wedding Show account.",
@@ -141,6 +150,7 @@ export const projects: Project[] = [
     subtitle: "Reel, 20.8K plays",
     client: "Wedding Show",
     categories: ["Events"],
+    subcategory: "Weddings",
     url: "https://www.instagram.com/reel/DasQIxaIDHe/",
     platform: "Instagram Reel",
     synopsis: "A wedding reel published on the Wedding Show account.",
@@ -158,6 +168,7 @@ export const projects: Project[] = [
     subtitle: "Reel, 9.4K plays",
     client: "Wedding Show",
     categories: ["Events"],
+    subcategory: "Weddings",
     url: "https://www.instagram.com/reel/Det2eQ2oC_o/",
     platform: "Instagram Reel",
     synopsis: "A wedding reel published on the Wedding Show account.",
@@ -175,6 +186,7 @@ export const projects: Project[] = [
     subtitle: "Reel, 7.9K plays",
     client: "Wedding Show",
     categories: ["Events"],
+    subcategory: "Weddings",
     url: "https://www.instagram.com/reel/Dde3-ADglEL/",
     platform: "Instagram Reel",
     synopsis: "A wedding reel published on the Wedding Show account.",
@@ -190,3 +202,73 @@ export const projects: Project[] = [
 
 export const featuredProjects = projects.filter((p) => p.featured);
 export const railProjects = projects.filter((p) => !p.featured);
+
+export type WorkAreaId = "brand" | "restaurants-cafes" | "creators" | "events" | "sports";
+
+export type WorkArea = {
+  /** Also the anchor id on /work, so other pages can link straight to it. */
+  id: WorkAreaId;
+  category: Category;
+  label: string;
+  /** Mohamed's own Arabic name for this kind of work. */
+  labelAr?: string;
+  blurb: string;
+  /** Shown while no examples are supplied. Never replaced with made-up clients or footage. */
+  pending?: string;
+  sub?: { id: "weddings"; label: string; blurb: string; subcategory: "Weddings" };
+};
+
+export const WORK_AREAS: WorkArea[] = [
+  {
+    id: "brand",
+    category: "Brand Content",
+    label: "Brand content",
+    blurb: "Brand reels, including the work for OPAL Cosmetics. Everyday situations, with the product inside the story.",
+  },
+  {
+    id: "restaurants-cafes",
+    category: "Restaurants & Caf\u00e9s",
+    label: "Restaurants & caf\u00e9s",
+    labelAr: "\u062a\u0635\u0648\u064a\u0631 \u0645\u0637\u0627\u0639\u0645 \u0648\u0643\u0627\u0641\u064a\u0647\u0627\u062a",
+    blurb: "Food, drinks, atmosphere and menu reels for restaurants and caf\u00e9s.",
+    pending:
+      "As a freelancer I\u2019ve made around 40 beverage and food videos for businesses. Examples go up here soon.",
+  },
+  {
+    id: "creators",
+    category: "Creators",
+    label: "Creators",
+    labelAr: "\u062a\u0635\u0648\u064a\u0631 \u0628\u0644\u0648\u062c\u0631\u0632",
+    blurb: "Short-form videos with bloggers and creators, built around the person on camera.",
+    pending: "Examples go up here soon.",
+  },
+  {
+    id: "events",
+    category: "Events",
+    label: "Event coverage",
+    labelAr: "\u062a\u063a\u0637\u064a\u0629 \u0625\u064a\u0641\u0646\u062a\u0633",
+    blurb: "Events shot for social while they happen. Weddings are the biggest part of it so far.",
+    pending: "Coverage from other events goes up here soon.",
+    sub: {
+      id: "weddings",
+      label: "Weddings",
+      blurb:
+        "Mobile content for Wedding Show since April 2023, across more than 150 weddings. These posts are team work, so camera and edit credits are not split out.",
+      subcategory: "Weddings",
+    },
+  },
+  {
+    id: "sports",
+    category: "Sports & Editorial",
+    label: "Sports & editorial",
+    blurb: "Football writing. For now it lives in the script library.",
+  },
+];
+
+export const getArea = (id: WorkAreaId) => WORK_AREAS.find((a) => a.id === id)!;
+/** Projects in an area, outside any sub-area. */
+export const areaProjects = (a: WorkArea) =>
+  projects.filter((p) => p.categories.includes(a.category) && !p.subcategory);
+export const subProjects = (a: WorkArea) =>
+  a.sub ? projects.filter((p) => p.categories.includes(a.category) && p.subcategory === a.sub!.subcategory) : [];
+export const areaCount = (a: WorkArea) => areaProjects(a).length + subProjects(a).length;
