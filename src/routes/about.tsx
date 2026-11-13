@@ -24,7 +24,7 @@ const SUMMARY = [
   { k: "Now", v: "Reels Creator at OPAL Cosmetics" },
   { k: "Also", v: "Mobile Content & Social Media Creator at Wedding Show" },
   { k: "Weddings", v: "150+" },
-  { k: "Writes in", v: "Arabic, for Arabic-speaking audiences" },
+  { k: "Freelance", v: "Since 2023" },
 ];
 
 function AboutPage() {
@@ -43,14 +43,13 @@ function AboutPage() {
             I write and make reels. Most of them start with something people already know too well.
           </p>
           <p>
-            Packaging that changed overnight and nobody can find it. A breakfast that looks like a
-            meeting the second the manager walks past. I take that moment, build a scene around it,
+            Packaging that changed and suddenly nobody can find it. A breakfast that gets mistaken
+            for a meeting. I take that moment, build a scene around it,
             and let the product turn up where it would actually help.
           </p>
           <p>
             Since April 2023 I&rsquo;ve been creating mobile content for Wedding Show, across more
-            than 150 weddings. That work taught me to find the story fast, with whatever the night
-            gives you.
+            than 150 weddings.
           </p>
           <p>
             Since October 2024 I&rsquo;ve been the Reels Creator at OPAL Cosmetics, where the shower
