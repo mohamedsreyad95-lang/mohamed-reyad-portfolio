@@ -1,23 +1,151 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { profile } from "@/data/profile";
+import { featuredProjects, railProjects, type Project } from "@/data/projects";
+import { ProjectCard } from "@/components/site/ProjectCard";
+import { ProjectModal } from "@/components/site/ProjectModal";
+import { WorkRail } from "@/components/site/WorkRail";
+import { Reveal } from "@/components/site/Reveal";
 
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const TITLE = "Mohamed Reyad, Reels Creator & Scriptwriter";
+const DESC =
+  "Good ideas deserve better stories. Reels and scripts that turn everyday problems into scenes worth watching.";
+
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESC },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESC },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: Home,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+const HERO_FACTS = [
+  { value: "2M+", label: "combined views on the OPAL rebranding campaign" },
+  { value: "246K", label: "plays on a single Wedding Show reel" },
+  { value: "150+", label: "weddings covered for Wedding Show" },
+];
+
+function Home() {
+  const [active, setActive] = useState<Project | null>(null);
+  const headline = ["Good ideas", "deserve better", "stories."];
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <>
+      {/* Hero: editorial grid */}
+      <section aria-labelledby="hero-title" className="mx-auto max-w-[1440px] px-5 sm:px-8">
+        <div className="grid gap-y-10 border-b border-border pb-14 pt-10 sm:pt-16 lg:grid-cols-12 lg:gap-x-8 lg:pb-20">
+          <div className="flex items-center justify-between lg:col-span-12">
+            <p className="eyebrow">{profile.title}</p>
+            <p className="eyebrow hidden sm:block">Portfolio, first edition</p>
+          </div>
+
+          <h1 id="hero-title" className="font-display-tight text-mega lg:col-span-12">
+            {headline.map((line, i) => (
+              <span key={line} className="block overflow-hidden pb-[0.04em]">
+                <span
+                  className={`block animate-rise ${i === 2 ? "text-coral" : ""}`}
+                  style={{ animationDelay: `${120 + i * 110}ms` }}
+                >
+                  {line}
+                </span>
+              </span>
+            ))}
+          </h1>
+
+          <div
+            className="animate-reveal lg:col-span-5 lg:col-start-1"
+            style={{ animationDelay: "520ms" }}
+          >
+            <p className="font-serif text-2xl leading-snug sm:text-[1.9rem]">{profile.positioning}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button asChild variant="coral" size="xl">
+                <Link to="/work">
+                  See the work <ArrowRight aria-hidden="true" />
+                </Link>
+              </Button>
+              <Button asChild variant="line" size="xl">
+                <Link to="/scripts">Read the scripts</Link>
+              </Button>
+            </div>
+          </div>
+
+          <dl
+            className="animate-reveal grid grid-cols-3 gap-4 self-end border-t border-border pt-6 lg:col-span-6 lg:col-start-7 lg:border-t-0 lg:pt-0"
+            style={{ animationDelay: "640ms" }}
+          >
+            {HERO_FACTS.map((f) => (
+              <div key={f.value} className="lg:border-l lg:border-border lg:pl-5">
+                <dt className="sr-only">{f.label}</dt>
+                <dd>
+                  <span className="font-display-tight block text-4xl text-coral sm:text-6xl">
+                    {f.value}
+                  </span>
+                  <span className="mt-2 block text-xs leading-snug text-muted-foreground sm:text-sm">
+                    {f.label}
+                  </span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* Featured: exactly four */}
+      <section aria-labelledby="featured-title" className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-28">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p className="eyebrow">Selected</p>
+            <h2 id="featured-title" className="mt-3 font-display-tight text-huge">
+              Four to start with
+            </h2>
+          </div>
+          <Link to="/work" className="link-underline text-sm font-medium">
+            Every project
+          </Link>
+        </div>
+
+        <ul className="mt-12 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
+          {featuredProjects.map((p, i) => (
+            <li key={p.slug} className={i % 2 === 1 ? "lg:mt-16" : undefined}>
+              <Reveal delay={i * 80}>
+                <ProjectCard project={p} onOpen={setActive} />
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Approach strip */}
+      <section aria-label="How the work starts" className="border-y border-border bg-card">
+        <div className="mx-auto grid max-w-[1440px] gap-10 px-5 py-16 sm:px-8 md:grid-cols-3 md:py-20">
+          {[
+            ["Start with the problem", "The thing people already complain about. That\u2019s where the audience is."],
+            ["Turn it into a scene", "Characters, a situation, a reason to keep watching until the end."],
+            ["Let the product arrive", "It shows up where it would actually help, so it never feels pasted in."],
+          ].map(([t, d], i) => (
+            <Reveal key={t} delay={i * 90}>
+              <p className="font-display-tight text-5xl text-coral">0{i + 1}</p>
+              <h3 className="mt-4 font-display-tight text-3xl">{t}</h3>
+              <p className="mt-3 max-w-xs text-muted-foreground">{d}</p>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Rail */}
+      <section aria-label="More work" className="py-20 sm:py-28">
+        <WorkRail items={railProjects} onOpen={setActive} />
+      </section>
+
+      <ProjectModal project={active} onClose={() => setActive(null)} />
+    </>
   );
 }
