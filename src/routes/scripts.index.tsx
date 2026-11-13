@@ -62,7 +62,8 @@ function PendingCard({ s, n }: { s: ScriptEntry; n: number }) {
     <div className="flex h-full flex-col border border-dashed border-border p-6">
       <div className="flex items-start justify-between gap-3">
         <span className="eyebrow">
-          {kindLabel[s.kind]} {String(n).padStart(2, "0")}
+          {kindLabel[s.kind]}
+          {n > 0 && ` ${String(n).padStart(2, "0")}`}
         </span>
         <span className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground">
           <span aria-hidden="true" className="size-1.5 rounded-full bg-coral" />
@@ -132,7 +133,14 @@ function GroupSection({ g }: { g: ScriptGroup }) {
             {pending.map((s, i) => (
               <li key={s.slug}>
                 <Reveal delay={(i % 3) * 70} className="h-full">
-                  <PendingCard s={s} n={i + 1} />
+                  <PendingCard
+                    s={s}
+                    n={
+                      s.kind === "full-script"
+                        ? pending.filter((x) => x.kind === "full-script").indexOf(s) + 1
+                        : 0
+                    }
+                  />
                 </Reveal>
               </li>
             ))}

@@ -22,7 +22,7 @@ export function ProjectCover({
 }) {
   const { cover } = project;
   const longest = Math.max(...cover.lines.map((l) => l.length));
-  const fontSize = `min(24cqw, ${(150 / longest).toFixed(2)}cqw)`;
+  const fontSize = `min(26cqw, ${(180 / longest).toFixed(2)}cqw)`;
   return (
     <div
       aria-hidden="true"
