@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { getScript, kindLabel, readableScripts, type Beat, type ScriptBlock, type ScriptEntry } from "@/data/scripts";
+import { getScript, kindLabel, kindLabelAr, readableScripts, type Beat, type ScriptBlock, type ScriptEntry } from "@/data/scripts";
 import { ScriptTitle } from "@/components/site/ScriptTitle";
 
 export const Route = createFileRoute("/scripts/$slug")({
@@ -91,7 +91,14 @@ function TreatmentPage({ script }: { script: ScriptEntry }) {
   return (
     <div className="screenplay grain px-6 py-12 shadow-2xl sm:px-16 sm:py-20">
       <header className="text-center">
-        <p className="text-xs font-bold uppercase tracking-[0.16em] opacity-60">Treatment, not the full script</p>
+        <p className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-2 border-paper-foreground px-4 py-1.5 text-xs font-bold uppercase tracking-[0.16em]">
+          <span>Treatment</span>
+          <span aria-hidden="true">&middot;</span>
+          <span lang="ar" dir="rtl" className="font-arabic text-sm normal-case tracking-normal">
+            {kindLabelAr.treatment}
+          </span>
+        </p>
+        <p className="mt-3 text-xs opacity-70">The idea and its beats. Not the full script.</p>
         {script.title && (
           <ScriptTitle
             as="h1"
@@ -128,7 +135,7 @@ function FullScriptPage({ script }: { script: ScriptEntry }) {
   return (
     <div className="shadow-2xl">
       <p className="bg-ink px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground sm:px-14">
-        Full script, original Arabic
+        Full script &middot; <span lang="ar" dir="rtl">{kindLabelAr["full-script"]}</span>
       </p>
       <div lang="ar" dir="rtl" className="screenplay-ar grain px-6 py-12 sm:px-14 sm:py-16">
         <header className="text-center">
