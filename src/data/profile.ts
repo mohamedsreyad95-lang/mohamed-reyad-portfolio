@@ -14,6 +14,8 @@ export const profile = {
   // Omitted until supplied. Never fill these with a guess.
   linkedin: null as string | null,
   cvUrl: null as string | null,
+  // Real portrait only. Until supplied, the site shows a typographic monogram instead.
+  portrait: null as { src: string; alt: string } | null,
 } as const;
 
 export type TimelineEntry = {
