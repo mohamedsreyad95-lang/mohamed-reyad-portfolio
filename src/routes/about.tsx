@@ -24,7 +24,7 @@ export const Route = createFileRoute("/about")({
 });
 
 type Dest =
-  | { to: "/work"; hash: "brand" | "restaurants-cafes" | "creators" | "events" | "weddings" }
+  | { to: "/work"; hash: "brand" | "restaurants-cafes" | "creators" | "events" | "weddings" | "beverage-videos" }
   | { to: "/scripts"; hash: "brand" | "sports" };
 
 /** Inline link inside the About copy. Underlined with a small arrow so it reads as clickable. */
@@ -58,17 +58,19 @@ const HUB: { dest: Dest; k: string; title: string; ar?: string; line: string }[]
   {
     dest: { to: "/work", hash: "creators" },
     k: "Visual work",
-    title: "Creators",
+    title: "Creators & bloggers",
     ar: "\u062a\u0635\u0648\u064a\u0631 \u0628\u0644\u0648\u062c\u0631\u0632",
     line: "Creator-led short-form videos",
   },
+  { dest: { to: "/work", hash: "beverage-videos" }, k: "Visual work", title: "Beverage videos", line: "40+ videos, freelance" },
   {
     dest: { to: "/work", hash: "events" },
     k: "Visual work",
-    title: "Events & weddings",
+    title: "Event coverage",
     ar: "\u062a\u063a\u0637\u064a\u0629 \u0625\u064a\u0641\u0646\u062a\u0633",
-    line: "Wedding Show reels and event coverage",
+    line: "Events, with Wedding Show weddings inside",
   },
+  { dest: { to: "/work", hash: "weddings" }, k: "Visual work", title: "Weddings", line: "Wedding Show, 150+ weddings" },
 ];
 
 function AboutPage() {
@@ -89,26 +91,23 @@ function AboutPage() {
       <section className="grid gap-12 py-16 lg:grid-cols-12 lg:gap-8 lg:py-24">
         <div className="space-y-6 text-lg leading-relaxed text-foreground/85 lg:col-span-7">
           <p className="max-w-[26ch] font-serif text-3xl leading-snug text-foreground sm:text-4xl">
-            I make short-form videos, but I&rsquo;m usually thinking about the story before the shot.
+            I&rsquo;m Mohamed Reyad. I make short-form videos, and I usually look for the story before
+            I think about the shot.
           </p>
           <p className="max-w-[62ch]">
-            I&rsquo;m Mohamed. I work on a video from the idea and the{" "}
-            <Go dest={{ to: "/scripts", hash: "brand" }}>script</Go> through to shaping how the story
-            looks on screen.
+            Sometimes it&rsquo;s a small everyday situation. Sometimes it&rsquo;s a product that needs a
+            better way to be introduced. I like building the scene, finding the funny or human detail,
+            then letting the product fit into it naturally. I usually{" "}
+            <Go dest={{ to: "/scripts", hash: "brand" }}>write the script</Go> myself.
           </p>
           <p className="max-w-[62ch]">
-            I like starting with a situation people recognise, finding the funny or human detail in it,
-            then building the video around that. For brand work, I want the product to belong in the
-            story, not interrupt it. Nobody should feel like they just sat through an ad.
-          </p>
-          <p className="max-w-[62ch]">
-            Right now I make brand reels{" "}
-            <Go dest={{ to: "/work", hash: "brand" }}>for OPAL</Go>. I&rsquo;ve covered{" "}
-            <Go dest={{ to: "/work", hash: "weddings" }}>more than 150 weddings</Go> for Wedding Show,
-            and as a freelancer I&rsquo;ve made around 40{" "}
-            <Go dest={{ to: "/work", hash: "restaurants-cafes" }}>beverage and food videos</Go> for
-            businesses. I also shoot <Go dest={{ to: "/work", hash: "creators" }}>with creators</Go>,
-            cover <Go dest={{ to: "/work", hash: "events" }}>events</Go>, and write{" "}
+            Right now I make <Go dest={{ to: "/work", hash: "brand" }}>brand reels for OPAL</Go>. I&rsquo;ve
+            covered <Go dest={{ to: "/work", hash: "weddings" }}>more than 150 weddings</Go> for Wedding
+            Show and made <Go dest={{ to: "/work", hash: "beverage-videos" }}>40+ beverage videos</Go> as a
+            freelancer. I also shoot{" "}
+            <Go dest={{ to: "/work", hash: "restaurants-cafes" }}>restaurants and caf&eacute;s</Go>, work{" "}
+            <Go dest={{ to: "/work", hash: "creators" }}>with creators</Go>, cover{" "}
+            <Go dest={{ to: "/work", hash: "events" }}>events</Go>, and write{" "}
             <Go dest={{ to: "/scripts", hash: "sports" }}>about football</Go>.
           </p>
           <p>

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { areaCount, featuredProjects, getArea, projects } from "@/data/projects";
 import { profile } from "@/data/profile";
-import { scripts } from "@/data/scripts";
+import { listedScripts, scripts } from "@/data/scripts";
 
 const bySlug = (s: string) => projects.find((p) => p.slug === s)!;
 
@@ -72,6 +72,7 @@ describe("portfolio content rules", () => {
   it("lists no restaurant, cafe or creator projects until real examples are supplied", () => {
     expect(areaCount(getArea("restaurants-cafes"))).toBe(0);
     expect(areaCount(getArea("creators"))).toBe(0);
+    expect(areaCount(getArea("beverage-videos"))).toBe(0);
   });
 
   it("files all four Wedding Show reels under weddings inside event coverage", () => {
@@ -80,10 +81,9 @@ describe("portfolio content rules", () => {
     expect(weddings.every((p) => p.categories.includes("Events") && p.subcategory === "Weddings")).toBe(true);
   });
 
-  it("keeps the four earlier full brand scripts pending until their text is supplied", () => {
-    const full = scripts.filter((s) => s.group === "brand" && s.kind === "full-script");
-    expect(full).toHaveLength(4);
-    expect(full.every((s) => s.status === "text-pending" && s.title === null)).toBe(true);
+  it("lists no script publicly without a verified title", () => {
+    expect(listedScripts.every((s) => s.title !== null)).toBe(true);
+    expect(listedScripts.some((s) => s.slug.startsWith("brand-full-script"))).toBe(false);
   });
 
   it("does not use a stand-in portrait", () => {

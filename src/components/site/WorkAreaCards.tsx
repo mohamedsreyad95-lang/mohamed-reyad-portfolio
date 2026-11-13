@@ -26,7 +26,7 @@ function AreaCard({ id, index }: { id: WorkAreaId; index: number }) {
         className="gallery-light pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100 group-focus-visible:opacity-100"
       />
       <span className="relative eyebrow">0{index + 1}</span>
-      <h3 className="relative mt-8 font-display-tight text-[clamp(2.2rem,3.4vw,3.4rem)]">{a.label}</h3>
+      <h3 className="relative mt-8 font-display-tight text-[clamp(2.2rem,3vw,3rem)]">{a.label}</h3>
       {a.labelAr && (
         <p lang="ar" dir="rtl" className="relative mt-3 text-left text-xl font-semibold leading-snug text-coral">
           {a.labelAr}
@@ -37,7 +37,7 @@ function AreaCard({ id, index }: { id: WorkAreaId; index: number }) {
       <div className="relative mt-auto pt-8">
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
           <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-coral" />
-          {st ? (weddings ? `Weddings, ${st}` : st) : "Examples being added"}
+          {st ? (weddings ? `Weddings, ${st}` : st) : a.stat ? `${a.stat}, examples being added` : "Examples being added"}
         </p>
         <span className="mt-5 inline-flex items-center gap-3 font-semibold">
           <span className="border-b border-foreground/25 pb-0.5 transition-colors duration-300 group-hover:border-coral group-hover:text-coral group-focus-visible:border-coral group-focus-visible:text-coral">
@@ -54,21 +54,21 @@ function AreaCard({ id, index }: { id: WorkAreaId; index: number }) {
 
 /** Homepage: the kinds of shoots beyond brand reels, each linking to its section on /work. */
 export function WorkAreaCards() {
-  const ids: WorkAreaId[] = ["restaurants-cafes", "creators", "events"];
+  const ids: WorkAreaId[] = ["restaurants-cafes", "creators", "events", "beverage-videos"];
   return (
     <section aria-labelledby="areas-title" className="mx-auto max-w-[1440px] px-5 pb-20 sm:px-8 sm:pb-28">
       <div className="flex flex-wrap items-end justify-between gap-6 border-t border-border pt-16 sm:pt-20">
         <div>
           <p className="eyebrow">Also behind the camera</p>
           <h2 id="areas-title" className="mt-3 font-display-tight text-huge">
-            Food, creators, events
+            Four kinds of shoots
           </h2>
         </div>
         <p className="max-w-sm text-muted-foreground">
-          Next to the brand work, these are the shoots I do most. Pick one to see what&rsquo;s there.
+          Separate from the brand work, and separate from each other. Each one has its own section.
         </p>
       </div>
-      <ul className="mt-10 grid gap-6 lg:grid-cols-3">
+      <ul className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {ids.map((id, i) => (
           <li key={id}>
             <Reveal delay={i * 100} className="h-full">
