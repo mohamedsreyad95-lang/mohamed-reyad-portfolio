@@ -28,3 +28,10 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- Portfolio content (projects, metrics, scripts, profile) lives only in `src/data/*.ts`; pages render from it so facts stay in one verifiable place.
+- Project covers are typographic (`ProjectCover`), never generated stills, until real frames are supplied, so no fake thumbnails appear.
+- Optional links (LinkedIn, CV) are `null` in `src/data/profile.ts` and the UI hides them when null, so nothing is fabricated.
+- `src/test/content.test.ts` guards the verified-fact rules; update it when facts change.

@@ -10,33 +10,91 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as WorkRouteImport } from './routes/work'
+import { Route as ScriptsIndexRouteImport } from './routes/scripts.index'
+import { Route as ScriptsSlugRouteImport } from './routes/scripts.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkRoute = WorkRouteImport.update({
+  id: '/work',
+  path: '/work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScriptsIndexRoute = ScriptsIndexRouteImport.update({
+  id: '/scripts/',
+  path: '/scripts/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScriptsSlugRoute = ScriptsSlugRouteImport.update({
+  id: '/scripts/$slug',
+  path: '/scripts/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/work': typeof WorkRoute
+  '/scripts/$slug': typeof ScriptsSlugRoute
+  '/scripts/': typeof ScriptsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/work': typeof WorkRoute
+  '/scripts/$slug': typeof ScriptsSlugRoute
+  '/scripts': typeof ScriptsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/work': typeof WorkRoute
+  '/scripts/$slug': typeof ScriptsSlugRoute
+  '/scripts/': typeof ScriptsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/about' | '/contact' | '/work' | '/scripts/$slug' | '/scripts/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/about' | '/contact' | '/work' | '/scripts/$slug' | '/scripts'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/work'
+    | '/scripts/$slug'
+    | '/scripts/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  WorkRoute: typeof WorkRoute
+  ScriptsSlugRoute: typeof ScriptsSlugRoute
+  ScriptsIndexRoute: typeof ScriptsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +106,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work': {
+      id: '/work'
+      path: '/work'
+      fullPath: '/work'
+      preLoaderRoute: typeof WorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scripts/': {
+      id: '/scripts/'
+      path: '/scripts'
+      fullPath: '/scripts/'
+      preLoaderRoute: typeof ScriptsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scripts/$slug': {
+      id: '/scripts/$slug'
+      path: '/scripts/$slug'
+      fullPath: '/scripts/$slug'
+      preLoaderRoute: typeof ScriptsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  WorkRoute: WorkRoute,
+  ScriptsSlugRoute: ScriptsSlugRoute,
+  ScriptsIndexRoute: ScriptsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
