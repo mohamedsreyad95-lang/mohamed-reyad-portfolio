@@ -59,7 +59,7 @@ function ReadableRow({ s, n }: { s: ScriptEntry; n: number }) {
 
 function PendingCard({ s, n }: { s: ScriptEntry; n: number }) {
   return (
-    <div className="flex h-full flex-col border border-dashed border-border p-6">
+    <div id={s.slug} className="flex h-full scroll-mt-28 flex-col border border-dashed border-border p-6 target:border-coral target:bg-coral-soft">
       <div className="flex items-start justify-between gap-3">
         <span className="eyebrow">
           {kindLabel[s.kind]}
@@ -71,7 +71,13 @@ function PendingCard({ s, n }: { s: ScriptEntry; n: number }) {
         </span>
       </div>
       {s.title ? (
-        <ScriptTitle title={s.title} className="mt-5 text-2xl font-bold" />
+        <ScriptTitle
+          as="h4"
+          title={s.title}
+          className="mt-5 text-2xl font-bold"
+          arClassName="text-left leading-snug"
+          secondaryClassName="mt-1 text-lg font-semibold text-muted-foreground"
+        />
       ) : (
         <h4 className="mt-5 font-serif text-2xl italic text-muted-foreground">Original Arabic title pending</h4>
       )}
