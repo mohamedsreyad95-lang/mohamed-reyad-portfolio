@@ -26,7 +26,7 @@ function AreaCard({ id, index }: { id: WorkAreaId; index: number }) {
         className="gallery-light pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100 group-focus-visible:opacity-100"
       />
       <span className="relative eyebrow">0{index + 1}</span>
-      <h3 className="relative mt-8 font-display-tight text-[clamp(2.4rem,5vw,3.6rem)]">{a.label}</h3>
+      <h3 className="relative mt-8 font-display-tight text-[clamp(2.2rem,3.4vw,3.4rem)]">{a.label}</h3>
       {a.labelAr && (
         <p lang="ar" dir="rtl" className="relative mt-3 text-left text-xl font-semibold leading-snug text-coral">
           {a.labelAr}
@@ -68,7 +68,7 @@ export function WorkAreaCards() {
           Next to the brand work, these are the shoots I do most. Pick one to see what&rsquo;s there.
         </p>
       </div>
-      <ul className="mt-10 grid gap-6 md:grid-cols-3">
+      <ul className="mt-10 grid gap-6 lg:grid-cols-3">
         {ids.map((id, i) => (
           <li key={id}>
             <Reveal delay={i * 100} className="h-full">
