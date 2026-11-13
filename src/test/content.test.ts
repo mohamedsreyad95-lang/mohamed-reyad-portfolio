@@ -40,8 +40,39 @@ describe("portfolio content rules", () => {
     expect(profile.cvUrl).toBeNull();
   });
 
-  it("publishes only treatments, no full scripts, until the script text is supplied", () => {
-    const readable = scripts.filter((s) => s.status === "available");
-    expect(readable.every((s) => s.kind === "treatment")).toBe(true);
+  it("labels the three OPAL treatments as treatments, never full scripts", () => {
+    const slugs = ["opal-shower-gel-where", "opal-alan-hoy-style", "opal-meeting-room"];
+    for (const slug of slugs) {
+      const s = scripts.find((x) => x.slug === slug)!;
+      expect(s.kind).toBe("treatment");
+      expect(s.status).toBe("available");
+    }
+  });
+
+  it("only opens a full script when its supplied text is present", () => {
+    for (const s of scripts.filter((x) => x.kind === "full-script" && x.status === "available")) {
+      expect(s.body?.length ?? 0).toBeGreaterThan(0);
+      expect(s.title).not.toBeNull();
+    }
+  });
+
+  it("keeps the three sports scripts pending, with no invented title or text", () => {
+    const sports = scripts.filter((s) => s.group === "sports");
+    expect(sports).toHaveLength(3);
+    for (const s of sports) {
+      expect(s.status).toBe("text-pending");
+      expect(s.title).toBeNull();
+      expect(s.body).toBeUndefined();
+    }
+  });
+
+  it("keeps the four earlier full brand scripts pending until their text is supplied", () => {
+    const full = scripts.filter((s) => s.group === "brand" && s.kind === "full-script");
+    expect(full).toHaveLength(4);
+    expect(full.every((s) => s.status === "text-pending" && s.title === null)).toBe(true);
+  });
+
+  it("does not use a stand-in portrait", () => {
+    expect(profile.portrait).toBeNull();
   });
 });

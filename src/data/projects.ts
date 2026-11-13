@@ -12,6 +12,9 @@ export type CoverTone = "coral" | "ink" | "paper" | "charcoal";
 
 export type Project = {
   slug: string;
+  /** Original Arabic title of the reel. Only set when supplied; never translated or guessed. */
+  titleAr?: string;
+  /** Working label in English, shown until the original Arabic title is supplied. */
   title: string;
   subtitle?: string;
   client?: string;
@@ -53,7 +56,7 @@ export const projects: Project[] = [
     notes: [
       "The Instagram figures are likes and comments on this post. The 2M+ views figure is the wider campaign result, counted separately.",
     ],
-    cover: { lines: ["OPAL", "Re", "brand"], tone: "coral", mark: "01" },
+    cover: { lines: ["OPAL", "Rebranding"], tone: "coral", mark: "01" },
     featured: true,
   },
   {
@@ -71,7 +74,7 @@ export const projects: Project[] = [
       { value: "246,177", label: "plays" },
       { value: "5,358", label: "likes" },
     ],
-    cover: { lines: ["Wed", "ding", "Show"], tone: "paper", mark: "02" },
+    cover: { lines: ["Wedding", "Show"], tone: "paper", mark: "02" },
     featured: true,
   },
   {
@@ -102,7 +105,7 @@ export const projects: Project[] = [
       { value: "47K", label: "plays" },
       { value: "685", label: "likes" },
     ],
-    cover: { lines: ["Inside", "the Brain", "storm"], tone: "charcoal", mark: "04" },
+    cover: { lines: ["Inside the", "Brainstorming"], tone: "charcoal", mark: "04" },
     featured: true,
   },
   {

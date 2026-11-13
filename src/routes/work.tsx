@@ -46,6 +46,10 @@ function WorkPage() {
           Every number here comes from the original post. Open a project for the synopsis, the role,
           and a link to watch it where it was published.
         </p>
+        <p className="mt-3 max-w-xl text-sm text-muted-foreground">
+          Reel names are English working labels for now. The original Arabic titles replace them as
+          they come in.
+        </p>
       </header>
 
       <div

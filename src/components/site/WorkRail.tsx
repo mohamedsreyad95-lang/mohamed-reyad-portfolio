@@ -43,12 +43,15 @@ export function WorkRail({ items, onOpen }: { items: Project[]; onOpen: (p: Proj
         <li className="w-[68vw] shrink-0 snap-start sm:w-[300px]">
           <Link
             to="/work"
-            className="group flex aspect-[4/5] flex-col justify-between border border-dashed border-border p-5 transition-colors hover:border-coral"
+            className="group flex aspect-[4/5] flex-col justify-between border border-border bg-card p-5 transition-[transform,border-color,box-shadow] duration-500 ease-out-expo hover:-translate-y-1.5 hover:border-coral hover:shadow-lift focus-visible:-translate-y-1.5"
           >
             <span className="eyebrow">Index</span>
             <span className="font-display-tight text-5xl transition-colors group-hover:text-coral">
               All visual work
-              <ArrowRight className="mt-3 size-8" aria-hidden="true" />
+            </span>
+            <span className="inline-flex items-center gap-2 self-start border-b border-foreground/25 pb-1 text-sm font-semibold transition-colors group-hover:border-coral group-hover:text-coral">
+              See every project
+              <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
             </span>
           </Link>
         </li>

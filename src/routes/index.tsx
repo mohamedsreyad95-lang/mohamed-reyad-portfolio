@@ -8,6 +8,7 @@ import { ProjectCard } from "@/components/site/ProjectCard";
 import { ProjectModal } from "@/components/site/ProjectModal";
 import { WorkRail } from "@/components/site/WorkRail";
 import { Reveal } from "@/components/site/Reveal";
+import { ScriptShowcase } from "@/components/site/ScriptShowcase";
 
 const TITLE = "Mohamed Reyad, Reels Creator & Scriptwriter";
 const DESC =
@@ -41,7 +42,7 @@ function Home() {
     <>
       {/* Hero: editorial grid */}
       <section aria-labelledby="hero-title" className="mx-auto max-w-[1440px] px-5 sm:px-8">
-        <div className="grid gap-y-10 border-b border-border pb-14 pt-10 sm:pt-16 lg:grid-cols-12 lg:gap-x-8 lg:pb-20">
+        <div className="grid gap-y-10 border-b border-border pb-14 pt-10 sm:pt-14 lg:grid-cols-12 lg:gap-x-8 lg:pb-16">
           <div className="flex items-center justify-between lg:col-span-12">
             <p className="eyebrow">{profile.title}</p>
             <p className="eyebrow hidden sm:block">Portfolio, first edition</p>
@@ -61,18 +62,22 @@ function Home() {
           </h1>
 
           <div
-            className="animate-reveal lg:col-span-5 lg:col-start-1"
+            className="animate-reveal lg:col-span-6 lg:col-start-1"
             style={{ animationDelay: "520ms" }}
           >
-            <p className="font-serif text-2xl leading-snug sm:text-[1.9rem]">{profile.positioning}</p>
+            <p className="max-w-[34ch] font-serif text-2xl leading-snug sm:text-[1.9rem]">{profile.positioning}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild variant="coral" size="xl">
+              <Button asChild variant="coral" size="xl" className="group/cta">
                 <Link to="/work">
-                  See the work <ArrowRight aria-hidden="true" />
+                  See the visual work
+                  <ArrowRight aria-hidden="true" className="transition-transform duration-300 group-hover/cta:translate-x-1" />
                 </Link>
               </Button>
               <Button asChild variant="line" size="xl">
-                <Link to="/scripts">Read the scripts</Link>
+                <Link to="/scripts" hash="brand">Brand scripts</Link>
+              </Button>
+              <Button asChild variant="line" size="xl">
+                <Link to="/scripts" hash="sports">Sports scripts</Link>
               </Button>
             </div>
           </div>
@@ -98,17 +103,24 @@ function Home() {
         </div>
       </section>
 
+      {/* Scripts sit right under the hero, at equal weight with the visual work */}
+      <ScriptShowcase />
+
       {/* Featured: exactly four */}
       <section aria-labelledby="featured-title" className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-28">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="eyebrow">Selected</p>
+            <p className="eyebrow">Visual work, selected</p>
             <h2 id="featured-title" className="mt-3 font-display-tight text-huge">
               Four to start with
             </h2>
           </div>
-          <Link to="/work" className="link-underline text-sm font-medium">
+          <Link
+            to="/work"
+            className="group inline-flex items-center gap-2 border-b border-foreground/25 pb-1 text-sm font-semibold transition-colors hover:border-coral hover:text-coral"
+          >
             Every project
+            <ArrowRight aria-hidden="true" className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
 
@@ -133,7 +145,7 @@ function Home() {
           ].map(([t, d], i) => (
             <Reveal key={t} delay={i * 90}>
               <p className="font-display-tight text-5xl text-coral">0{i + 1}</p>
-              <h3 className="mt-4 font-display-tight text-3xl">{t}</h3>
+              <h3 className="mt-4 font-display-tight text-3xl leading-[0.95]">{t}</h3>
               <p className="mt-3 max-w-xs text-muted-foreground">{d}</p>
             </Reveal>
           ))}

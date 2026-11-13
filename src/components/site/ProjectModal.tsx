@@ -21,26 +21,38 @@ export function ProjectModal({
       {project && (
         <DialogContent className="max-h-[92vh] max-w-4xl gap-0 overflow-y-auto rounded-none border-border bg-background p-0 sm:rounded-none">
           <div className="grid md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
-            <ProjectCover project={project} size="lg" className="aspect-[4/3] md:aspect-auto md:min-h-full" />
+            <ProjectCover project={project} className="aspect-[4/3] md:aspect-auto md:min-h-full" />
             <div className="p-6 sm:p-8">
               <ul className="flex flex-wrap gap-2" aria-label="Categories">
                 {project.categories.map((c) => (
                   <li
                     key={c}
-                    className="rounded-full border border-coral/50 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-coral"
+                    className="rounded-full border border-coral/50 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-coral"
                   >
                     {c}
                   </li>
                 ))}
               </ul>
 
-              <DialogTitle className="mt-5 font-display-tight text-4xl sm:text-5xl">
-                {project.title}
-              </DialogTitle>
-              {project.subtitle && (
-                <p className="mt-2 font-serif text-xl italic text-muted-foreground">
-                  {project.subtitle}
-                </p>
+              {project.titleAr ? (
+                <>
+                  <DialogTitle lang="ar" dir="rtl" className="mt-5 text-left text-3xl font-bold leading-snug sm:text-4xl">
+                    {project.titleAr}
+                  </DialogTitle>
+                  <p className="mt-2 font-serif text-xl italic text-muted-foreground">{project.title}</p>
+                </>
+              ) : (
+                <>
+                  <DialogTitle className="mt-5 font-display-tight text-4xl leading-[0.95] sm:text-5xl">
+                    {project.title}
+                  </DialogTitle>
+                  {project.subtitle && (
+                    <p className="mt-2 font-serif text-xl italic text-muted-foreground">{project.subtitle}</p>
+                  )}
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    Working title in English. The original Arabic title will replace it once supplied.
+                  </p>
+                </>
               )}
 
               <DialogDescription className="mt-5 text-base leading-relaxed text-foreground/85">
@@ -88,9 +100,9 @@ export function ProjectModal({
 
               <div className="mt-8">
                 <Button asChild variant="coral" size="xl">
-                  <a href={project.url} target="_blank" rel="noopener noreferrer">
-                    Watch the original reel
-                    <ArrowUpRight aria-hidden="true" />
+                  <a href={project.url} target="_blank" rel="noopener noreferrer" className="group/cta">
+                    View reel on Instagram
+                    <ArrowUpRight aria-hidden="true" className="transition-transform duration-300 group-hover/cta:-translate-y-0.5 group-hover/cta:translate-x-0.5" />
                     <span className="sr-only">(opens Instagram in a new tab)</span>
                   </a>
                 </Button>
