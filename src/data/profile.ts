@@ -15,7 +15,8 @@ export const profile = {
   linkedin: null as string | null,
   cvUrl: null as string | null,
   // Real portrait only. Until supplied, the site shows a typographic monogram instead.
-  portrait: null as { src: string; alt: string } | null,
+  // `focus` sets the crop (CSS object-position) so the doorway and face stay in frame.
+  portrait: null as { src: string; alt: string; focus?: string; focusMobile?: string } | null,
 } as const;
 
 export type TimelineEntry = {
