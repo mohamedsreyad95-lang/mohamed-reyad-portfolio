@@ -63,7 +63,7 @@ export function SiteHeader() {
                     <Link
                       to="/"
                       onClick={() => setOpen(false)}
-                      className="font-display-tight block py-1 text-[3.6rem] text-muted-foreground"
+                      className="font-display-tight block py-1 text-[3.6rem]"
                       activeProps={{ className: "text-coral" }}
                       activeOptions={{ exact: true }}
                     >
