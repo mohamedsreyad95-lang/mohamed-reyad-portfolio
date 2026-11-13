@@ -12,9 +12,9 @@ export function ProjectCard({
 }: {
   project: Project;
   onOpen: (p: Project) => void;
-  className?: string;
-  coverClassName?: string;
-  size?: "sm" | "md" | "lg";
+  className?: string | undefined;
+  coverClassName?: string | undefined;
+  size?: "sm" | "md" | "lg" | undefined;
 }) {
   const lead = project.metrics[0];
   return (

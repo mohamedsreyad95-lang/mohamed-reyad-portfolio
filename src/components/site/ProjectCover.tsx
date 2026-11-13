@@ -15,8 +15,8 @@ export function ProjectCover({
   size,
 }: {
   project: Project;
-  className?: string;
-  size?: "sm" | "md" | "lg";
+  className?: string | undefined;
+  size?: "sm" | "md" | "lg" | undefined;
 }) {
   const { cover } = project;
   const scale = size ?? "md";
