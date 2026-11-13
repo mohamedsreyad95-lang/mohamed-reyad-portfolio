@@ -12,13 +12,14 @@ const toneClass: Record<Project["cover"]["tone"], string> = {
 export function ProjectCover({
   project,
   className,
-  size = "md",
+  size,
 }: {
   project: Project;
   className?: string;
   size?: "sm" | "md" | "lg";
 }) {
   const { cover } = project;
+  const scale = size ?? "md";
   return (
     <div
       aria-hidden="true"
@@ -35,9 +36,9 @@ export function ProjectCover({
       <div
         className={cn(
           "font-display-tight",
-          size === "sm" && "text-[2.6rem] sm:text-5xl",
-          size === "md" && "text-[3.4rem] sm:text-6xl lg:text-[4.5rem]",
-          size === "lg" && "text-7xl sm:text-8xl",
+          scale === "sm" && "text-[2.6rem] sm:text-5xl",
+          scale === "md" && "text-[3.4rem] sm:text-6xl lg:text-[4.5rem]",
+          scale === "lg" && "text-7xl sm:text-8xl",
         )}
       >
         {cover.lines.map((line, i) => (

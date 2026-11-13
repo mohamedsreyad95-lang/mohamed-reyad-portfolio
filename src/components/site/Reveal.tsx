@@ -15,7 +15,7 @@ export function Reveal({ as: Tag = "div", className, delay = 0, children }: Reve
     const el = ref.current;
     if (!el) return;
     if (typeof IntersectionObserver === "undefined") {
-      el.dataset.reveal = "in";
+      el.setAttribute("data-reveal", "in");
       return;
     }
     const io = new IntersectionObserver(
@@ -23,7 +23,7 @@ export function Reveal({ as: Tag = "div", className, delay = 0, children }: Reve
         for (const entry of entries) {
           if (entry.isIntersecting) {
             window.setTimeout(() => {
-              el.dataset.reveal = "in";
+              el.setAttribute("data-reveal", "in");
             }, delay);
             io.disconnect();
           }
