@@ -157,7 +157,7 @@ function AboutPage() {
                 >
                   <span className="min-w-0">
                     <span className="eyebrow block">{h.k}</span>
-                    <span className="mt-3 block font-display-tight text-3xl transition-colors group-hover:text-coral">
+                    <span className="mt-3 block font-display-tight text-3xl leading-[0.95] transition-colors group-hover:text-coral">
                       {h.title}
                     </span>
                     {h.ar && (
