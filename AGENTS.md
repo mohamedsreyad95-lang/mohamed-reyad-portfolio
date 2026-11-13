@@ -35,3 +35,5 @@ use the editor.
 - Project covers are typographic (`ProjectCover`), never generated stills, until real frames are supplied, so no fake thumbnails appear.
 - Optional links (LinkedIn, CV) are `null` in `src/data/profile.ts` and the UI hides them when null, so nothing is fabricated.
 - `src/test/content.test.ts` guards the verified-fact rules; update it when facts change.
+- Scripts carry `group` (brand/sports), `kind` (treatment/full-script) and `status`; full scripts render from `body` in the RTL Arabic reader and only open when `body` exists, so missing text shows as pending instead of filler.
+- Arabic and mixed titles render through `ScriptTitle`, which splits on " | " so Arabic and Latin parts never wrap into each other.
