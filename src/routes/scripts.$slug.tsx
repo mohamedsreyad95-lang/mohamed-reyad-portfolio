@@ -105,7 +105,7 @@ function Reader() {
             ))}
           </div>
 
-          <p className="mt-14 text-center text-sm font-bold uppercase">Fade out.</p>
+          <p className="mt-14 text-center text-sm font-bold uppercase">End of treatment</p>
         </div>
 
         <nav aria-label="More treatments" className="mt-10 flex justify-between gap-4 text-sm">
