@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { profile, timeline } from "@/data/profile";
 import { Reveal } from "@/components/site/Reveal";
+import { PortraitSlot } from "@/components/site/PortraitSlot";
 
 const TITLE = "About | Mohamed Reyad";
 const DESC =
@@ -30,16 +31,21 @@ const SUMMARY = [
 function AboutPage() {
   return (
     <div className="mx-auto max-w-[1440px] px-5 sm:px-8">
-      <header className="border-b border-border pb-12 pt-12 sm:pt-20">
-        <p className="eyebrow">About</p>
-        <h1 className="mt-4 font-display-tight text-mega">
-          Mohamed <span className="text-coral">Reyad</span>
-        </h1>
+      <header className="grid items-end gap-10 border-b border-border pb-12 pt-12 sm:pt-20 md:grid-cols-12 md:gap-8">
+        <div className="md:col-span-8">
+          <p className="eyebrow">About</p>
+          <h1 className="mt-4 font-display-tight text-mega">
+            <span className="block">Mohamed</span>
+            <span className="block text-coral">Reyad</span>
+          </h1>
+          <p className="mt-6 text-lg text-muted-foreground">{profile.title}</p>
+        </div>
+        <PortraitSlot className="w-full max-w-xs animate-reveal md:col-span-4 md:max-w-none" />
       </header>
 
       <section className="grid gap-12 py-16 lg:grid-cols-12 lg:gap-8 lg:py-24">
         <div className="space-y-6 text-lg leading-relaxed text-foreground/85 lg:col-span-7">
-          <p className="font-serif text-3xl leading-snug text-foreground sm:text-4xl">
+          <p className="max-w-[28ch] font-serif text-3xl leading-snug text-foreground sm:text-4xl">
             I write and make reels. Most of them start with something people already know too well.
           </p>
           <p>
@@ -58,8 +64,12 @@ function AboutPage() {
             videos.
           </p>
           <p>
-            <Link to="/contact" className="link-underline font-medium text-coral">
+            <Link
+              to="/contact"
+              className="group inline-flex items-center gap-2 border-b border-coral/50 pb-1 font-semibold text-coral transition-colors hover:border-coral"
+            >
               {profile.closing}
+              <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
             </Link>
           </p>
         </div>
@@ -86,7 +96,7 @@ function AboutPage() {
               <Reveal delay={i * 80} className="grid gap-4 py-8 md:grid-cols-12">
                 <p className="eyebrow md:col-span-3 md:pt-2">{t.period}</p>
                 <div className="md:col-span-5">
-                  <h3 className="font-display-tight text-4xl sm:text-5xl">{t.org}</h3>
+                  <h3 className="font-display-tight text-4xl leading-[0.95] sm:text-5xl">{t.org}</h3>
                   <p className="mt-2 font-serif text-xl italic text-muted-foreground">{t.role}</p>
                 </div>
                 <ul className="space-y-2 text-foreground/85 md:col-span-4 md:pt-2">

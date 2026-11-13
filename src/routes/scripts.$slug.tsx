@@ -171,7 +171,7 @@ function Reader() {
               <ArrowLeft className="size-4 shrink-0 transition-transform duration-300 group-hover:-translate-x-1 group-hover:text-coral" aria-hidden="true" />
               <span className="min-w-0">
                 <span className="block text-xs text-muted-foreground">Previous</span>
-                <span lang={prev.titleLang} className="link-underline block truncate font-semibold">
+                <span lang={prev.titleLang} dir="auto" className="link-underline block truncate font-semibold">
                   {prev.title}
                 </span>
               </span>
@@ -187,7 +187,7 @@ function Reader() {
             >
               <span className="min-w-0">
                 <span className="block text-xs text-muted-foreground">Next</span>
-                <span lang={next.titleLang} className="link-underline block truncate font-semibold">
+                <span lang={next.titleLang} dir="auto" className="link-underline block truncate font-semibold">
                   {next.title}
                 </span>
               </span>
