@@ -68,13 +68,6 @@ function Home() {
 
           <div className="w-[84%] justify-self-end sm:w-[62%] lg:col-span-5 lg:col-start-8 lg:row-span-3 lg:row-start-2 lg:w-full lg:max-w-[460px] lg:pt-4">
             <Threshold eager doorClassName="aspect-[4/5] lg:aspect-[3/4] [animation-delay:250ms]" />
-            <Link
-              to="/about"
-              className="group mt-4 inline-flex items-center gap-2 border-b border-foreground/25 pb-1 text-sm font-semibold transition-colors hover:border-coral hover:text-coral"
-            >
-              Meet Mohamed
-              <ArrowRight aria-hidden="true" className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
           </div>
 
           <div
