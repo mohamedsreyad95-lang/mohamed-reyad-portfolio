@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { profile } from "@/data/profile";
 
@@ -53,21 +53,19 @@ export function Threshold({
         >
           <div ref={imgRef} className="absolute -inset-y-6 inset-x-0 will-change-transform">
             {portrait ? (
-              <picture>
-                <img
+              <img
                   src={portrait.src}
                   alt={portrait.alt}
                   loading={eager ? "eager" : "lazy"}
                   decoding="async"
-                  className="size-full animate-settle object-cover"
+                  className="size-full animate-settle object-cover [object-position:var(--focus-mobile)] sm:[object-position:var(--focus)]"
                   style={
                     {
-                      objectPosition: portrait.focus ?? "50% 35%",
+                      "--focus": portrait.focus ?? "50% 35%",
                       "--focus-mobile": portrait.focusMobile ?? portrait.focus ?? "50% 35%",
-                    } as React.CSSProperties
+                    } as CSSProperties
                   }
                 />
-              </picture>
             ) : (
               <EmptyRoom />
             )}

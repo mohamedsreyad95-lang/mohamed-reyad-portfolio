@@ -27,11 +27,12 @@ export function ProjectCover({
     <div
       aria-hidden="true"
       className={cn(
-        "@container grain relative flex flex-col justify-between overflow-hidden p-4 sm:p-5",
+        "@container grain relative flex flex-col justify-between overflow-hidden p-5 sm:p-6",
         toneClass[cover.tone],
         className,
       )}
     >
+      <span aria-hidden="true" className="art-mat" />
       <div className="flex items-start justify-between gap-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] opacity-70">
         <span>{project.categories[0]}</span>
         <span>{cover.mark}</span>
