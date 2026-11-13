@@ -9,6 +9,7 @@ import { ProjectModal } from "@/components/site/ProjectModal";
 import { WorkRail } from "@/components/site/WorkRail";
 import { Reveal } from "@/components/site/Reveal";
 import { ScriptShowcase } from "@/components/site/ScriptShowcase";
+import { Threshold } from "@/components/site/Threshold";
 
 const TITLE = "Mohamed Reyad, Reels Creator & Scriptwriter";
 const DESC =
@@ -40,7 +41,7 @@ function Home() {
 
   return (
     <>
-      {/* Hero: editorial grid */}
+      {/* Hero: editorial grid, anchored by the doorway portrait */}
       <section aria-labelledby="hero-title" className="mx-auto max-w-[1440px] px-5 sm:px-8">
         <div className="grid gap-y-10 border-b border-border pb-14 pt-10 sm:pt-14 lg:grid-cols-12 lg:gap-x-8 lg:pb-16">
           <div className="flex items-center justify-between lg:col-span-12">
@@ -48,7 +49,10 @@ function Home() {
             <p className="eyebrow hidden sm:block">Portfolio, first edition</p>
           </div>
 
-          <h1 id="hero-title" className="font-display-tight text-mega lg:col-span-12">
+          <h1
+            id="hero-title"
+            className="font-display-tight text-mega lg:col-span-7 lg:row-start-2 lg:text-[clamp(5rem,9.4vw,9.5rem)]"
+          >
             {headline.map((line, i) => (
               <span key={line} className="block overflow-hidden pb-[0.04em]">
                 <span
@@ -61,8 +65,19 @@ function Home() {
             ))}
           </h1>
 
+          <div className="w-[84%] justify-self-end sm:w-[62%] lg:col-span-5 lg:col-start-8 lg:row-span-3 lg:row-start-2 lg:w-full lg:max-w-[460px] lg:pt-4">
+            <Threshold eager doorClassName="aspect-[4/5] lg:aspect-[3/4] [animation-delay:250ms]" />
+            <Link
+              to="/about"
+              className="group mt-4 inline-flex items-center gap-2 border-b border-foreground/25 pb-1 text-sm font-semibold transition-colors hover:border-coral hover:text-coral"
+            >
+              Meet Mohamed
+              <ArrowRight aria-hidden="true" className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </div>
+
           <div
-            className="animate-reveal lg:col-span-6 lg:col-start-1"
+            className="animate-reveal lg:col-span-7 lg:row-start-3"
             style={{ animationDelay: "520ms" }}
           >
             <p className="max-w-[34ch] font-serif text-2xl leading-snug sm:text-[1.9rem]">{profile.positioning}</p>
@@ -83,11 +98,11 @@ function Home() {
           </div>
 
           <dl
-            className="animate-reveal grid grid-cols-3 gap-4 self-end border-t border-border pt-6 lg:col-span-6 lg:col-start-7 lg:border-t-0 lg:pt-0"
+            className="animate-reveal grid grid-cols-3 gap-4 self-end border-t border-border pt-6 lg:col-span-7 lg:row-start-4"
             style={{ animationDelay: "640ms" }}
           >
             {HERO_FACTS.map((f) => (
-              <div key={f.value} className="lg:border-l lg:border-border lg:pl-5">
+              <div key={f.value} className="sm:border-l sm:border-border sm:pl-5 first:sm:border-l-0 first:sm:pl-0">
                 <dt className="sr-only">{f.label}</dt>
                 <dd>
                   <span className="font-display-tight block text-4xl text-coral sm:text-6xl">

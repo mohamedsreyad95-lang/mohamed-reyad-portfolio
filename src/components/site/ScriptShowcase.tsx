@@ -33,7 +33,7 @@ function GroupCard({ g, index }: { g: ScriptGroup; index: number }) {
     >
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-coral-soft opacity-0 blur-3xl transition-opacity duration-700 group-hover:opacity-100"
+        className="gallery-light pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100 group-focus-visible:opacity-100"
       />
       <div className="relative flex items-start justify-between gap-4">
         <span className="eyebrow">Scripts &middot; 0{index + 1}</span>

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { profile, timeline } from "@/data/profile";
 import { Reveal } from "@/components/site/Reveal";
-import { PortraitSlot } from "@/components/site/PortraitSlot";
+import { Threshold } from "@/components/site/Threshold";
 
 const TITLE = "About | Mohamed Reyad";
 const DESC =
@@ -40,7 +40,7 @@ function AboutPage() {
           </h1>
           <p className="mt-6 text-lg text-muted-foreground">{profile.title}</p>
         </div>
-        <PortraitSlot className="w-full max-w-xs animate-reveal md:col-span-4 md:max-w-none" />
+        <Threshold eager className="w-[84%] justify-self-end sm:w-[60%] md:col-span-4 md:w-full" doorClassName="aspect-[3/4]" />
       </header>
 
       <section className="grid gap-12 py-16 lg:grid-cols-12 lg:gap-8 lg:py-24">
