@@ -1,27 +1,71 @@
+/** Treatment beats are short English stage notes around Arabic lines. */
 export type Beat =
   | { type: "scene"; text: string }
   | { type: "action"; text: string }
   | { type: "super"; text: string; lang?: "ar" }
   | { type: "note"; text: string };
 
+/**
+ * Full scripts are stored exactly as supplied, in the original Arabic.
+ * Never summarise, translate or fill gaps here.
+ */
+export type ScriptBlock =
+  | { type: "scene"; text: string }
+  | { type: "action"; text: string }
+  | { type: "character"; text: string }
+  | { type: "parenthetical"; text: string }
+  | { type: "dialogue"; text: string }
+  | { type: "transition"; text: string }
+  | { type: "super"; text: string };
+
+export type ScriptGroup = "brand" | "sports";
+
 export type ScriptEntry = {
   slug: string;
-  kind: "treatment" | "script" | "collection";
-  status: "available" | "coming";
-  title: string;
+  group: ScriptGroup;
+  kind: "treatment" | "full-script";
+  /** "text-pending" means the source text is not in hand yet. Nothing is shown in its place. */
+  status: "available" | "text-pending";
+  /** Original title. null until the verified original is supplied. */
+  title: string | null;
   titleLang?: "ar";
+  /** Small English helper under an Arabic title. */
   gloss?: string;
+  /** English working label for an entry whose original title is still pending. */
+  workingLabel?: string;
   brand?: string;
   category: string;
-  logline: string;
+  logline?: string;
   beats?: Beat[];
+  body?: ScriptBlock[];
   note?: string;
   relatedUrl?: string;
+};
+
+export const SCRIPT_GROUPS: Record<
+  ScriptGroup,
+  { id: ScriptGroup; label: [string, string]; blurb: string; cue: string }
+> = {
+  brand: {
+    id: "brand",
+    label: ["Brand", "Scripts"],
+    blurb:
+      "Ideas for brands, written as scenes. Each one starts with an everyday problem and lets the product arrive where it actually helps.",
+    cue: "Read scripts",
+  },
+  sports: {
+    id: "sports",
+    label: ["Sports", "Scripts"],
+    blurb:
+      "Football scripts written in Arabic. Their original titles and full text go up here as soon as they are in.",
+    cue: "Explore",
+  },
 };
 
 export const scripts: ScriptEntry[] = [
   {
     slug: "opal-shower-gel-where",
+    group: "brand",
     kind: "treatment",
     status: "available",
     title: "\u0647\u0648 \u0634\u0627\u0648\u0631 \u062c\u064a\u0644 OPAL \u0628\u0642\u0649 \u0641\u064a\u0646\u061f",
@@ -49,6 +93,7 @@ export const scripts: ScriptEntry[] = [
   },
   {
     slug: "opal-alan-hoy-style",
+    group: "brand",
     kind: "treatment",
     status: "available",
     title: "OPAL Shower Gel | Alan Hoy Production Style",
@@ -72,11 +117,12 @@ export const scripts: ScriptEntry[] = [
   },
   {
     slug: "opal-meeting-room",
+    group: "brand",
     kind: "treatment",
     status: "available",
     title: "\u0645\u0639\u0637\u0631 OPAL | Meeting Room",
     titleLang: "ar",
-    gloss: "OPAL air freshener | Meeting Room",
+    gloss: "OPAL air freshener, Meeting Room",
     brand: "OPAL Air Freshener",
     category: "Brand Content",
     logline: "An office breakfast gets mistaken for a meeting. Cleanup happens in slow motion.",
@@ -88,34 +134,50 @@ export const scripts: ScriptEntry[] = [
       { type: "action", text: "The manager walks in and joins the breakfast." },
     ],
   },
-  {
-    slug: "complete-arabic-scripts",
-    kind: "collection",
-    status: "coming",
-    title: "Complete scripts, in Arabic",
-    category: "Brand Content",
-    logline:
-      "Four complete scripts from the earlier portfolio. They will be published here in their original Arabic once the full text is in.",
-  },
-  {
-    slug: "football-scripts",
-    kind: "collection",
-    status: "coming",
-    title: "Football scripts",
-    category: "Sports & Editorial",
-    logline: "Scripts written around football. Titles and dialogue will appear in the original Arabic when they are added.",
-  },
+  // Four complete scripts from the earlier portfolio. Text not supplied yet.
+  ...[1, 2, 3, 4].map(
+    (n): ScriptEntry => ({
+      slug: `brand-full-script-0${n}`,
+      group: "brand",
+      kind: "full-script",
+      status: "text-pending",
+      title: null,
+      titleLang: "ar",
+      category: "Brand Content",
+      note: "From the earlier portfolio.",
+    }),
+  ),
   {
     slug: "home-bundle-peace-of-mind-treatment",
+    group: "brand",
     kind: "treatment",
-    status: "coming",
-    title: "Home Bundle | Peace of Mind",
+    status: "text-pending",
+    title: null,
+    workingLabel: "Home Bundle | Peace of Mind",
     category: "Brand Content",
-    logline: "The original treatment for the Home Bundle idea.",
-    note: "This treatment is separate from the finished reel, which is not necessarily the same story.",
+    note: "The original treatment for this idea. The finished reel is not necessarily the same story.",
     relatedUrl: "https://www.instagram.com/reel/DbJLdO9Ie__/",
   },
+  // Three football scripts. Subjects are known to Mohamed; titles and text not supplied yet.
+  ...[1, 2, 3].map(
+    (n): ScriptEntry => ({
+      slug: `sports-script-0${n}`,
+      group: "sports",
+      kind: "full-script",
+      status: "text-pending",
+      title: null,
+      titleLang: "ar",
+      category: "Sports & Editorial",
+      note: "Football.",
+    }),
+  ),
 ];
 
 export const readableScripts = scripts.filter((s) => s.status === "available");
 export const getScript = (slug: string) => readableScripts.find((s) => s.slug === slug);
+export const scriptsIn = (g: ScriptGroup) => scripts.filter((s) => s.group === g);
+
+export const kindLabel: Record<ScriptEntry["kind"], string> = {
+  treatment: "Treatment",
+  "full-script": "Full script",
+};
