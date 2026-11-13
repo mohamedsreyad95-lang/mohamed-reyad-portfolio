@@ -38,3 +38,4 @@ use the editor.
 - Scripts carry `group` (brand/sports), `kind` (treatment/full-script) and `status`; full scripts render from `body` in the RTL Arabic reader and only open when `body` exists, so missing text shows as pending instead of filler.
 - Arabic and mixed titles render through `ScriptTitle`, which splits on " | " so Arabic and Latin parts never wrap into each other.
 - The portrait renders only through `Threshold` (doorway frame) from `profile.portrait`; crop is set by its `focus` fields, so swapping in the real photo is a data change, not a layout change.
+- Visual work is grouped by `WORK_AREAS` in `src/data/projects.ts`; each area id (plus sub-area ids like `weddings`) is the anchor on `/work`, so About, homepage and nav link with `hash` and never hand-typed URLs. Empty areas show an honest "Examples being added" state.

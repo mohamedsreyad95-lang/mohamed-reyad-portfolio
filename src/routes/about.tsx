@@ -45,7 +45,7 @@ function Go({ dest, children }: { dest: Dest; children: ReactNode }) {
 }
 
 const HUB: { dest: Dest; k: string; title: string; ar?: string; line: string }[] = [
-  { dest: { to: "/work", hash: "brand" }, k: "Visual work", title: "Brand reels", line: "OPAL and other brand content" },
+  { dest: { to: "/work", hash: "brand" }, k: "Visual work", title: "Brand reels", line: "Including OPAL Cosmetics" },
   { dest: { to: "/scripts", hash: "brand" }, k: "Scripts", title: "Brand Scripts", line: "Treatments to read, full scripts being added" },
   { dest: { to: "/scripts", hash: "sports" }, k: "Scripts", title: "Sports Scripts", line: "Football writing in Arabic" },
   {
@@ -102,7 +102,7 @@ function AboutPage() {
             story, not interrupt it. Nobody should feel like they just sat through an ad.
           </p>
           <p className="max-w-[62ch]">
-            Most of my brand work right now is{" "}
+            Right now I make brand reels{" "}
             <Go dest={{ to: "/work", hash: "brand" }}>for OPAL</Go>. I&rsquo;ve covered{" "}
             <Go dest={{ to: "/work", hash: "weddings" }}>more than 150 weddings</Go> for Wedding Show,
             and as a freelancer I&rsquo;ve made around 40{" "}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { featuredProjects, projects } from "@/data/projects";
+import { areaCount, featuredProjects, getArea, projects } from "@/data/projects";
 import { profile } from "@/data/profile";
 import { scripts } from "@/data/scripts";
 
@@ -56,14 +56,28 @@ describe("portfolio content rules", () => {
     }
   });
 
-  it("keeps the three sports scripts pending, with no invented title or text", () => {
+  it("shows the three verified Arabic football titles, with text still pending", () => {
     const sports = scripts.filter((s) => s.group === "sports");
-    expect(sports).toHaveLength(3);
+    expect(sports.map((s) => s.title)).toEqual([
+      "ماذا يدخنون في ملعب الإمارات؟",
+      "هل دوري أبطال أوروبا هو اللي بيصنع الأساطير؟",
+      "الدوري السعودي نجح… لكن هل ده كان الهدف أصلًا؟",
+    ]);
     for (const s of sports) {
       expect(s.status).toBe("text-pending");
-      expect(s.title).toBeNull();
       expect(s.body).toBeUndefined();
     }
+  });
+
+  it("lists no restaurant, cafe or creator projects until real examples are supplied", () => {
+    expect(areaCount(getArea("restaurants-cafes"))).toBe(0);
+    expect(areaCount(getArea("creators"))).toBe(0);
+  });
+
+  it("files all four Wedding Show reels under weddings inside event coverage", () => {
+    const weddings = projects.filter((p) => p.client === "Wedding Show");
+    expect(weddings).toHaveLength(4);
+    expect(weddings.every((p) => p.categories.includes("Events") && p.subcategory === "Weddings")).toBe(true);
   });
 
   it("keeps the four earlier full brand scripts pending until their text is supplied", () => {
