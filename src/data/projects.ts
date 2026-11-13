@@ -223,7 +223,7 @@ export const WORK_AREAS: WorkArea[] = [
     id: "brand",
     category: "Brand Content",
     label: "Brand content",
-    blurb: "Brand reels, most of them for OPAL Cosmetics. Everyday situations, with the product inside the story.",
+    blurb: "Brand reels, including the work for OPAL Cosmetics. Everyday situations, with the product inside the story.",
   },
   {
     id: "restaurants-cafes",
