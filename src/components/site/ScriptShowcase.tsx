@@ -88,7 +88,7 @@ function GroupCard({ g, index }: { g: ScriptGroup; index: number }) {
         ))}
       </ul>
 
-      <div className="relative mt-auto flex flex-wrap items-center justify-between gap-4 pt-10">
+      <div className="mt-auto flex flex-wrap items-center justify-between gap-4 pt-10">
         <span className="text-sm text-muted-foreground">{summary(g)}</span>
         {/* Stretched link: the whole card opens the group; the rows above sit on top and open their own reader. */}
         <Link
