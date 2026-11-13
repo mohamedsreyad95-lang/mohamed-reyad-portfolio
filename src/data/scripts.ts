@@ -50,7 +50,7 @@ export const SCRIPT_GROUPS: Record<
     id: "brand",
     label: ["Brand", "Scripts"],
     blurb:
-      "Ideas for brands, written as scenes. Each one starts with an everyday problem and lets the product arrive where it actually helps.",
+      "Ideas for brands, written as scenes. Each one starts with an everyday situation and lets the product fit in where it actually helps.",
     cue: "Read scripts",
   },
   sports: {
@@ -134,19 +134,8 @@ export const scripts: ScriptEntry[] = [
       { type: "action", text: "The manager walks in and joins the breakfast." },
     ],
   },
-  // Four complete scripts from the earlier portfolio. Text not supplied yet.
-  ...[1, 2, 3, 4].map(
-    (n): ScriptEntry => ({
-      slug: `brand-full-script-0${n}`,
-      group: "brand",
-      kind: "full-script",
-      status: "text-pending",
-      title: null,
-      titleLang: "ar",
-      category: "Brand Content",
-      note: "From the earlier portfolio.",
-    }),
-  ),
+  // The four complete scripts from the earlier portfolio are not listed until their
+  // exact titles and full text are supplied. Never add placeholder entries for them.
   {
     slug: "home-bundle-peace-of-mind-treatment",
     group: "brand",
@@ -179,9 +168,17 @@ export const scripts: ScriptEntry[] = [
 
 export const readableScripts = scripts.filter((s) => s.status === "available");
 export const getScript = (slug: string) => readableScripts.find((s) => s.slug === slug);
-export const scriptsIn = (g: ScriptGroup) => scripts.filter((s) => s.group === g);
+/** Only entries with a verified original title are shown publicly. */
+export const listedScripts = scripts.filter((s) => s.title !== null);
+export const scriptsIn = (g: ScriptGroup) => listedScripts.filter((s) => s.group === g);
 
 export const kindLabel: Record<ScriptEntry["kind"], string> = {
   treatment: "Treatment",
   "full-script": "Full script",
+};
+
+/** Arabic label shown next to the English one, so a treatment is never mistaken for a screenplay. */
+export const kindLabelAr: Record<ScriptEntry["kind"], string> = {
+  treatment: "\u0645\u0639\u0627\u0644\u062c\u0629 \u0625\u0628\u062f\u0627\u0639\u064a\u0629",
+  "full-script": "\u0633\u064a\u0646\u0627\u0631\u064a\u0648 \u0643\u0627\u0645\u0644",
 };

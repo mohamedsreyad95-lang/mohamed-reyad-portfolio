@@ -3,6 +3,7 @@ export const CATEGORIES = [
   "Restaurants & Caf\u00e9s",
   "Creators",
   "Events",
+  "Beverage Videos",
   "Sports & Editorial",
 ] as const;
 export type Category = (typeof CATEGORIES)[number];
@@ -203,7 +204,7 @@ export const projects: Project[] = [
 export const featuredProjects = projects.filter((p) => p.featured);
 export const railProjects = projects.filter((p) => !p.featured);
 
-export type WorkAreaId = "brand" | "restaurants-cafes" | "creators" | "events" | "sports";
+export type WorkAreaId = "brand" | "restaurants-cafes" | "creators" | "events" | "beverage-videos" | "sports";
 
 export type WorkArea = {
   /** Also the anchor id on /work, so other pages can link straight to it. */
@@ -215,6 +216,8 @@ export type WorkArea = {
   blurb: string;
   /** Shown while no examples are supplied. Never replaced with made-up clients or footage. */
   pending?: string;
+  /** Proven volume of work, as stated by Mohamed. */
+  stat?: string;
   sub?: { id: "weddings"; label: string; blurb: string; subcategory: "Weddings" };
 };
 
@@ -231,14 +234,13 @@ export const WORK_AREAS: WorkArea[] = [
     label: "Restaurants & caf\u00e9s",
     labelAr: "\u062a\u0635\u0648\u064a\u0631 \u0645\u0637\u0627\u0639\u0645 \u0648\u0643\u0627\u0641\u064a\u0647\u0627\u062a",
     blurb: "Food, drinks, atmosphere and menu reels for restaurants and caf\u00e9s.",
-    pending:
-      "As a freelancer I\u2019ve made around 40 beverage and food videos for businesses. Examples go up here soon.",
+    pending: "Selected restaurant and caf\u00e9 work goes up here soon.",
   },
   {
     id: "creators",
     category: "Creators",
-    label: "Creators",
-    labelAr: "\u062a\u0635\u0648\u064a\u0631 \u0628\u0644\u0648\u062c\u0631\u0632",
+    label: "Creators & bloggers",
+    labelAr: "\u062a\u0635\u0648\u064a\u0631 \u0628\u0644\u0648\u062c\u0631\u0632 \u0648\u0635\u0646\u0651\u0627\u0639 \u0645\u062d\u062a\u0648\u0649",
     blurb: "Short-form videos with bloggers and creators, built around the person on camera.",
     pending: "Examples go up here soon.",
   },
@@ -256,6 +258,14 @@ export const WORK_AREAS: WorkArea[] = [
         "Mobile content for Wedding Show since April 2023, across more than 150 weddings. These posts are team work, so camera and edit credits are not split out.",
       subcategory: "Weddings",
     },
+  },
+  {
+    id: "beverage-videos",
+    category: "Beverage Videos",
+    label: "40+ beverage videos",
+    blurb: "A separate freelance body of work: more than 40 beverage videos made for businesses.",
+    stat: "40+ videos, freelance",
+    pending: "Selected beverage videos go up here soon.",
   },
   {
     id: "sports",

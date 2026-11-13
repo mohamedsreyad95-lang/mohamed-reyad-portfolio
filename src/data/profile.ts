@@ -4,7 +4,7 @@ export const profile = {
   title: "Reels Creator & Scriptwriter",
   headline: "Good ideas deserve better stories.",
   positioning:
-    "I make complete viewing experiences. A problem people already know becomes a scene worth watching, and the product shows up inside it the way it would in real life.",
+    "I look for the story before I think about the shot. A situation people already know becomes a scene worth watching, and the product fits inside it the way it would in real life.",
   closing: "Have a brief? Let\u2019s tell its story.",
   email: "mohamedsreyad95@gmail.com",
   whatsapp: {
@@ -49,6 +49,6 @@ export const timeline: TimelineEntry[] = [
     period: "2023 \u2013 Present",
     org: "Freelance",
     role: "Short-form videos for businesses",
-    points: ["Around 40 beverage and food videos."],
+    points: ["40+ beverage videos.", "Restaurant, caf\u00e9, creator and event shoots."],
   },
 ];

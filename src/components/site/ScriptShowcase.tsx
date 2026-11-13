@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { kindLabel, SCRIPT_GROUPS, scriptsIn, type ScriptEntry, type ScriptGroup } from "@/data/scripts";
+import { kindLabel, kindLabelAr, SCRIPT_GROUPS, scriptsIn, type ScriptEntry, type ScriptGroup } from "@/data/scripts";
 import { Reveal } from "./Reveal";
 import { ScriptTitle } from "./ScriptTitle";
 
@@ -19,31 +19,38 @@ function summary(g: ScriptGroup) {
 }
 
 const rowClass =
-  "group/row relative z-10 flex items-baseline gap-4 py-3 transition-colors duration-300 hover:text-coral focus-visible:text-coral";
+  "group/row relative z-10 flex items-baseline gap-4 py-3.5 transition-colors duration-300 hover:text-coral focus-visible:text-coral";
 
 function RowBody({ s, i }: { s: ScriptEntry; i: number }) {
   const ready = s.status === "available";
   return (
     <>
       <span className="w-6 shrink-0 text-sm font-semibold text-coral">0{i + 1}</span>
-      {s.title ? (
-        <ScriptTitle
-          as="span"
-          title={s.title}
-          className="min-w-0 flex-1 text-base font-semibold leading-snug"
-          arClassName="text-left text-lg"
-          secondaryClassName="text-sm font-normal text-muted-foreground"
-        />
-      ) : (
-        <span className="flex-1 text-sm italic text-muted-foreground">Original Arabic title pending</span>
-      )}
-      <span className="flex shrink-0 items-center gap-2 text-xs font-semibold text-muted-foreground">
-        {ready ? kindLabel[s.kind] : "Text being added"}
-        <ArrowRight
-          aria-hidden="true"
-          className="size-3.5 transition-transform duration-300 group-hover/row:translate-x-0.5 group-hover/row:text-coral"
-        />
+      <span className="min-w-0 flex-1">
+        {s.title && (
+          <ScriptTitle
+            as="span"
+            title={s.title}
+            className="block text-base font-semibold leading-snug"
+            arClassName="text-left text-lg"
+            secondaryClassName="text-sm font-normal text-muted-foreground"
+          />
+        )}
+        <span className="mt-1 flex flex-wrap items-center gap-x-2 text-xs font-semibold text-muted-foreground">
+          {ready ? (
+            <>
+              <span className="uppercase tracking-[0.12em] text-coral">{kindLabel[s.kind]}</span>
+              <span lang="ar" dir="rtl">{kindLabelAr[s.kind]}</span>
+            </>
+          ) : (
+            <span>Text being added</span>
+          )}
+        </span>
       </span>
+      <ArrowRight
+        aria-hidden="true"
+        className="size-4 shrink-0 self-center text-muted-foreground transition-transform duration-300 group-hover/row:translate-x-0.5 group-hover/row:text-coral"
+      />
     </>
   );
 }
@@ -124,7 +131,7 @@ export function ScriptShowcase() {
           </h2>
         </div>
         <p className="max-w-sm text-muted-foreground">
-          Half of the work is on the page. Treatments and full scripts, with Arabic kept as written.
+          Half of the work is on the page. Every piece is labelled for what it is, and Arabic stays as written.
         </p>
       </div>
       <ul className="mt-10 grid gap-6 md:grid-cols-2">

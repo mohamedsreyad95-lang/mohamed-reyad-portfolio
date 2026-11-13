@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { kindLabel, SCRIPT_GROUPS, scriptsIn, type ScriptEntry, type ScriptGroup } from "@/data/scripts";
+import { kindLabel, kindLabelAr, SCRIPT_GROUPS, scriptsIn, type ScriptEntry, type ScriptGroup } from "@/data/scripts";
 import { Reveal } from "@/components/site/Reveal";
 import { ScriptTitle } from "@/components/site/ScriptTitle";
 
@@ -45,7 +45,12 @@ function ReadableRow({ s, n }: { s: ScriptEntry; n: number }) {
       </div>
       <div className="flex flex-wrap items-center justify-between gap-4 sm:col-span-4 sm:flex-col sm:items-end sm:justify-start">
         <span className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-          <span className="rounded-full border border-coral/50 px-3 py-1 text-coral">{kindLabel[s.kind]}</span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-coral/50 px-3 py-1 text-coral">
+            {kindLabel[s.kind]}
+            <span lang="ar" dir="rtl" className="font-arabic text-[0.8rem] normal-case tracking-normal">
+              {kindLabelAr[s.kind]}
+            </span>
+          </span>
           {s.brand && <span className="py-1">{s.brand}</span>}
         </span>
         <span className="inline-flex items-center gap-2 border-b border-foreground/25 pb-1 text-sm font-semibold transition-colors group-hover:border-coral group-hover:text-coral">
@@ -62,8 +67,7 @@ function PendingCard({ s, n }: { s: ScriptEntry; n: number }) {
     <div id={s.slug} className="flex h-full scroll-mt-28 flex-col border border-dashed border-border p-6 target:border-coral target:bg-coral-soft">
       <div className="flex items-start justify-between gap-3">
         <span className="eyebrow">
-          {kindLabel[s.kind]}
-          {n > 0 && ` ${String(n).padStart(2, "0")}`}
+          {s.group === "sports" ? "Football script" : "Brand script"} {String(n).padStart(2, "0")}
         </span>
         <span className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground">
           <span aria-hidden="true" className="size-1.5 rounded-full bg-coral" />
@@ -141,11 +145,7 @@ function GroupSection({ g }: { g: ScriptGroup }) {
                 <Reveal delay={(i % 3) * 70} className="h-full">
                   <PendingCard
                     s={s}
-                    n={
-                      s.kind === "full-script"
-                        ? pending.filter((x) => x.kind === "full-script").indexOf(s) + 1
-                        : 0
-                    }
+                    n={i + 1}
                   />
                 </Reveal>
               </li>
@@ -167,17 +167,25 @@ function ScriptsPage() {
         </div>
         <div className="self-end lg:col-span-5">
           <p className="max-w-md text-lg text-muted-foreground">
-            The writing, separate from the videos. Arabic titles and lines are kept exactly as
-            written, nothing is translated or filled in.
+            The writing, separate from the videos. Arabic titles and lines stay exactly as written.
+            Nothing is translated or filled in.
           </p>
           <dl className="mt-6 grid max-w-md gap-3 text-sm">
             <div className="flex gap-3">
               <dt className="w-24 shrink-0 font-semibold text-coral">Treatment</dt>
-              <dd className="text-foreground/80">The idea and its beats. Not the full script.</dd>
+              <dd className="text-foreground/80">
+                The idea and its beats, not the full script.{" "}
+                <span lang="ar" dir="rtl" className="whitespace-nowrap text-muted-foreground">
+                  {kindLabelAr.treatment}
+                </span>
+              </dd>
             </div>
             <div className="flex gap-3">
               <dt className="w-24 shrink-0 font-semibold text-coral">Full script</dt>
-              <dd className="text-foreground/80">The complete text, in the original Arabic.</dd>
+              <dd className="text-foreground/80">
+                The complete original text in Arabic, dialogue and scene directions. Listed only once
+                the full text is in.
+              </dd>
             </div>
           </dl>
           <nav aria-label="Script groups" className="mt-8 flex flex-wrap gap-3">
