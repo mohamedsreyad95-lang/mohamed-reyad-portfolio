@@ -37,7 +37,7 @@ function ReadableRow({ s, n }: { s: ScriptEntry; n: number }) {
             className="transition-colors duration-300 group-hover:text-coral"
             arClassName="text-left text-3xl font-bold leading-snug sm:text-4xl"
             latinClassName="font-display-tight text-4xl leading-[0.95] sm:text-5xl"
-            secondaryClassName="mt-2 !text-xl font-semibold text-muted-foreground sm:!text-2xl"
+            secondaryClassName="mt-2 text-xl font-semibold leading-snug text-muted-foreground sm:text-2xl"
           />
         )}
         {s.gloss && <p className="mt-2 font-serif text-lg italic text-muted-foreground">{s.gloss}</p>}
