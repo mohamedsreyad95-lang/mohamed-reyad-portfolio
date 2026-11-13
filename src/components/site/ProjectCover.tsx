@@ -8,46 +8,42 @@ const toneClass: Record<Project["cover"]["tone"], string> = {
   charcoal: "bg-card text-foreground",
 };
 
-/** Typographic cover. Stands in until real stills from the reels are supplied. */
+/**
+ * Typographic cover. Stands in until real stills from the reels are supplied.
+ * Type scales to the cover width so whole words always fit on one line.
+ */
 export function ProjectCover({
   project,
   className,
-  size,
 }: {
   project: Project;
   className?: string | undefined;
   size?: "sm" | "md" | "lg" | undefined;
 }) {
   const { cover } = project;
-  const scale = size ?? "md";
+  const longest = Math.max(...cover.lines.map((l) => l.length));
+  const fontSize = `min(24cqw, ${(150 / longest).toFixed(2)}cqw)`;
   return (
     <div
       aria-hidden="true"
       className={cn(
-        "grain relative flex flex-col justify-between overflow-hidden p-4 sm:p-5",
+        "@container grain relative flex flex-col justify-between overflow-hidden p-4 sm:p-5",
         toneClass[cover.tone],
         className,
       )}
     >
-      <div className="flex items-start justify-between text-[0.65rem] font-semibold uppercase tracking-[0.2em] opacity-70">
+      <div className="flex items-start justify-between gap-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] opacity-70">
         <span>{project.categories[0]}</span>
         <span>{cover.mark}</span>
       </div>
-      <div
-        className={cn(
-          "font-display-tight",
-          scale === "sm" && "text-[2.6rem] sm:text-5xl",
-          scale === "md" && "text-[3.4rem] sm:text-6xl lg:text-[4.5rem]",
-          scale === "lg" && "text-7xl sm:text-8xl",
-        )}
-      >
+      <div className="font-display-tight whitespace-nowrap" style={{ fontSize }}>
         {cover.lines.map((line, i) => (
           <span key={i} className={cn("block", i % 2 === 1 && cover.tone !== "coral" && "opacity-60")}>
             {line}
           </span>
         ))}
       </div>
-      <div className="flex items-end justify-between text-[0.65rem] font-semibold uppercase tracking-[0.2em] opacity-70">
+      <div className="flex items-end justify-between gap-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] opacity-70">
         <span>{project.platform}</span>
         <span>{project.metrics[0]?.value}</span>
       </div>
