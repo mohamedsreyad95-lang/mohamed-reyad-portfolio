@@ -67,7 +67,7 @@ export const scripts: ScriptEntry[] = [
         lang: "ar",
         text: "\u0631\u064a\u062d\u0629 \u062a\u0648\u062f\u064a\u0643 \u0627\u0644\u0633\u0627\u062d\u0644\u2026 \u062d\u062a\u0649 \u0644\u0648 \u0625\u0646\u062a \u0641\u064a \u0627\u0644\u0628\u064a\u062a.",
       },
-      { type: "note", text: "Written in the production style of Alan Hoy." },
+      { type: "note", text: "Style reference: Alan Hoy production style." },
     ],
   },
   {
