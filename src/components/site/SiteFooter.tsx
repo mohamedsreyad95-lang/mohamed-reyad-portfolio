@@ -47,7 +47,7 @@ export function SiteFooter() {
       </div>
 
       <div className="mx-auto mt-16 max-w-[1440px] overflow-hidden px-5 sm:px-8" aria-hidden="true">
-        <p className="font-display-tight select-none whitespace-nowrap text-[17.5vw] leading-[0.78] text-foreground/[0.07] min-[1440px]:text-[252px]">
+        <p className="font-display-tight select-none whitespace-nowrap text-[13.6vw] leading-[0.8] text-foreground/[0.07] min-[1440px]:text-[194px]">
           {profile.wordmark}
         </p>
       </div>

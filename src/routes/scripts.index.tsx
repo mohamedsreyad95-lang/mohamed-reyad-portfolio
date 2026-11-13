@@ -66,7 +66,7 @@ function ScriptsPage() {
                       dir={s.titleLang === "ar" ? "rtl" : undefined}
                       className={
                         s.titleLang === "ar"
-                          ? "text-3xl font-bold leading-tight transition-colors group-hover:text-coral sm:text-4xl"
+                          ? "text-left text-3xl font-bold leading-tight transition-colors group-hover:text-coral sm:text-4xl"
                           : "font-display-tight text-4xl transition-colors group-hover:text-coral sm:text-5xl"
                       }
                     >
