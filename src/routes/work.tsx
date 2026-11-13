@@ -1,14 +1,14 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { cn } from "@/lib/utils";
-import { CATEGORIES, projects, type Category, type Project } from "@/data/projects";
+import { ArrowRight } from "lucide-react";
+import { areaCount, areaProjects, subProjects, WORK_AREAS, type Project, type WorkArea } from "@/data/projects";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { ProjectModal } from "@/components/site/ProjectModal";
 import { Reveal } from "@/components/site/Reveal";
 
 const TITLE = "Visual work | Mohamed Reyad";
 const DESC =
-  "Brand reels for OPAL Cosmetics and event reels for Wedding Show, with verified plays, likes and links to every original.";
+  "Brand reels, restaurant and caf\u00e9 videos, creator content and event coverage including Wedding Show, with verified numbers and links to every original.";
 
 export const Route = createFileRoute("/work")({
   head: () => ({
@@ -24,22 +24,113 @@ export const Route = createFileRoute("/work")({
   component: WorkPage,
 });
 
-type Filter = "All" | Category;
+const JUMPS: { id: string; label: string }[] = [
+  ...WORK_AREAS.flatMap((a) => [
+    { id: a.id, label: a.label },
+    ...(a.sub ? [{ id: a.sub.id, label: a.sub.label }] : []),
+  ]),
+];
+
+function Grid({ items, onOpen }: { items: Project[]; onOpen: (p: Project) => void }) {
+  return (
+    <ul className="mt-10 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {items.map((p, i) => (
+        <li key={p.slug}>
+          <Reveal delay={(i % 4) * 70}>
+            <ProjectCard project={p} onOpen={onOpen} />
+          </Reveal>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Pending({ text }: { text: string }) {
+  return (
+    <div className="mt-10 flex flex-col gap-4 border border-dashed border-border p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+      <p className="flex items-center gap-3 font-semibold">
+        <span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-coral" />
+        Examples being added
+      </p>
+      <p className="max-w-xl text-muted-foreground">{text}</p>
+    </div>
+  );
+}
+
+function AreaSection({ area, n, onOpen }: { area: WorkArea; n: number; onOpen: (p: Project) => void }) {
+  const direct = areaProjects(area);
+  const sub = subProjects(area);
+  const total = areaCount(area);
+  const titleId = `${area.id}-title`;
+
+  return (
+    <section id={area.id} aria-labelledby={titleId} className="scroll-mt-36 border-t border-border py-14 sm:py-20">
+      <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+        <div className="lg:col-span-7">
+          <p className="eyebrow">
+            0{n} &middot; {total > 0 ? `${total} ${total === 1 ? "reel" : "reels"}` : area.id === "sports" ? "Scripts" : "Being added"}
+          </p>
+          <h2 id={titleId} className="mt-3 font-display-tight text-big">
+            {area.label}
+          </h2>
+          {area.labelAr && (
+            <p lang="ar" dir="rtl" className="mt-3 text-left text-2xl font-semibold leading-snug text-coral">
+              {area.labelAr}
+            </p>
+          )}
+        </div>
+        <p className="max-w-md text-lg text-muted-foreground lg:col-span-5">{area.blurb}</p>
+      </div>
+
+      {area.sub && (
+        <div id={area.sub.id} className="scroll-mt-36 pt-10">
+          <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2 border-l-2 border-coral pl-4">
+            <h3 className="font-display-tight text-3xl sm:text-4xl">{area.sub.label}</h3>
+            <p className="max-w-2xl text-sm text-muted-foreground">{area.sub.blurb}</p>
+          </div>
+          <Grid items={sub} onOpen={onOpen} />
+        </div>
+      )}
+
+      {direct.length > 0 && <Grid items={direct} onOpen={onOpen} />}
+
+      {direct.length === 0 && area.pending && (
+        <div className={area.sub ? "pt-14" : undefined}>
+          {area.sub && <h3 className="font-display-tight text-3xl sm:text-4xl">Other events</h3>}
+          <Pending text={area.pending} />
+        </div>
+      )}
+
+      {area.id === "sports" && (
+        <Link
+          to="/scripts"
+          hash="sports"
+          className="group mt-10 flex items-center justify-between gap-6 border border-border bg-card p-6 transition-[transform,border-color,box-shadow] duration-500 ease-out-expo hover:-translate-y-1 hover:border-coral/60 hover:shadow-lift focus-visible:border-coral sm:p-8"
+        >
+          <span>
+            <span className="block font-display-tight text-3xl sm:text-4xl">Sports Scripts</span>
+            <span className="mt-2 block text-muted-foreground">Three football scripts, in Arabic.</span>
+          </span>
+          <span className="inline-flex shrink-0 items-center gap-3 font-semibold">
+            <span className="hidden border-b border-foreground/25 pb-0.5 transition-colors group-hover:border-coral group-hover:text-coral sm:inline">
+              Go to the scripts
+            </span>
+            <span className="flex size-11 items-center justify-center rounded-full border border-foreground/25 transition-colors duration-300 group-hover:border-coral group-hover:bg-coral group-hover:text-primary-foreground">
+              <ArrowRight aria-hidden="true" className="size-5 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </span>
+          </span>
+        </Link>
+      )}
+    </section>
+  );
+}
 
 function WorkPage() {
-  const [filter, setFilter] = useState<Filter>("All");
   const [active, setActive] = useState<Project | null>(null);
-
-  const visible = useMemo(
-    () => (filter === "All" ? projects : projects.filter((p) => p.categories.includes(filter))),
-    [filter],
-  );
-  const count = (f: Filter) =>
-    f === "All" ? projects.length : projects.filter((p) => p.categories.includes(f)).length;
 
   return (
     <div className="mx-auto max-w-[1440px] px-5 sm:px-8">
-      <header className="border-b border-border pb-12 pt-12 sm:pt-20">
+      <header className="pb-10 pt-12 sm:pt-20">
         <p className="eyebrow">Index</p>
         <h1 className="mt-4 font-display-tight text-mega">Visual work</h1>
         <p className="mt-6 max-w-xl text-lg text-muted-foreground">
@@ -47,59 +138,29 @@ function WorkPage() {
           and a link to watch it where it was published.
         </p>
         <p className="mt-3 max-w-xl text-sm text-muted-foreground">
-          Reel names are English working labels for now. The original Arabic titles replace them as
-          they come in.
+          Reel names are English working labels until the original Arabic titles come in.
         </p>
       </header>
 
-      <div
-        role="group"
-        aria-label="Filter by category"
+      <nav
+        aria-label="Jump to a kind of work"
         className="sticky top-16 z-30 -mx-5 flex gap-2 overflow-x-auto bg-background/90 px-5 py-4 backdrop-blur-md rail-scroll sm:mx-0 sm:px-0"
       >
-        {(["All", ...CATEGORIES] as Filter[]).map((f) => (
-          <button
-            key={f}
-            type="button"
-            aria-pressed={filter === f}
-            onClick={() => setFilter(f)}
-            className={cn(
-              "shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors",
-              filter === f
-                ? "border-coral bg-coral text-primary-foreground"
-                : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground",
-            )}
+        {JUMPS.map((j) => (
+          <Link
+            key={j.id}
+            to="/work"
+            hash={j.id}
+            className="shrink-0 rounded-full border border-border px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-coral hover:text-coral focus-visible:border-coral focus-visible:text-coral active:bg-coral-soft"
           >
-            {f} <span className="ml-1 opacity-60">{count(f)}</span>
-          </button>
-        ))}
-      </div>
-
-      <p className="sr-only" aria-live="polite">
-        {visible.length} {visible.length === 1 ? "project" : "projects"} shown
-      </p>
-
-      {visible.length > 0 ? (
-        <ul className="mt-8 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {visible.map((p, i) => (
-            <li key={p.slug}>
-              <Reveal delay={(i % 4) * 70}>
-                <ProjectCard project={p} onOpen={setActive} />
-              </Reveal>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div className="mt-8 border border-dashed border-border p-8 sm:p-14">
-          <p className="font-display-tight text-big">Nothing published here yet</p>
-          <p className="mt-4 max-w-lg text-muted-foreground">
-            The sports and editorial work is in script form for now.
-          </p>
-          <Link to="/scripts" className="link-underline mt-6 inline-block font-medium text-coral">
-            Go to the script library
+            {j.label}
           </Link>
-        </div>
-      )}
+        ))}
+      </nav>
+
+      {WORK_AREAS.map((a, i) => (
+        <AreaSection key={a.id} area={a} n={i + 1} onOpen={setActive} />
+      ))}
 
       <ProjectModal project={active} onClose={() => setActive(null)} />
     </div>

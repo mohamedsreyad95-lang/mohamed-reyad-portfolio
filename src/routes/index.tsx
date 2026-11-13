@@ -10,6 +10,7 @@ import { WorkRail } from "@/components/site/WorkRail";
 import { Reveal } from "@/components/site/Reveal";
 import { ScriptShowcase } from "@/components/site/ScriptShowcase";
 import { Threshold } from "@/components/site/Threshold";
+import { WorkAreaCards } from "@/components/site/WorkAreaCards";
 
 const TITLE = "Mohamed Reyad, Reels Creator & Scriptwriter";
 const DESC =
@@ -149,6 +150,9 @@ function Home() {
           ))}
         </ul>
       </section>
+
+      {/* Restaurants & cafés, creators, events: right after the main grid */}
+      <WorkAreaCards />
 
       {/* Approach strip */}
       <section aria-label="How the work starts" className="border-y border-border bg-card">
