@@ -57,7 +57,7 @@ export const SCRIPT_GROUPS: Record<
     id: "sports",
     label: ["Sports", "Scripts"],
     blurb:
-      "Football scripts written in Arabic. Their original titles and full text go up here as soon as they are in.",
+      "Football writing in Arabic. The three titles are here, and each full script goes up as soon as its text is recovered.",
     cue: "Explore",
   },
 };
@@ -158,17 +158,21 @@ export const scripts: ScriptEntry[] = [
     note: "The original treatment for this idea. The finished reel is not necessarily the same story.",
     relatedUrl: "https://www.instagram.com/reel/DbJLdO9Ie__/",
   },
-  // Three football scripts. Subjects are known to Mohamed; titles and text not supplied yet.
-  ...[1, 2, 3].map(
-    (n): ScriptEntry => ({
-      slug: `sports-script-0${n}`,
+  // Three football scripts. Titles verified by Mohamed; full text not recovered yet.
+  ...[
+    "\u0645\u0627\u0630\u0627 \u064a\u062f\u062e\u0646\u0648\u0646 \u0641\u064a \u0645\u0644\u0639\u0628 \u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062a\u061f",
+    "\u0647\u0644 \u062f\u0648\u0631\u064a \u0623\u0628\u0637\u0627\u0644 \u0623\u0648\u0631\u0648\u0628\u0627 \u0647\u0648 \u0627\u0644\u0644\u064a \u0628\u064a\u0635\u0646\u0639 \u0627\u0644\u0623\u0633\u0627\u0637\u064a\u0631\u061f",
+    "\u0627\u0644\u062f\u0648\u0631\u064a \u0627\u0644\u0633\u0639\u0648\u062f\u064a \u0646\u062c\u062d\u2026 \u0644\u0643\u0646 \u0647\u0644 \u062f\u0647 \u0643\u0627\u0646 \u0627\u0644\u0647\u062f\u0641 \u0623\u0635\u0644\u064b\u0627\u061f",
+  ].map(
+    (title, i): ScriptEntry => ({
+      slug: `sports-script-0${i + 1}`,
       group: "sports",
       kind: "full-script",
       status: "text-pending",
-      title: null,
+      title,
       titleLang: "ar",
       category: "Sports & Editorial",
-      note: "Football.",
+      note: "Football. The full Arabic text is being recovered.",
     }),
   ),
 ];
