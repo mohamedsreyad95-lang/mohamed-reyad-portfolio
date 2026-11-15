@@ -2,12 +2,13 @@ import type { ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { profile, timeline } from "@/data/profile";
+import { SERVICES } from "@/data/projects";
 import { Reveal } from "@/components/site/Reveal";
 import { Threshold } from "@/components/site/Threshold";
 
 const TITLE = "About | Mohamed Reyad";
 const DESC =
-  "Mohamed Reyad makes short-form video from the idea and script through to the visual story. Brand reels for OPAL, 150+ weddings for Wedding Show, food and caf\u00e9 videos, creators and football scripts.";
+  "Mohamed Reyad makes short-form video from the idea and script through to the visual story. Brand reels for OPAL, 150+ weddings for Wedding Show, and football scripts.";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -23,9 +24,7 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
-type Dest =
-  | { to: "/work"; hash: "brand" | "restaurants-cafes" | "creators" | "events" | "weddings" | "beverage-videos" }
-  | { to: "/scripts"; hash: "brand" | "sports" };
+type Dest = { to: "/work"; hash: "brand" | "weddings" } | { to: "/scripts"; hash: "brand" | "sports" };
 
 /** Inline link inside the About copy. Underlined with a small arrow so it reads as clickable. */
 function Go({ dest, children }: { dest: Dest; children: ReactNode }) {
@@ -48,28 +47,6 @@ const HUB: { dest: Dest; k: string; title: string; ar?: string; line: string }[]
   { dest: { to: "/work", hash: "brand" }, k: "Visual work", title: "Brand reels", line: "Including OPAL Cosmetics" },
   { dest: { to: "/scripts", hash: "brand" }, k: "Scripts", title: "Brand Scripts", line: "Treatments to read, full scripts being added" },
   { dest: { to: "/scripts", hash: "sports" }, k: "Scripts", title: "Sports Scripts", line: "Football writing in Arabic" },
-  {
-    dest: { to: "/work", hash: "restaurants-cafes" },
-    k: "Visual work",
-    title: "Restaurants & caf\u00e9s",
-    ar: "\u062a\u0635\u0648\u064a\u0631 \u0645\u0637\u0627\u0639\u0645 \u0648\u0643\u0627\u0641\u064a\u0647\u0627\u062a",
-    line: "Food, drinks and atmosphere",
-  },
-  {
-    dest: { to: "/work", hash: "creators" },
-    k: "Visual work",
-    title: "Creators & bloggers",
-    ar: "\u062a\u0635\u0648\u064a\u0631 \u0628\u0644\u0648\u062c\u0631\u0632",
-    line: "Creator-led short-form videos",
-  },
-  { dest: { to: "/work", hash: "beverage-videos" }, k: "Visual work", title: "Beverage videos", line: "40+ videos, freelance" },
-  {
-    dest: { to: "/work", hash: "events" },
-    k: "Visual work",
-    title: "Event coverage",
-    ar: "\u062a\u063a\u0637\u064a\u0629 \u0625\u064a\u0641\u0646\u062a\u0633",
-    line: "Events, with Wedding Show weddings inside",
-  },
   { dest: { to: "/work", hash: "weddings" }, k: "Visual work", title: "Weddings", line: "Wedding Show, 150+ weddings" },
 ];
 
@@ -103,11 +80,8 @@ function AboutPage() {
           <p className="max-w-[62ch]">
             Right now I make <Go dest={{ to: "/work", hash: "brand" }}>brand reels for OPAL</Go>. I&rsquo;ve
             covered <Go dest={{ to: "/work", hash: "weddings" }}>more than 150 weddings</Go> for Wedding
-            Show and made <Go dest={{ to: "/work", hash: "beverage-videos" }}>40+ beverage videos</Go> as a
-            freelancer. I also shoot{" "}
-            <Go dest={{ to: "/work", hash: "restaurants-cafes" }}>restaurants and caf&eacute;s</Go>, work{" "}
-            <Go dest={{ to: "/work", hash: "creators" }}>with creators</Go>, cover{" "}
-            <Go dest={{ to: "/work", hash: "events" }}>events</Go>, and write{" "}
+            Show and made 40+ beverage videos as a freelancer. I also shoot restaurants and caf&eacute;s,
+            work with creators, cover events, and write{" "}
             <Go dest={{ to: "/scripts", hash: "sports" }}>about football</Go>.
           </p>
           <p>
@@ -135,6 +109,21 @@ function AboutPage() {
               </div>
             ))}
           </dl>
+          <div className="mt-8 border-t border-border pt-6">
+            <p className="eyebrow">Also shoots</p>
+            <ul className="mt-4 space-y-2.5">
+              {SERVICES.map((s) => (
+                <li key={s.label} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <span className="font-semibold">{s.label}</span>
+                  {s.labelAr && (
+                    <span lang="ar" dir="rtl" className="text-base font-semibold text-coral">
+                      {s.labelAr}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         </aside>
       </section>
 

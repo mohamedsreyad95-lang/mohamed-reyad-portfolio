@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { areaCount, featuredProjects, getArea, projects } from "@/data/projects";
+import { areaCount, featuredProjects, getArea, projects, SERVICES, WORK_AREAS } from "@/data/projects";
 import { profile } from "@/data/profile";
 import { listedScripts, scripts } from "@/data/scripts";
 
@@ -69,13 +69,27 @@ describe("portfolio content rules", () => {
     }
   });
 
-  it("lists no restaurant, cafe or creator projects until real examples are supplied", () => {
-    expect(areaCount(getArea("restaurants-cafes"))).toBe(0);
-    expect(areaCount(getArea("creators"))).toBe(0);
-    expect(areaCount(getArea("beverage-videos"))).toBe(0);
+  it("keeps restaurant, creator, event and beverage work as short service headings, not sections", () => {
+    expect(WORK_AREAS.map((a) => a.id)).toEqual(["brand", "weddings", "sports"]);
+    expect(SERVICES.map((s) => s.label)).toEqual([
+      "Restaurants & cafés",
+      "Creators & bloggers",
+      "Event coverage",
+      "Beverage videos",
+    ]);
+    for (const s of SERVICES) {
+      expect(s).not.toHaveProperty("blurb");
+      expect(s).not.toHaveProperty("pending");
+      expect(s.label.split(" ").length).toBeLessThanOrEqual(3);
+    }
   });
 
-  it("files all four Wedding Show reels under weddings inside event coverage", () => {
+  it("splits the nine reels between brand content and weddings", () => {
+    expect(areaCount(getArea("brand"))).toBe(5);
+    expect(areaCount(getArea("weddings"))).toBe(4);
+  });
+
+  it("files all four Wedding Show reels under the weddings section", () => {
     const weddings = projects.filter((p) => p.client === "Wedding Show");
     expect(weddings).toHaveLength(4);
     expect(weddings.every((p) => p.categories.includes("Events") && p.subcategory === "Weddings")).toBe(true);

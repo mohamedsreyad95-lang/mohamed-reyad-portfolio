@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { areaCount, areaProjects, subProjects, WORK_AREAS, type Project, type WorkArea } from "@/data/projects";
+import { areaCount, areaProjects, WORK_AREAS, type Project, type WorkArea } from "@/data/projects";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { ProjectModal } from "@/components/site/ProjectModal";
 import { Reveal } from "@/components/site/Reveal";
 
 const TITLE = "Visual work | Mohamed Reyad";
 const DESC =
-  "Brand reels, restaurant and caf\u00e9 videos, creator content and event coverage including Wedding Show, with verified numbers and links to every original.";
+  "Brand reels and Wedding Show wedding reels, with verified numbers and links to every original. Football writing sits in the script library.";
 
 export const Route = createFileRoute("/work")({
   head: () => ({
@@ -24,12 +24,7 @@ export const Route = createFileRoute("/work")({
   component: WorkPage,
 });
 
-const JUMPS: { id: string; label: string }[] = [
-  ...WORK_AREAS.flatMap((a) => [
-    { id: a.id, label: a.label },
-    ...(a.sub ? [{ id: a.sub.id, label: a.sub.label }] : []),
-  ]),
-];
+const JUMPS: { id: string; label: string }[] = WORK_AREAS.map((a) => ({ id: a.id, label: a.label }));
 
 function Grid({ items, onOpen }: { items: Project[]; onOpen: (p: Project) => void }) {
   return (
@@ -45,21 +40,8 @@ function Grid({ items, onOpen }: { items: Project[]; onOpen: (p: Project) => voi
   );
 }
 
-function Pending({ text }: { text: string }) {
-  return (
-    <div className="mt-10 flex flex-col gap-4 border border-dashed border-border p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-      <p className="flex items-center gap-3 font-semibold">
-        <span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-coral" />
-        Examples being added
-      </p>
-      <p className="max-w-xl text-muted-foreground">{text}</p>
-    </div>
-  );
-}
-
 function AreaSection({ area, n, onOpen }: { area: WorkArea; n: number; onOpen: (p: Project) => void }) {
   const direct = areaProjects(area);
-  const sub = subProjects(area);
   const total = areaCount(area);
   const titleId = `${area.id}-title`;
 
@@ -68,7 +50,7 @@ function AreaSection({ area, n, onOpen }: { area: WorkArea; n: number; onOpen: (
       <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-7">
           <p className="eyebrow">
-            0{n} &middot; {total > 0 ? `${total} ${total === 1 ? "reel" : "reels"}` : area.id === "sports" ? "Scripts" : "Being added"}
+            0{n} &middot; {total > 0 ? `${total} ${total === 1 ? "reel" : "reels"}` : "Scripts"}
           </p>
           <h2 id={titleId} className="mt-3 font-display-tight text-big">
             {area.label}
@@ -82,24 +64,7 @@ function AreaSection({ area, n, onOpen }: { area: WorkArea; n: number; onOpen: (
         <p className="max-w-md text-lg text-muted-foreground lg:col-span-5">{area.blurb}</p>
       </div>
 
-      {area.sub && (
-        <div id={area.sub.id} className="scroll-mt-36 pt-10">
-          <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2 border-l-2 border-coral pl-4">
-            <h3 className="font-display-tight text-3xl sm:text-4xl">{area.sub.label}</h3>
-            <p className="max-w-2xl text-sm text-muted-foreground">{area.sub.blurb}</p>
-          </div>
-          <Grid items={sub} onOpen={onOpen} />
-        </div>
-      )}
-
       {direct.length > 0 && <Grid items={direct} onOpen={onOpen} />}
-
-      {direct.length === 0 && area.pending && (
-        <div className={area.sub ? "pt-14" : undefined}>
-          {area.sub && <h3 className="font-display-tight text-3xl sm:text-4xl">Other events</h3>}
-          <Pending text={area.pending} />
-        </div>
-      )}
 
       {area.id === "sports" && (
         <Link
