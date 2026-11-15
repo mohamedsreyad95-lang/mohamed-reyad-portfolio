@@ -204,7 +204,7 @@ export const projects: Project[] = [
 export const featuredProjects = projects.filter((p) => p.featured);
 export const railProjects = projects.filter((p) => !p.featured);
 
-export type WorkAreaId = "brand" | "weddings" | "sports";
+export type WorkAreaId = "brand" | "creators" | "weddings" | "beverage-videos" | "sports";
 
 export type WorkArea = {
   /** Also the anchor id on /work, so other pages can link straight to it. */
@@ -214,13 +214,15 @@ export type WorkArea = {
   /** Mohamed's own Arabic name for this kind of work. */
   labelAr?: string;
   blurb: string;
+  pending?: string;
+  stat?: string;
   /** Narrower slot inside the category, e.g. weddings inside Events. */
   subcategory?: "Weddings";
 };
 
 /**
- * Portfolio sections: only kinds of work with real, verified examples.
- * Services without examples stay short headings in SERVICES below, never a section.
+ * Portfolio sections retain their verified content and honest pending states.
+ * Restaurants/cafés and general event coverage are service headings only.
  */
 export const WORK_AREAS: WorkArea[] = [
   {
@@ -230,12 +232,28 @@ export const WORK_AREAS: WorkArea[] = [
     blurb: "Brand reels, including the work for OPAL Cosmetics. Everyday situations, with the product inside the story.",
   },
   {
+    id: "creators",
+    category: "Creators",
+    label: "Creators & bloggers",
+    labelAr: "تصوير بلوجرز وصنّاع محتوى",
+    blurb: "Short-form videos with bloggers and creators, built around the person on camera.",
+    pending: "Examples go up here soon.",
+  },
+  {
     id: "weddings",
     category: "Events",
     subcategory: "Weddings",
     label: "Weddings",
     blurb:
       "Mobile content for Wedding Show since April 2023, across more than 150 weddings. These posts are team work, so camera and edit credits are not split out.",
+  },
+  {
+    id: "beverage-videos",
+    category: "Beverage Videos",
+    label: "40+ beverage videos",
+    blurb: "A separate freelance body of work: more than 40 beverage videos made for businesses.",
+    stat: "40+ videos, freelance",
+    pending: "Selected beverage videos go up here soon.",
   },
   {
     id: "sports",
@@ -261,15 +279,14 @@ export const SERVICES: Service[] = [
     label: "Restaurants & caf\u00e9s",
     labelAr: "\u062a\u0635\u0648\u064a\u0631 \u0645\u0637\u0627\u0639\u0645 \u0648\u0643\u0627\u0641\u064a\u0647\u0627\u062a",
   },
-  {
-    label: "Creators & bloggers",
-    labelAr: "\u062a\u0635\u0648\u064a\u0631 \u0628\u0644\u0648\u062c\u0631\u0632 \u0648\u0635\u0646\u0651\u0627\u0639 \u0645\u062d\u062a\u0648\u0649",
-  },
   { label: "Event coverage", labelAr: "\u062a\u063a\u0637\u064a\u0629 \u0625\u064a\u0641\u0646\u062a\u0633" },
-  { label: "Beverage videos", note: "40+ videos, freelance" },
 ];
 
-export const getArea = (id: WorkAreaId) => WORK_AREAS.find((a) => a.id === id)!;
+export const getArea = (id: WorkAreaId) => {
+  const area = WORK_AREAS.find((a) => a.id === id);
+  if (!area) throw new Error(`Unknown work area: ${id}`);
+  return area;
+};
 /** Projects filed in an area: same category, same narrower slot. */
 export const areaProjects = (a: WorkArea) =>
   projects.filter((p) => p.categories.includes(a.category) && p.subcategory === a.subcategory);

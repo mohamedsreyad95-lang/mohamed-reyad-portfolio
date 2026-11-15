@@ -69,19 +69,25 @@ describe("portfolio content rules", () => {
     }
   });
 
-  it("keeps restaurant, creator, event and beverage work as short service headings, not sections", () => {
-    expect(WORK_AREAS.map((a) => a.id)).toEqual(["brand", "weddings", "sports"]);
+  it("keeps only restaurants and general event coverage as service headings", () => {
+    expect(WORK_AREAS.map((a) => a.id)).toEqual(["brand", "creators", "weddings", "beverage-videos", "sports"]);
     expect(SERVICES.map((s) => s.label)).toEqual([
       "Restaurants & cafés",
-      "Creators & bloggers",
       "Event coverage",
-      "Beverage videos",
     ]);
     for (const s of SERVICES) {
       expect(s).not.toHaveProperty("blurb");
       expect(s).not.toHaveProperty("pending");
       expect(s.label.split(" ").length).toBeLessThanOrEqual(3);
     }
+  });
+
+  it("retains the creators category and its original pending content", () => {
+    expect(getArea("creators")).toMatchObject({ category: "Creators", label: "Creators & bloggers", blurb: "Short-form videos with bloggers and creators, built around the person on camera.", pending: "Examples go up here soon." });
+  });
+
+  it("retains beverage videos as a separate freelance body of work", () => {
+    expect(getArea("beverage-videos")).toMatchObject({ category: "Beverage Videos", label: "40+ beverage videos", blurb: "A separate freelance body of work: more than 40 beverage videos made for businesses.", stat: "40+ videos, freelance", pending: "Selected beverage videos go up here soon." });
   });
 
   it("splits the nine reels between brand content and weddings", () => {

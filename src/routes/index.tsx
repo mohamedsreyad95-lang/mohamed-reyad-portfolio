@@ -11,6 +11,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { ScriptShowcase } from "@/components/site/ScriptShowcase";
 import { Threshold } from "@/components/site/Threshold";
 import { ServicesList } from "@/components/site/ServicesList";
+import { WorkAreaCards } from "@/components/site/WorkAreaCards";
 
 const TITLE = "Mohamed Reyad, Reels Creator & Scriptwriter";
 const DESC =
@@ -145,6 +146,7 @@ function Home() {
       </section>
 
       {/* Short headings for the other services offered */}
+      <WorkAreaCards />
       <ServicesList />
 
       {/* Approach strip */}

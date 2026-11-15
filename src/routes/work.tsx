@@ -50,7 +50,7 @@ function AreaSection({ area, n, onOpen }: { area: WorkArea; n: number; onOpen: (
       <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-7">
           <p className="eyebrow">
-            0{n} &middot; {total > 0 ? `${total} ${total === 1 ? "reel" : "reels"}` : "Scripts"}
+            0{n} &middot; {total > 0 ? `${total} ${total === 1 ? "reel" : "reels"}` : area.id === "sports" ? "Scripts" : "Being added"}
           </p>
           <h2 id={titleId} className="mt-3 font-display-tight text-big">
             {area.label}
@@ -65,6 +65,16 @@ function AreaSection({ area, n, onOpen }: { area: WorkArea; n: number; onOpen: (
       </div>
 
       {direct.length > 0 && <Grid items={direct} onOpen={onOpen} />}
+
+      {direct.length === 0 && area.pending && (
+        <div className="mt-10 flex flex-col gap-4 border border-dashed border-border p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <p className="flex items-center gap-3 font-semibold">
+            <span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-coral" />
+            Examples being added
+          </p>
+          <p className="max-w-xl text-muted-foreground">{area.pending}</p>
+        </div>
+      )}
 
       {area.id === "sports" && (
         <Link
