@@ -204,7 +204,7 @@ export const projects: Project[] = [
 export const featuredProjects = projects.filter((p) => p.featured);
 export const railProjects = projects.filter((p) => !p.featured);
 
-export type WorkAreaId = "brand" | "restaurants-cafes" | "creators" | "events" | "beverage-videos" | "sports";
+export type WorkAreaId = "brand" | "weddings" | "sports";
 
 export type WorkArea = {
   /** Also the anchor id on /work, so other pages can link straight to it. */
@@ -214,13 +214,14 @@ export type WorkArea = {
   /** Mohamed's own Arabic name for this kind of work. */
   labelAr?: string;
   blurb: string;
-  /** Shown while no examples are supplied. Never replaced with made-up clients or footage. */
-  pending?: string;
-  /** Proven volume of work, as stated by Mohamed. */
-  stat?: string;
-  sub?: { id: "weddings"; label: string; blurb: string; subcategory: "Weddings" };
+  /** Narrower slot inside the category, e.g. weddings inside Events. */
+  subcategory?: "Weddings";
 };
 
+/**
+ * Portfolio sections: only kinds of work with real, verified examples.
+ * Services without examples stay short headings in SERVICES below, never a section.
+ */
 export const WORK_AREAS: WorkArea[] = [
   {
     id: "brand",
@@ -229,43 +230,12 @@ export const WORK_AREAS: WorkArea[] = [
     blurb: "Brand reels, including the work for OPAL Cosmetics. Everyday situations, with the product inside the story.",
   },
   {
-    id: "restaurants-cafes",
-    category: "Restaurants & Caf\u00e9s",
-    label: "Restaurants & caf\u00e9s",
-    labelAr: "\u062a\u0635\u0648\u064a\u0631 \u0645\u0637\u0627\u0639\u0645 \u0648\u0643\u0627\u0641\u064a\u0647\u0627\u062a",
-    blurb: "Food, drinks, atmosphere and menu reels for restaurants and caf\u00e9s.",
-    pending: "Selected restaurant and caf\u00e9 work goes up here soon.",
-  },
-  {
-    id: "creators",
-    category: "Creators",
-    label: "Creators & bloggers",
-    labelAr: "\u062a\u0635\u0648\u064a\u0631 \u0628\u0644\u0648\u062c\u0631\u0632 \u0648\u0635\u0646\u0651\u0627\u0639 \u0645\u062d\u062a\u0648\u0649",
-    blurb: "Short-form videos with bloggers and creators, built around the person on camera.",
-    pending: "Examples go up here soon.",
-  },
-  {
-    id: "events",
+    id: "weddings",
     category: "Events",
-    label: "Event coverage",
-    labelAr: "\u062a\u063a\u0637\u064a\u0629 \u0625\u064a\u0641\u0646\u062a\u0633",
-    blurb: "Events shot for social while they happen. Weddings are the biggest part of it so far.",
-    pending: "Coverage from other events goes up here soon.",
-    sub: {
-      id: "weddings",
-      label: "Weddings",
-      blurb:
-        "Mobile content for Wedding Show since April 2023, across more than 150 weddings. These posts are team work, so camera and edit credits are not split out.",
-      subcategory: "Weddings",
-    },
-  },
-  {
-    id: "beverage-videos",
-    category: "Beverage Videos",
-    label: "40+ beverage videos",
-    blurb: "A separate freelance body of work: more than 40 beverage videos made for businesses.",
-    stat: "40+ videos, freelance",
-    pending: "Selected beverage videos go up here soon.",
+    subcategory: "Weddings",
+    label: "Weddings",
+    blurb:
+      "Mobile content for Wedding Show since April 2023, across more than 150 weddings. These posts are team work, so camera and edit credits are not split out.",
   },
   {
     id: "sports",
@@ -275,10 +245,32 @@ export const WORK_AREAS: WorkArea[] = [
   },
 ];
 
+export type Service = {
+  label: string;
+  /** Mohamed's own Arabic name for the service, where he supplied one. */
+  labelAr?: string;
+  note?: string;
+};
+
+/**
+ * Short service headings: things Mohamed can be asked to shoot. Capabilities,
+ * not portfolio sections, so no examples, no descriptions and no links.
+ */
+export const SERVICES: Service[] = [
+  {
+    label: "Restaurants & caf\u00e9s",
+    labelAr: "\u062a\u0635\u0648\u064a\u0631 \u0645\u0637\u0627\u0639\u0645 \u0648\u0643\u0627\u0641\u064a\u0647\u0627\u062a",
+  },
+  {
+    label: "Creators & bloggers",
+    labelAr: "\u062a\u0635\u0648\u064a\u0631 \u0628\u0644\u0648\u062c\u0631\u0632 \u0648\u0635\u0646\u0651\u0627\u0639 \u0645\u062d\u062a\u0648\u0649",
+  },
+  { label: "Event coverage", labelAr: "\u062a\u063a\u0637\u064a\u0629 \u0625\u064a\u0641\u0646\u062a\u0633" },
+  { label: "Beverage videos", note: "40+ videos, freelance" },
+];
+
 export const getArea = (id: WorkAreaId) => WORK_AREAS.find((a) => a.id === id)!;
-/** Projects in an area, outside any sub-area. */
+/** Projects filed in an area: same category, same narrower slot. */
 export const areaProjects = (a: WorkArea) =>
-  projects.filter((p) => p.categories.includes(a.category) && !p.subcategory);
-export const subProjects = (a: WorkArea) =>
-  a.sub ? projects.filter((p) => p.categories.includes(a.category) && p.subcategory === a.sub!.subcategory) : [];
-export const areaCount = (a: WorkArea) => areaProjects(a).length + subProjects(a).length;
+  projects.filter((p) => p.categories.includes(a.category) && p.subcategory === a.subcategory);
+export const areaCount = (a: WorkArea) => areaProjects(a).length;
