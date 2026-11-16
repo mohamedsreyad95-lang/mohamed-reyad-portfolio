@@ -51,8 +51,7 @@ export const SCRIPT_GROUPS: Record<
   sports: {
     id: "sports",
     label: ["Sports", "Scripts"],
-    blurb:
-      "Football writing, in Arabic.",
+    blurb: "Football writing, in Arabic.",
     cue: "Explore",
   },
 };
