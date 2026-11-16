@@ -1,3 +1,5 @@
+import { scriptsIn } from "./scripts";
+
 export const CATEGORIES = [
   "Brand Content",
   "Restaurants & Caf\u00e9s",
@@ -21,7 +23,7 @@ export type Project = {
   slug: string;
   /** Original Arabic title of the reel. Only set when supplied; never translated or guessed. */
   titleAr?: string;
-  /** Working label in English, shown until the original Arabic title is supplied. */
+  /** English name of the reel. The original Arabic title goes in `titleAr` when supplied. */
   title: string;
   subtitle?: string;
   client?: string;
@@ -214,15 +216,14 @@ export type WorkArea = {
   /** Mohamed's own Arabic name for this kind of work. */
   labelAr?: string;
   blurb: string;
-  pending?: string;
   stat?: string;
   /** Narrower slot inside the category, e.g. weddings inside Events. */
   subcategory?: "Weddings";
 };
 
 /**
- * Portfolio sections retain their verified content and honest pending states.
- * Restaurants/cafés and general event coverage are service headings only.
+ * Portfolio sections. Each shows only verified content; nothing is promised for later.
+ * Restaurants/cafés and general event coverage are service headings only (SERVICES).
  */
 export const WORK_AREAS: WorkArea[] = [
   {
@@ -237,7 +238,6 @@ export const WORK_AREAS: WorkArea[] = [
     label: "Creators & bloggers",
     labelAr: "تصوير بلوجرز وصنّاع محتوى",
     blurb: "Short-form videos with bloggers and creators, built around the person on camera.",
-    pending: "Examples go up here soon.",
   },
   {
     id: "weddings",
@@ -253,13 +253,12 @@ export const WORK_AREAS: WorkArea[] = [
     label: "40+ beverage videos",
     blurb: "A separate freelance body of work: more than 40 beverage videos made for businesses.",
     stat: "40+ videos, freelance",
-    pending: "Selected beverage videos go up here soon.",
   },
   {
     id: "sports",
     category: "Sports & Editorial",
     label: "Sports & editorial",
-    blurb: "Football writing. For now it lives in the script library.",
+    blurb: "Football writing, in Arabic. It lives in the script library.",
   },
 ];
 
@@ -291,3 +290,8 @@ export const getArea = (id: WorkAreaId) => {
 export const areaProjects = (a: WorkArea) =>
   projects.filter((p) => p.categories.includes(a.category) && p.subcategory === a.subcategory);
 export const areaCount = (a: WorkArea) => areaProjects(a).length;
+
+/** Sports & editorial has no reels; it only appears once a sports script is readable. */
+export const shownWorkAreas = WORK_AREAS.filter((a) => a.id !== "sports" || scriptsIn("sports").length > 0);
+/** Areas with reels open to them. Areas without reels are described, never linked. */
+export const hasReels = (a: WorkArea) => areaCount(a) > 0;

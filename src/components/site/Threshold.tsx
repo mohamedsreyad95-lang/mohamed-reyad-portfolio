@@ -4,8 +4,8 @@ import { profile } from "@/data/profile";
 
 /**
  * The doorway. Frames Mohamed's real portrait like the gallery threshold it was taken in:
- * stone jamb, warm light from inside, a strip of wood floor. Until the photo is supplied
- * it shows an empty lit doorway with an abstract framed painting, never a stand-in person.
+ * stone jamb, warm light from inside, a strip of wood floor. Renders nothing until the real
+ * photo is in `profile.portrait`: no empty frame, no stand-in person.
  */
 export function Threshold({
   className,
@@ -42,6 +42,8 @@ export function Threshold({
     };
   }, []);
 
+  if (!portrait) return null;
+
   return (
     <figure className={cn("relative", className)}>
       <div className="threshold-jamb p-2 sm:p-3">
@@ -52,23 +54,19 @@ export function Threshold({
           )}
         >
           <div ref={imgRef} className="absolute -inset-y-6 inset-x-0 will-change-transform">
-            {portrait ? (
-              <img
-                  src={portrait.src}
-                  alt={portrait.alt}
-                  loading={eager ? "eager" : "lazy"}
-                  decoding="async"
-                  className="size-full animate-settle object-cover [object-position:var(--focus-mobile)] sm:[object-position:var(--focus)]"
-                  style={
-                    {
-                      "--focus": portrait.focus ?? "50% 35%",
-                      "--focus-mobile": portrait.focusMobile ?? portrait.focus ?? "50% 35%",
-                    } as CSSProperties
-                  }
-                />
-            ) : (
-              <EmptyRoom />
-            )}
+            <img
+              src={portrait.src}
+              alt={portrait.alt}
+              loading={eager ? "eager" : "lazy"}
+              decoding="async"
+              className="size-full animate-settle object-cover [object-position:var(--focus-mobile)] sm:[object-position:var(--focus)]"
+              style={
+                {
+                  "--focus": portrait.focus ?? "50% 35%",
+                  "--focus-mobile": portrait.focusMobile ?? portrait.focus ?? "50% 35%",
+                } as CSSProperties
+              }
+            />
           </div>
           {/* Warm light falling from inside the room, and a soft edge vignette. */}
           <div aria-hidden="true" className="gallery-light pointer-events-none absolute inset-0 mix-blend-soft-light" />
@@ -86,21 +84,5 @@ export function Threshold({
         </figcaption>
       )}
     </figure>
-  );
-}
-
-/** Lit, empty gallery room: an abstract framed painting on the back wall. Decorative only. */
-function EmptyRoom() {
-  return (
-    <div aria-hidden="true" className="grain relative flex size-full items-center justify-center bg-gradient-to-b from-card to-ink">
-      <div className="absolute inset-x-0 bottom-0 h-1/4 floor-light opacity-70" />
-      <div className="relative aspect-[4/5] w-[46%] border-[6px] border-wood/80 bg-stone p-[6%] shadow-[0_20px_40px_-15px_var(--ink)]">
-        <div className="relative size-full overflow-hidden bg-gradient-to-b from-paper via-stone to-wood/70">
-          <div className="absolute left-1/2 top-[30%] size-[34%] -translate-x-1/2 rounded-full bg-coral/80" />
-          <div className="absolute inset-x-0 top-[52%] h-px bg-paper-foreground/30" />
-          <div className="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-b from-wood/40 to-ink/70" />
-        </div>
-      </div>
-    </div>
   );
 }

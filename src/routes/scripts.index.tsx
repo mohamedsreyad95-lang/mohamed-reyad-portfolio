@@ -1,6 +1,15 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { kindLabel, kindLabelAr, SCRIPT_GROUPS, scriptsIn, type ScriptEntry, type ScriptGroup } from "@/data/scripts";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
+import {
+  hasScripts,
+  kindLabel,
+  kindLabelAr,
+  SCRIPT_GROUPS,
+  scriptsIn,
+  shownScriptGroups,
+  type ScriptEntry,
+  type ScriptGroup,
+} from "@/data/scripts";
 import { Reveal } from "@/components/site/Reveal";
 import { ScriptTitle } from "@/components/site/ScriptTitle";
 
@@ -9,6 +18,10 @@ const DESC =
   "Brand Scripts and Sports Scripts by Mohamed Reyad. Treatments and full scripts, with Arabic titles and dialogue kept in the original Arabic.";
 
 export const Route = createFileRoute("/scripts/")({
+  // No library page until there is something complete to read.
+  loader: () => {
+    if (!hasScripts) throw notFound();
+  },
   head: () => ({
     meta: [
       { title: TITLE },
@@ -62,54 +75,9 @@ function ReadableRow({ s, n }: { s: ScriptEntry; n: number }) {
   );
 }
 
-function PendingCard({ s, n }: { s: ScriptEntry; n: number }) {
-  return (
-    <div id={s.slug} className="flex h-full scroll-mt-28 flex-col border border-dashed border-border p-6 target:border-coral target:bg-coral-soft">
-      <div className="flex items-start justify-between gap-3">
-        <span className="eyebrow">
-          {s.group === "sports" ? "Football script" : "Brand script"} {String(n).padStart(2, "0")}
-        </span>
-        <span className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground">
-          <span aria-hidden="true" className="size-1.5 rounded-full bg-coral" />
-          Text being added
-        </span>
-      </div>
-      {s.title ? (
-        <ScriptTitle
-          as="h4"
-          title={s.title}
-          className="mt-5 text-2xl font-bold"
-          arClassName="text-left leading-snug"
-          secondaryClassName="mt-1 text-lg font-semibold text-muted-foreground"
-        />
-      ) : (
-        <h4 className="mt-5 font-serif text-2xl italic text-muted-foreground">Original Arabic title pending</h4>
-      )}
-      {s.workingLabel && (
-        <p className="mt-2 text-sm text-muted-foreground">Working label: {s.workingLabel}</p>
-      )}
-      {s.note && <p className="mt-3 text-sm text-foreground/75">{s.note}</p>}
-      {s.relatedUrl && (
-        <a
-          href={s.relatedUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group mt-auto inline-flex items-center gap-1.5 self-start border-b border-coral/50 pb-0.5 pt-5 text-sm font-semibold text-coral transition-colors hover:border-coral"
-        >
-          View the finished reel
-          <ArrowUpRight aria-hidden="true" className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          <span className="sr-only">(opens Instagram in a new tab)</span>
-        </a>
-      )}
-    </div>
-  );
-}
-
 function GroupSection({ g }: { g: ScriptGroup }) {
   const group = SCRIPT_GROUPS[g];
   const items = scriptsIn(g);
-  const ready = items.filter((s) => s.status === "available");
-  const pending = items.filter((s) => s.status === "text-pending");
   const titleId = `${g}-title`;
 
   return (
@@ -121,38 +89,15 @@ function GroupSection({ g }: { g: ScriptGroup }) {
         <p className="max-w-md self-end text-lg text-muted-foreground lg:col-span-5">{group.blurb}</p>
       </div>
 
-      {ready.length > 0 && (
-        <>
-          <h3 className="eyebrow mt-12">Read now</h3>
-          <ol className="mt-4 divide-y divide-border border-y border-border">
-            {ready.map((s, i) => (
-              <li key={s.slug}>
-                <Reveal delay={i * 70}>
-                  <ReadableRow s={s} n={i + 1} />
-                </Reveal>
-              </li>
-            ))}
-          </ol>
-        </>
-      )}
-
-      {pending.length > 0 && (
-        <>
-          <h3 className="eyebrow mt-12">Being added</h3>
-          <ul className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {pending.map((s, i) => (
-              <li key={s.slug}>
-                <Reveal delay={(i % 3) * 70} className="h-full">
-                  <PendingCard
-                    s={s}
-                    n={i + 1}
-                  />
-                </Reveal>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+      <ol className="mt-12 divide-y divide-border border-y border-border">
+        {items.map((s, i) => (
+          <li key={s.slug}>
+            <Reveal delay={i * 70}>
+              <ReadableRow s={s} n={i + 1} />
+            </Reveal>
+          </li>
+        ))}
+      </ol>
     </section>
   );
 }
@@ -168,13 +113,12 @@ function ScriptsPage() {
         <div className="self-end lg:col-span-5">
           <p className="max-w-md text-lg text-muted-foreground">
             The writing, separate from the videos. Arabic titles and lines stay exactly as written.
-            Nothing is translated or filled in.
           </p>
           <dl className="mt-6 grid max-w-md gap-3 text-sm">
             <div className="flex gap-3">
               <dt className="w-24 shrink-0 font-semibold text-coral">Treatment</dt>
               <dd className="text-foreground/80">
-                The idea and its beats, not the full script.{" "}
+                The idea written out in full, not a finished screenplay.{" "}
                 <span lang="ar" dir="rtl" className="whitespace-nowrap text-muted-foreground">
                   {kindLabelAr.treatment}
                 </span>
@@ -183,13 +127,12 @@ function ScriptsPage() {
             <div className="flex gap-3">
               <dt className="w-24 shrink-0 font-semibold text-coral">Full script</dt>
               <dd className="text-foreground/80">
-                The complete original text in Arabic, dialogue and scene directions. Listed only once
-                the full text is in.
+                The complete original text in Arabic, dialogue and scene directions.
               </dd>
             </div>
           </dl>
           <nav aria-label="Script groups" className="mt-8 flex flex-wrap gap-3">
-            {(["brand", "sports"] as const).map((g) => (
+            {shownScriptGroups.map((g) => (
               <Link
                 key={g}
                 to="/scripts"
@@ -204,8 +147,9 @@ function ScriptsPage() {
         </div>
       </header>
 
-      <GroupSection g="brand" />
-      <GroupSection g="sports" />
+      {shownScriptGroups.map((g) => (
+        <GroupSection key={g} g={g} />
+      ))}
     </div>
   );
 }

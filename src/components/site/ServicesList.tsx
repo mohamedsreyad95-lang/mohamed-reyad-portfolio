@@ -16,9 +16,7 @@ export function ServicesList() {
             What else I can shoot
           </h2>
         </div>
-        <p className="max-w-sm text-muted-foreground">
-          Offered as services. They are not separate sections here, and nothing is shown until real examples are ready.
-        </p>
+        <p className="max-w-sm text-muted-foreground">Shoots I take on as a service.</p>
       </div>
       <ul className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
         {SERVICES.map((s, i) => (

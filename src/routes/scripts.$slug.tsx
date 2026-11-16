@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { getScript, kindLabel, kindLabelAr, readableScripts, type Beat, type ScriptBlock, type ScriptEntry } from "@/data/scripts";
+import { getScript, kindLabel, kindLabelAr, readableScripts, type ScriptBlock, type ScriptEntry } from "@/data/scripts";
 import { ScriptTitle } from "@/components/site/ScriptTitle";
 
 export const Route = createFileRoute("/scripts/$slug")({
@@ -14,9 +14,9 @@ export const Route = createFileRoute("/scripts/$slug")({
       return { meta: [{ title: "Script not found | Mohamed Reyad" }, { name: "robots", content: "noindex" }] };
     }
     const { script } = loaderData;
-    const name = script.title ?? script.workingLabel ?? "Script";
+    const name = script.title ?? "Script";
     const title = `${name} | ${kindLabel[script.kind]} by Mohamed Reyad`;
-    const description = script.logline ?? `${kindLabel[script.kind]} by Mohamed Reyad, in the original Arabic.`;
+    const description = `${kindLabel[script.kind]} by Mohamed Reyad, in the original Arabic.`;
     return {
       meta: [
         { title },
@@ -38,30 +38,6 @@ export const Route = createFileRoute("/scripts/$slug")({
   ),
   component: Reader,
 });
-
-function BeatLine({ beat }: { beat: Beat }) {
-  switch (beat.type) {
-    case "scene":
-      return <p className="mt-10 font-bold uppercase first:mt-0">{beat.text}</p>;
-    case "action":
-      return <p className="mt-5 leading-relaxed">{beat.text}</p>;
-    case "super":
-      return (
-        <div className="my-10 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] opacity-60">Super</p>
-          <p
-            lang={beat.lang}
-            dir={beat.lang === "ar" ? "rtl" : undefined}
-            className="mx-auto mt-3 max-w-md border-y-2 border-paper-foreground py-4 text-xl font-semibold leading-relaxed sm:text-2xl"
-          >
-            {beat.text}
-          </p>
-        </div>
-      );
-    case "note":
-      return <p className="mt-8 text-sm italic opacity-70">({beat.text})</p>;
-  }
-}
 
 /** Arabic screenplay block. Text is rendered exactly as supplied. */
 function Block({ block }: { block: ScriptBlock }) {
@@ -87,59 +63,36 @@ function Block({ block }: { block: ScriptBlock }) {
   }
 }
 
-function TreatmentPage({ script }: { script: ScriptEntry }) {
+/** One reader for both kinds: original Arabic, right to left, labelled for what it is. */
+function ArabicPage({ script }: { script: ScriptEntry }) {
+  const isTreatment = script.kind === "treatment";
   return (
-    <div className="screenplay grain px-6 py-12 shadow-2xl sm:px-16 sm:py-20">
-      <header className="text-center">
-        <p className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-2 border-paper-foreground px-4 py-1.5 text-xs font-bold uppercase tracking-[0.16em]">
-          <span>Treatment</span>
-          <span aria-hidden="true">&middot;</span>
-          <span lang="ar" dir="rtl" className="font-arabic text-sm normal-case tracking-normal">
-            {kindLabelAr.treatment}
-          </span>
-        </p>
-        <p className="mt-3 text-xs opacity-70">The idea and its beats. Not the full script.</p>
-        {script.title && (
-          <ScriptTitle
-            as="h1"
-            title={script.title}
-            className="mx-auto mt-6 max-w-xl text-2xl font-bold sm:text-3xl"
-            arClassName="text-center leading-snug"
-            latinClassName="uppercase"
-            secondaryClassName="mt-2 text-xl sm:text-2xl"
-          />
-        )}
-        {script.gloss && <p className="mt-3 text-sm italic opacity-70">{script.gloss}</p>}
-        <p className="mt-6 text-sm">by Mohamed Reyad</p>
-        {script.brand && <p className="mt-1 text-sm opacity-70">for {script.brand}</p>}
-      </header>
-
-      <hr className="my-12 border-paper-foreground/20" />
-
-      <p className="mb-10 text-sm leading-relaxed opacity-80">
-        <span className="font-bold uppercase">Logline.</span> {script.logline}
-      </p>
-
-      <div>
-        {script.beats?.map((b, i) => (
-          <BeatLine key={i} beat={b} />
-        ))}
-      </div>
-
-      <p className="mt-14 text-center text-sm font-bold uppercase">End of treatment</p>
-    </div>
-  );
-}
-
-function FullScriptPage({ script }: { script: ScriptEntry }) {
-  return (
-    <div className="shadow-2xl">
-      <p className="bg-ink px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground sm:px-14">
-        Full script &middot; <span lang="ar" dir="rtl">{kindLabelAr["full-script"]}</span>
+    <div className="shadow-lift">
+      <p className="flex flex-wrap items-center gap-x-3 gap-y-1 bg-ink px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-coral sm:px-14">
+        <span>{kindLabel[script.kind]}</span>
+        <span aria-hidden="true">&middot;</span>
+        <span lang="ar" dir="rtl" className="text-sm normal-case">
+          {kindLabelAr[script.kind]}
+        </span>
+        {isTreatment && <span className="ml-auto normal-case tracking-normal text-muted-foreground">Not the full script</span>}
       </p>
       <div lang="ar" dir="rtl" className="screenplay-ar grain px-6 py-12 sm:px-14 sm:py-16">
         <header className="text-center">
-          {script.title && <h1 className="text-2xl font-bold leading-snug sm:text-3xl">{script.title}</h1>}
+          {script.title && (
+            <ScriptTitle
+              as="h1"
+              title={script.title}
+              className="text-2xl font-bold sm:text-3xl"
+              arClassName="text-center leading-snug"
+              latinClassName="text-center uppercase"
+              secondaryClassName="mt-2 text-xl sm:text-2xl"
+            />
+          )}
+          {script.brand && (
+            <p dir="ltr" lang="en" className="mt-4 font-sans text-sm opacity-70">
+              {script.brand}
+            </p>
+          )}
         </header>
         <hr className="my-10 border-paper-foreground/20" />
         <div>
@@ -170,7 +123,7 @@ function Reader() {
       </Link>
 
       <div className="mx-auto mt-10 max-w-3xl animate-reveal">
-        {script.kind === "full-script" ? <FullScriptPage script={script} /> : <TreatmentPage script={script} />}
+        <ArabicPage script={script} />
 
         <nav aria-label="More from the library" className="mt-10 grid grid-cols-2 gap-4 text-sm">
           {prev ? (

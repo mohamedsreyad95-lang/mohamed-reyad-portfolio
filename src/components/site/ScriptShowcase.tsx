@@ -1,6 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { kindLabel, kindLabelAr, SCRIPT_GROUPS, scriptsIn, type ScriptEntry, type ScriptGroup } from "@/data/scripts";
+import {
+  hasScripts,
+  kindLabel,
+  kindLabelAr,
+  SCRIPT_GROUPS,
+  scriptsIn,
+  shownScriptGroups,
+  type ScriptEntry,
+  type ScriptGroup,
+} from "@/data/scripts";
 import { Reveal } from "./Reveal";
 import { ScriptTitle } from "./ScriptTitle";
 
@@ -10,19 +19,18 @@ function plural(n: number, one: string, many: string) {
 
 function summary(g: ScriptGroup) {
   const items = scriptsIn(g);
-  const ready = items.filter((s) => s.status === "available");
-  const pending = items.filter((s) => s.status === "text-pending");
-  if (ready.length === 0) return `${plural(pending.length, "script", "scripts")}, full text being added`;
-  const parts = [`${plural(ready.length, "treatment", "treatments")} to read now`];
-  if (pending.length) parts.push(`${pending.length} more being added`);
-  return parts.join(", ");
+  const t = items.filter((s) => s.kind === "treatment").length;
+  const f = items.length - t;
+  const parts: string[] = [];
+  if (f) parts.push(plural(f, "full script", "full scripts"));
+  if (t) parts.push(plural(t, "treatment", "treatments"));
+  return `${parts.join(" and ")} to read`;
 }
 
 const rowClass =
   "group/row relative z-10 flex items-baseline gap-4 py-3.5 transition-colors duration-300 hover:text-coral focus-visible:text-coral";
 
 function RowBody({ s, i }: { s: ScriptEntry; i: number }) {
-  const ready = s.status === "available";
   return (
     <>
       <span className="w-6 shrink-0 text-sm font-semibold text-coral">0{i + 1}</span>
@@ -37,14 +45,8 @@ function RowBody({ s, i }: { s: ScriptEntry; i: number }) {
           />
         )}
         <span className="mt-1 flex flex-wrap items-center gap-x-2 text-xs font-semibold text-muted-foreground">
-          {ready ? (
-            <>
-              <span className="uppercase tracking-[0.12em] text-coral">{kindLabel[s.kind]}</span>
-              <span lang="ar" dir="rtl">{kindLabelAr[s.kind]}</span>
-            </>
-          ) : (
-            <span>Text being added</span>
-          )}
+          <span className="uppercase tracking-[0.12em] text-coral">{kindLabel[s.kind]}</span>
+          <span lang="ar" dir="rtl">{kindLabelAr[s.kind]}</span>
         </span>
       </span>
       <ArrowRight
@@ -57,9 +59,7 @@ function RowBody({ s, i }: { s: ScriptEntry; i: number }) {
 
 function GroupCard({ g, index }: { g: ScriptGroup; index: number }) {
   const group = SCRIPT_GROUPS[g];
-  const items = scriptsIn(g);
-  const ready = items.filter((s) => s.status === "available");
-  const preview = (ready.length > 0 ? ready : items).slice(0, 3);
+  const preview = scriptsIn(g).slice(0, 3);
 
   return (
     <div className="group relative flex h-full flex-col overflow-hidden border border-border bg-card p-6 transition-[transform,border-color,box-shadow] duration-500 ease-out-expo hover:-translate-y-1.5 hover:border-coral/60 hover:shadow-lift has-[:focus-visible]:border-coral sm:p-10">
@@ -82,15 +82,9 @@ function GroupCard({ g, index }: { g: ScriptGroup; index: number }) {
       <ul className="relative mt-8 divide-y divide-border border-y border-border">
         {preview.map((s, i) => (
           <li key={s.slug}>
-            {s.status === "available" ? (
-              <Link to="/scripts/$slug" params={{ slug: s.slug }} className={rowClass}>
-                <RowBody s={s} i={i} />
-              </Link>
-            ) : (
-              <Link to="/scripts" hash={s.slug} className={rowClass}>
-                <RowBody s={s} i={i} />
-              </Link>
-            )}
+            <Link to="/scripts/$slug" params={{ slug: s.slug }} className={rowClass}>
+              <RowBody s={s} i={i} />
+            </Link>
           </li>
         ))}
       </ul>
@@ -116,8 +110,9 @@ function GroupCard({ g, index }: { g: ScriptGroup; index: number }) {
   );
 }
 
-/** Homepage feature: Brand Scripts and Sports Scripts at equal weight. */
+/** Homepage feature: Brand Scripts and Sports Scripts at equal weight, once either has text to read. */
 export function ScriptShowcase() {
+  if (!hasScripts) return null;
   return (
     <section
       aria-labelledby="scripts-feature-title"
@@ -134,8 +129,8 @@ export function ScriptShowcase() {
           Half of the work is on the page. Every piece is labelled for what it is, and Arabic stays as written.
         </p>
       </div>
-      <ul className="mt-10 grid gap-6 md:grid-cols-2">
-        {(["brand", "sports"] as const).map((g, i) => (
+      <ul className={`mt-10 grid gap-6 ${shownScriptGroups.length > 1 ? "md:grid-cols-2" : ""}`}>
+        {shownScriptGroups.map((g, i) => (
           <li key={g}>
             <Reveal delay={i * 120} className="h-full">
               <GroupCard g={g} index={i} />
