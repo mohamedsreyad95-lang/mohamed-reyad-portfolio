@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { areaCount, areaProjects, WORK_AREAS, type Project, type WorkArea } from "@/data/projects";
+import { areaCount, areaProjects, shownWorkAreas, type Project, type WorkArea } from "@/data/projects";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { ProjectModal } from "@/components/site/ProjectModal";
 import { Reveal } from "@/components/site/Reveal";
 
 const TITLE = "Visual work | Mohamed Reyad";
 const DESC =
-  "Brand reels and Wedding Show wedding reels, with verified numbers and links to every original. Football writing sits in the script library.";
+  "Brand reels for OPAL and wedding reels for Wedding Show, with verified numbers and a link to every original. Plus creator shoots and 40+ beverage videos.";
 
 export const Route = createFileRoute("/work")({
   head: () => ({
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/work")({
   component: WorkPage,
 });
 
-const JUMPS: { id: string; label: string }[] = WORK_AREAS.map((a) => ({ id: a.id, label: a.label }));
+const JUMPS: { id: string; label: string }[] = shownWorkAreas.map((a) => ({ id: a.id, label: a.label }));
 
 function Grid({ items, onOpen }: { items: Project[]; onOpen: (p: Project) => void }) {
   return (
@@ -50,7 +50,10 @@ function AreaSection({ area, n, onOpen }: { area: WorkArea; n: number; onOpen: (
       <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-7">
           <p className="eyebrow">
-            0{n} &middot; {total > 0 ? `${total} ${total === 1 ? "reel" : "reels"}` : area.id === "sports" ? "Scripts" : "Being added"}
+            0{n}
+            {total > 0 && <> &middot; {total} {total === 1 ? "reel" : "reels"}</>}
+            {total === 0 && area.stat && <> &middot; {area.stat}</>}
+            {area.id === "sports" && <> &middot; Scripts</>}
           </p>
           <h2 id={titleId} className="mt-3 font-display-tight text-big">
             {area.label}
@@ -66,16 +69,6 @@ function AreaSection({ area, n, onOpen }: { area: WorkArea; n: number; onOpen: (
 
       {direct.length > 0 && <Grid items={direct} onOpen={onOpen} />}
 
-      {direct.length === 0 && area.pending && (
-        <div className="mt-10 flex flex-col gap-4 border border-dashed border-border p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-          <p className="flex items-center gap-3 font-semibold">
-            <span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-coral" />
-            Examples being added
-          </p>
-          <p className="max-w-xl text-muted-foreground">{area.pending}</p>
-        </div>
-      )}
-
       {area.id === "sports" && (
         <Link
           to="/scripts"
@@ -84,7 +77,7 @@ function AreaSection({ area, n, onOpen }: { area: WorkArea; n: number; onOpen: (
         >
           <span>
             <span className="block font-display-tight text-3xl sm:text-4xl">Sports Scripts</span>
-            <span className="mt-2 block text-muted-foreground">Three football scripts, in Arabic.</span>
+            <span className="mt-2 block text-muted-foreground">Football writing, in Arabic.</span>
           </span>
           <span className="inline-flex shrink-0 items-center gap-3 font-semibold">
             <span className="hidden border-b border-foreground/25 pb-0.5 transition-colors group-hover:border-coral group-hover:text-coral sm:inline">
@@ -112,9 +105,6 @@ function WorkPage() {
           Every number here comes from the original post. Open a project for the synopsis, the role,
           and a link to watch it where it was published.
         </p>
-        <p className="mt-3 max-w-xl text-sm text-muted-foreground">
-          Reel names are English working labels until the original Arabic titles come in.
-        </p>
       </header>
 
       <nav
@@ -133,7 +123,7 @@ function WorkPage() {
         ))}
       </nav>
 
-      {WORK_AREAS.map((a, i) => (
+      {shownWorkAreas.map((a, i) => (
         <AreaSection key={a.id} area={a} n={i + 1} onOpen={setActive} />
       ))}
 
