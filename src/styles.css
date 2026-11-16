@@ -59,38 +59,40 @@
 
 :root {
   --radius: 0.25rem;
-  --background: oklch(0.175 0.004 60);
-  --foreground: oklch(0.94 0.008 80);
-  --card: oklch(0.21 0.005 60);
-  --card-foreground: oklch(0.94 0.008 80);
-  --popover: oklch(0.2 0.005 60);
-  --popover-foreground: oklch(0.94 0.008 80);
-  --primary: oklch(0.71 0.145 36);
-  --primary-foreground: oklch(0.17 0.01 40);
-  --secondary: oklch(0.25 0.005 60);
-  --secondary-foreground: oklch(0.94 0.008 80);
-  --muted: oklch(0.24 0.005 60);
-  --muted-foreground: oklch(0.68 0.01 70);
-  --accent: oklch(0.27 0.006 60);
-  --accent-foreground: oklch(0.94 0.008 80);
-  --destructive: oklch(0.6 0.2 27);
+  /* Warm charcoal, lifted from near-black so surfaces read comfortably. */
+  --background: oklch(0.235 0.009 55);
+  --foreground: oklch(0.935 0.016 84);
+  --card: oklch(0.275 0.01 55);
+  --card-foreground: oklch(0.935 0.016 84);
+  --popover: oklch(0.265 0.01 55);
+  --popover-foreground: oklch(0.935 0.016 84);
+  --primary: oklch(0.73 0.14 38);
+  --primary-foreground: oklch(0.2 0.012 45);
+  --secondary: oklch(0.3 0.01 55);
+  --secondary-foreground: oklch(0.935 0.016 84);
+  --muted: oklch(0.3 0.01 55);
+  --muted-foreground: oklch(0.76 0.014 75);
+  --accent: oklch(0.32 0.011 55);
+  --accent-foreground: oklch(0.935 0.016 84);
+  --destructive: oklch(0.62 0.2 27);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.32 0.006 60);
-  --input: oklch(0.32 0.006 60);
-  --ring: oklch(0.71 0.145 36);
+  /* Softer hairlines: visible structure without hard edges. */
+  --border: oklch(0.935 0.016 84 / 13%);
+  --input: oklch(0.935 0.016 84 / 18%);
+  --ring: oklch(0.73 0.14 38);
 
-  --coral: oklch(0.71 0.145 36);
-  --coral-soft: oklch(0.71 0.145 36 / 14%);
-  --paper: oklch(0.93 0.014 82);
-  --paper-foreground: oklch(0.2 0.006 60);
-  --ink: oklch(0.13 0.004 60);
-  --overlay: oklch(0.1 0.004 60 / 82%);
-  /* Gallery cues from the portrait: warm light, stone walls, wood floor. */
+  --coral: oklch(0.73 0.14 38);
+  --coral-soft: oklch(0.73 0.14 38 / 14%);
+  --paper: oklch(0.95 0.014 84);
+  --paper-foreground: oklch(0.24 0.01 55);
+  --ink: oklch(0.19 0.008 55);
+  --overlay: oklch(0.16 0.008 55 / 80%);
+  /* Gallery cues: warm light, stone walls, wood floor. */
   --stone: oklch(0.86 0.022 78);
-  --wood: oklch(0.44 0.055 55);
-  --gallery-light: radial-gradient(120% 70% at 50% 0%, oklch(0.8 0.07 70 / 30%), transparent 70%);
-  --floor-light: linear-gradient(to bottom, oklch(0.44 0.055 55 / 55%), transparent);
-  --lift-shadow: 0 28px 50px -28px oklch(0.05 0.004 60 / 85%), 0 0 0 1px oklch(0.71 0.145 36 / 22%);
+  --wood: oklch(0.46 0.055 55);
+  --gallery-light: radial-gradient(120% 70% at 50% 0%, oklch(0.82 0.07 70 / 22%), transparent 70%);
+  --floor-light: linear-gradient(to bottom, oklch(0.46 0.055 55 / 50%), transparent);
+  --lift-shadow: 0 24px 44px -26px oklch(0.1 0.008 55 / 70%), 0 0 0 1px oklch(0.73 0.14 38 / 26%);
 
   --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.5'/></svg>");
 }

@@ -89,7 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "Reels and scripts by Mohamed Reyad. Good ideas deserve better stories.",
       },
       { name: "author", content: "Mohamed Reyad" },
-      { name: "theme-color", content: "#262422" },
+      { name: "theme-color", content: "#2b2724" },
       { property: "og:site_name", content: "Mohamed Reyad" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

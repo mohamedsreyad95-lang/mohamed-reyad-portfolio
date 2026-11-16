@@ -50,7 +50,6 @@ export function ProjectModal({
                     <p className="mt-2 font-serif text-xl italic text-muted-foreground">{project.subtitle}</p>
                   )}
                   <p className="mt-3 text-xs text-muted-foreground">
-                    Working title in English. The original Arabic title will replace it once supplied.
                   </p>
                 </>
               )}
