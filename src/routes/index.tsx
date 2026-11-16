@@ -12,6 +12,7 @@ import { ScriptShowcase } from "@/components/site/ScriptShowcase";
 import { Threshold } from "@/components/site/Threshold";
 import { ServicesList } from "@/components/site/ServicesList";
 import { WorkAreaCards } from "@/components/site/WorkAreaCards";
+import { SCRIPT_GROUPS, shownScriptGroups } from "@/data/scripts";
 
 const TITLE = "Mohamed Reyad, Reels Creator & Scriptwriter";
 const DESC =
@@ -40,10 +41,12 @@ const HERO_FACTS = [
 function Home() {
   const [active, setActive] = useState<Project | null>(null);
   const headline = ["Good ideas", "deserve better", "stories."];
+  // The doorway only takes its column once the real portrait is in; until then the type leads.
+  const hasPortrait = profile.portrait !== null;
 
   return (
     <>
-      {/* Hero: editorial grid, anchored by the doorway portrait */}
+      {/* Hero: editorial grid, anchored by the doorway portrait when there is one */}
       <section aria-labelledby="hero-title" className="mx-auto max-w-[1440px] px-5 sm:px-8">
         <div className="grid gap-y-10 border-b border-border pb-14 pt-10 sm:pt-14 lg:grid-cols-12 lg:gap-x-8 lg:pb-16">
           <div className="flex items-center justify-between lg:col-span-12">
@@ -53,7 +56,11 @@ function Home() {
 
           <h1
             id="hero-title"
-            className="font-display-tight text-mega lg:col-span-7 lg:row-start-2 lg:text-[clamp(5rem,9.4vw,9.5rem)]"
+            className={
+              hasPortrait
+                ? "font-display-tight text-mega lg:col-span-7 lg:row-start-2 lg:text-[clamp(5rem,9.4vw,9.5rem)]"
+                : "font-display-tight text-mega lg:col-span-12 lg:text-[clamp(6rem,11.5vw,11.5rem)]"
+            }
           >
             {headline.map((line, i) => (
               <span key={line} className="block overflow-hidden pb-[0.04em]">
@@ -67,12 +74,14 @@ function Home() {
             ))}
           </h1>
 
-          <div className="w-[84%] justify-self-end sm:w-[62%] lg:col-span-5 lg:col-start-8 lg:row-span-3 lg:row-start-2 lg:w-full lg:max-w-[460px] lg:pt-4">
-            <Threshold eager doorClassName="aspect-[4/5] lg:aspect-[3/4] [animation-delay:250ms]" />
-          </div>
+          {hasPortrait && (
+            <div className="w-[84%] justify-self-end sm:w-[62%] lg:col-span-5 lg:col-start-8 lg:row-span-3 lg:row-start-2 lg:w-full lg:max-w-[460px] lg:pt-4">
+              <Threshold eager doorClassName="aspect-[4/5] lg:aspect-[3/4] [animation-delay:250ms]" />
+            </div>
+          )}
 
           <div
-            className="animate-reveal lg:col-span-7 lg:row-start-3"
+            className={`animate-reveal lg:col-span-7 ${hasPortrait ? "lg:row-start-3" : ""}`}
             style={{ animationDelay: "520ms" }}
           >
             <p className="max-w-[34ch] font-serif text-2xl leading-snug sm:text-[1.9rem]">{profile.positioning}</p>
@@ -83,17 +92,20 @@ function Home() {
                   <ArrowRight aria-hidden="true" className="transition-transform duration-300 group-hover/cta:translate-x-1" />
                 </Link>
               </Button>
-              <Button asChild variant="line" size="xl">
-                <Link to="/scripts" hash="brand">Brand scripts</Link>
-              </Button>
-              <Button asChild variant="line" size="xl">
-                <Link to="/scripts" hash="sports">Sports scripts</Link>
-              </Button>
+              {shownScriptGroups.map((g) => (
+                <Button key={g} asChild variant="line" size="xl">
+                  <Link to="/scripts" hash={g}>
+                    {SCRIPT_GROUPS[g].label.join(" ")}
+                  </Link>
+                </Button>
+              ))}
             </div>
           </div>
 
           <dl
-            className="animate-reveal grid grid-cols-3 gap-4 self-end border-t border-border pt-6 lg:col-span-7 lg:row-start-4"
+            className={`animate-reveal grid grid-cols-3 gap-4 self-end border-t border-border pt-6 ${
+              hasPortrait ? "lg:col-span-7 lg:row-start-4" : "lg:col-span-5 lg:col-start-8"
+            }`}
             style={{ animationDelay: "640ms" }}
           >
             {HERO_FACTS.map((f) => (
@@ -113,7 +125,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Scripts sit right under the hero, at equal weight with the visual work */}
+      {/* Scripts sit right under the hero once there is text to read */}
       <ScriptShowcase />
 
       {/* Featured: exactly four */}
