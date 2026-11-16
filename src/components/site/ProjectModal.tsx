@@ -49,8 +49,6 @@ export function ProjectModal({
                   {project.subtitle && (
                     <p className="mt-2 font-serif text-xl italic text-muted-foreground">{project.subtitle}</p>
                   )}
-                  <p className="mt-3 text-xs text-muted-foreground">
-                  </p>
                 </>
               )}
 
