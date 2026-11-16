@@ -2,7 +2,8 @@ import type { ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { profile, timeline } from "@/data/profile";
-import { SERVICES } from "@/data/projects";
+import { getArea, hasReels, SERVICES } from "@/data/projects";
+import { shownScriptGroups } from "@/data/scripts";
 import { Reveal } from "@/components/site/Reveal";
 import { Threshold } from "@/components/site/Threshold";
 
@@ -26,8 +27,18 @@ export const Route = createFileRoute("/about")({
 
 type Dest = { to: "/work"; hash: "brand" | "creators" | "beverage-videos" | "weddings" } | { to: "/scripts"; hash: "brand" | "sports" };
 
-/** Inline link inside the About copy. Underlined with a small arrow so it reads as clickable. */
+/** A destination only gets a link when there is something there to open. */
+function isOpen(dest: Dest) {
+  if (dest.to === "/scripts") return shownScriptGroups.includes(dest.hash);
+  return hasReels(getArea(dest.hash));
+}
+
+/**
+ * Inline link inside the About copy. Underlined with a small arrow so it reads as clickable.
+ * When the destination has nothing to open yet, the words stay as plain text.
+ */
 function Go({ dest, children }: { dest: Dest; children: ReactNode }) {
+  if (!isOpen(dest)) return <>{children}</>;
   return (
     <Link
       to={dest.to}
@@ -43,14 +54,15 @@ function Go({ dest, children }: { dest: Dest; children: ReactNode }) {
   );
 }
 
-const HUB: { dest: Dest; k: string; title: string; ar?: string; line: string }[] = [
+const ALL_HUB: { dest: Dest; k: string; title: string; ar?: string; line: string }[] = [
   { dest: { to: "/work", hash: "brand" }, k: "Visual work", title: "Brand reels", line: "Including OPAL Cosmetics" },
-  { dest: { to: "/scripts", hash: "brand" }, k: "Scripts", title: "Brand Scripts", line: "Treatments to read, full scripts being added" },
+  { dest: { to: "/scripts", hash: "brand" }, k: "Scripts", title: "Brand Scripts", line: "Ideas for brands, written as scenes" },
   { dest: { to: "/scripts", hash: "sports" }, k: "Scripts", title: "Sports Scripts", line: "Football writing in Arabic" },
   { dest: { to: "/work", hash: "creators" }, k: "Visual work", title: "Creators & bloggers", ar: "تصوير بلوجرز", line: "Creator-led short-form videos" },
   { dest: { to: "/work", hash: "beverage-videos" }, k: "Visual work", title: "Beverage videos", line: "40+ videos, freelance" },
   { dest: { to: "/work", hash: "weddings" }, k: "Visual work", title: "Weddings", line: "Wedding Show, 150+ weddings" },
 ];
+const HUB = ALL_HUB.filter((h) => isOpen(h.dest));
 
 function AboutPage() {
   return (
@@ -134,12 +146,12 @@ function AboutPage() {
           <h2 id="hub-title" className="font-display-tight text-big">
             Where to look
           </h2>
-          <p className="max-w-sm text-muted-foreground">Everything above, one click away.</p>
+          <p className="max-w-sm text-muted-foreground">Straight to the work.</p>
         </div>
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-10 grid gap-4 sm:grid-cols-2">
           {HUB.map((h, i) => (
             <li key={h.title}>
-              <Reveal delay={(i % 3) * 70} className="h-full">
+              <Reveal delay={(i % 2) * 70} className="h-full">
                 <Link
                   to={h.dest.to}
                   hash={h.dest.hash}
