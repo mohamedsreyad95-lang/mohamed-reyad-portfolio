@@ -87,17 +87,26 @@ function Home() {
             <p className="max-w-[34ch] font-serif text-2xl leading-snug sm:text-[1.9rem]">{profile.positioning}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild variant="coral" size="xl" className="group/cta">
-                <Link to="/work">
-                  See the visual work
+                <a href={profile.whatsapp.href} target="_blank" rel="noopener noreferrer">
+                  Send me a brief on WhatsApp
                   <ArrowRight aria-hidden="true" className="transition-transform duration-300 group-hover/cta:translate-x-1" />
-                </Link>
+                </a>
               </Button>
-              {shownScriptGroups.map((g) => (
-                <Button key={g} asChild variant="line" size="xl">
-                  <Link to="/scripts" hash={g}>
-                    {SCRIPT_GROUPS[g].label.join(" ")}
-                  </Link>
-                </Button>
+              <Button asChild variant="line" size="xl">
+                <Link to="/work">See the visual work</Link>
+              </Button>
+            </div>
+            <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
+              <span className="eyebrow">Explore scripts</span>
+              {shownScriptGroups.map((group) => (
+                <Link
+                  key={group}
+                  to="/scripts"
+                  hash={group}
+                  className="border-b border-foreground/20 pb-0.5 transition-colors hover:border-coral hover:text-coral"
+                >
+                  {SCRIPT_GROUPS[group].label.join(" ")}
+                </Link>
               ))}
             </div>
           </div>
