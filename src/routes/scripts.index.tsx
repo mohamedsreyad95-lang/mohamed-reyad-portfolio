@@ -15,7 +15,7 @@ import { ScriptTitle } from "@/components/site/ScriptTitle";
 
 const TITLE = "Scripts | Mohamed Reyad";
 const DESC =
-  "Brand Scripts and Sports Scripts by Mohamed Reyad. Treatments and full scripts, with Arabic titles and dialogue kept in the original Arabic.";
+  "Brand Scripts and Sports Scripts by Mohamed Reyad, with Arabic titles and dialogue kept in the original Arabic.";
 
 export const Route = createFileRoute("/scripts/")({
   head: () => ({
@@ -65,7 +65,7 @@ function ReadableRow({ s, n }: { s: ScriptEntry; n: number }) {
           {s.brand && <span className="py-1">{s.brand}</span>}
         </span>
         <span className="inline-flex items-center gap-2 border-b border-foreground/25 pb-1 text-sm font-semibold transition-colors group-hover:border-coral group-hover:text-coral">
-          {s.kind === "treatment" ? "Read treatment" : "Read script"}
+          Read script
           <ArrowRight aria-hidden="true" className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
         </span>
       </div>
@@ -112,24 +112,7 @@ function ScriptsPage() {
           <p className="max-w-md text-lg text-muted-foreground">
             The writing, separate from the videos. Arabic titles and lines stay exactly as written.
           </p>
-          <dl className="mt-6 grid max-w-md gap-3 text-sm">
-            <div className="flex gap-3">
-              <dt className="w-24 shrink-0 font-semibold text-coral">Treatment</dt>
-              <dd className="text-foreground/80">
-                The idea written out in full, not a finished screenplay.{" "}
-                <span lang="ar" dir="rtl" className="whitespace-nowrap text-muted-foreground">
-                  {kindLabelAr.treatment}
-                </span>
-              </dd>
-            </div>
-            <div className="flex gap-3">
-              <dt className="w-24 shrink-0 font-semibold text-coral">Full script</dt>
-              <dd className="text-foreground/80">
-                The complete original text in Arabic, dialogue and scene directions.
-              </dd>
-            </div>
-          </dl>
-          <nav aria-label="Script groups" className="mt-8 flex flex-wrap gap-3">
+            <nav aria-label="Script groups" className="mt-8 flex flex-wrap gap-3">
             {shownScriptGroups.map((g) => (
               <Link
                 key={g}
