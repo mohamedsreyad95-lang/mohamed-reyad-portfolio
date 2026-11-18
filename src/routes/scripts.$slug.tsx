@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { getScript, kindLabel, kindLabelAr, readableScripts, type ScriptBlock, type ScriptEntry } from "@/data/scripts";
+import { getScript, readableScripts, type ScriptBlock, type ScriptEntry } from "@/data/scripts";
 import { ScriptTitle } from "@/components/site/ScriptTitle";
 
 export const Route = createFileRoute("/scripts/$slug")({
@@ -11,12 +11,17 @@ export const Route = createFileRoute("/scripts/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Script not found | Mohamed Reyad" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [
+          { title: "Script not found | Mohamed Reyad" },
+          { name: "robots", content: "noindex" },
+        ],
+      };
     }
     const { script } = loaderData;
     const name = script.title ?? "Script";
-    const title = `${name} | ${kindLabel[script.kind]} by Mohamed Reyad`;
-    const description = `${kindLabel[script.kind]} by Mohamed Reyad, in the original Arabic.`;
+    const title = `${name} | Full script by Mohamed Reyad`;
+    const description = "Full script by Mohamed Reyad, in the original Arabic.";
     return {
       meta: [
         { title },
@@ -63,18 +68,16 @@ function Block({ block }: { block: ScriptBlock }) {
   }
 }
 
-/** One reader for both kinds: original Arabic, right to left, labelled for what it is. */
+/** Original Arabic full-script reader, right to left. */
 function ArabicPage({ script }: { script: ScriptEntry }) {
-  const isTreatment = script.kind === "treatment";
   return (
     <div className="shadow-lift">
       <p className="flex flex-wrap items-center gap-x-3 gap-y-1 bg-ink px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-coral sm:px-14">
-        <span>{kindLabel[script.kind]}</span>
+        <span>Full script</span>
         <span aria-hidden="true">&middot;</span>
         <span lang="ar" dir="rtl" className="text-sm normal-case">
-          {kindLabelAr[script.kind]}
+          {"\u0633\u064a\u0646\u0627\u0631\u064a\u0648 \u0643\u0627\u0645\u0644"}
         </span>
-        {isTreatment && <span className="ml-auto normal-case tracking-normal text-muted-foreground">Not the full script</span>}
       </p>
       <div lang="ar" dir="rtl" className="screenplay-ar grain px-6 py-12 sm:px-14 sm:py-16">
         <header className="text-center">
@@ -118,7 +121,10 @@ function Reader() {
         hash={script.group}
         className="group eyebrow inline-flex items-center gap-2 transition-colors hover:text-coral"
       >
-        <ArrowLeft className="size-4 transition-transform duration-300 group-hover:-translate-x-1" aria-hidden="true" />
+        <ArrowLeft
+          className="size-4 transition-transform duration-300 group-hover:-translate-x-1"
+          aria-hidden="true"
+        />
         {script.group === "sports" ? "Sports Scripts" : "Brand Scripts"}
       </Link>
 
@@ -127,11 +133,22 @@ function Reader() {
 
         <nav aria-label="More from the library" className="mt-10 grid grid-cols-2 gap-4 text-sm">
           {prev ? (
-            <Link to="/scripts/$slug" params={{ slug: prev.slug }} className="group flex min-w-0 items-center gap-2">
-              <ArrowLeft className="size-4 shrink-0 transition-transform duration-300 group-hover:-translate-x-1 group-hover:text-coral" aria-hidden="true" />
+            <Link
+              to="/scripts/$slug"
+              params={{ slug: prev.slug }}
+              className="group flex min-w-0 items-center gap-2"
+            >
+              <ArrowLeft
+                className="size-4 shrink-0 transition-transform duration-300 group-hover:-translate-x-1 group-hover:text-coral"
+                aria-hidden="true"
+              />
               <span className="min-w-0">
                 <span className="block text-xs text-muted-foreground">Previous</span>
-                <span lang={prev.titleLang} dir="auto" className="link-underline block truncate font-semibold">
+                <span
+                  lang={prev.titleLang}
+                  dir="auto"
+                  className="link-underline block truncate font-semibold"
+                >
                   {prev.title}
                 </span>
               </span>
@@ -147,11 +164,18 @@ function Reader() {
             >
               <span className="min-w-0">
                 <span className="block text-xs text-muted-foreground">Next</span>
-                <span lang={next.titleLang} dir="auto" className="link-underline block truncate font-semibold">
+                <span
+                  lang={next.titleLang}
+                  dir="auto"
+                  className="link-underline block truncate font-semibold"
+                >
                   {next.title}
                 </span>
               </span>
-              <ArrowRight className="size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-coral" aria-hidden="true" />
+              <ArrowRight
+                className="size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-coral"
+                aria-hidden="true"
+              />
             </Link>
           )}
         </nav>
