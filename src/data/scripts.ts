@@ -1,6 +1,7 @@
 /**
- * Script and treatment text, stored exactly as supplied in the original Arabic.
- * Never summarise, paraphrase, translate or fill gaps here.
+ * Complete Arabic scripts from Mohamed Reyad's supplied portfolio PDF.
+ * Original dialogue and story beats are preserved; treatment-format pieces are
+ * presented in the library under the single public label "Script".
  */
 export type ScriptBlock =
   | { type: "scene"; text: string }
@@ -12,131 +13,114 @@ export type ScriptBlock =
   | { type: "super"; text: string };
 
 export type ScriptGroup = "brand" | "sports";
-
 export type ScriptEntry = {
-  slug: string;
-  group: ScriptGroup;
-  kind: "treatment" | "full-script";
-  /**
-   * "available" only when the complete original text is in `body`.
-   * "text-pending" entries are never shown publicly, not even as a title.
-   */
-  status: "available" | "text-pending";
-  /** Original title. null until the verified original is supplied. */
-  title: string | null;
-  titleLang?: "ar";
-  /** Small English helper under an Arabic title. */
-  gloss?: string;
-  /** English working label for an entry whose original title is still pending. */
-  workingLabel?: string;
-  brand?: string;
-  category: string;
-  logline?: string;
-  body?: ScriptBlock[];
-  note?: string;
-  relatedUrl?: string;
+  slug: string; group: ScriptGroup; kind: "treatment" | "full-script";
+  status: "available" | "text-pending"; title: string | null; titleLang?: "ar";
+  gloss?: string; workingLabel?: string; brand?: string; category: string;
+  logline?: string; body?: ScriptBlock[]; note?: string; relatedUrl?: string;
 };
-
-export const SCRIPT_GROUPS: Record<
-  ScriptGroup,
-  { id: ScriptGroup; label: [string, string]; blurb: string; cue: string }
-> = {
-  brand: {
-    id: "brand",
-    label: ["Brand", "Scripts"],
-    blurb:
-      "Ideas for brands, written as scenes. Each one starts with an everyday situation and lets the product fit in where it actually helps.",
-    cue: "Read scripts",
-  },
-  sports: {
-    id: "sports",
-    label: ["Sports", "Scripts"],
-    blurb: "Football writing, in Arabic.",
-    cue: "Explore",
-  },
+const blocks = (...lines: string[]): ScriptBlock[] => lines.map(text => ({type:"action", text}));
+export const SCRIPT_GROUPS: Record<ScriptGroup,{id:ScriptGroup;label:[string,string];blurb:string;cue:string}> = {
+ brand:{id:"brand",label:["Brand","Scripts"],blurb:"Brand stories, scenes and dialogue by Mohamed Reyad.",cue:"Read scripts"},
+ sports:{id:"sports",label:["Sports","Scripts"],blurb:"Football storytelling and editorial scripts in Arabic.",cue:"Explore"}
 };
-
 export const scripts: ScriptEntry[] = [
-  // The three OPAL treatments. Only the titles and a short brief were supplied; the full
-  // Arabic treatment text (old portfolio PDF, pages 22 to 31) is not in the project yet,
-  // so they stay unpublished. Paste the text into `body` exactly and set status "available".
-  {
-    slug: "opal-shower-gel-where",
-    group: "brand",
-    kind: "treatment",
-    status: "text-pending",
-    title: "\u0647\u0648 \u0634\u0627\u0648\u0631 \u062c\u064a\u0644 OPAL \u0628\u0642\u0649 \u0641\u064a\u0646\u061f",
-    titleLang: "ar",
-    brand: "OPAL Shower Gel",
-    category: "Brand Content",
-  },
-  {
-    slug: "opal-alan-hoy-style",
-    group: "brand",
-    kind: "treatment",
-    status: "text-pending",
-    title: "OPAL Shower Gel | Alan Hoy Production Style",
-    brand: "OPAL Shower Gel",
-    category: "Brand Content",
-  },
-  {
-    slug: "opal-meeting-room",
-    group: "brand",
-    kind: "treatment",
-    status: "text-pending",
-    title: "\u0645\u0639\u0637\u0631 OPAL | Meeting Room",
-    titleLang: "ar",
-    brand: "OPAL Air Freshener",
-    category: "Brand Content",
-  },
-  // The four complete scripts from the earlier portfolio are not listed until their
-  // exact titles and full text are supplied. Never add placeholder entries for them.
-  {
-    slug: "home-bundle-peace-of-mind-treatment",
-    group: "brand",
-    kind: "treatment",
-    status: "text-pending",
-    title: null,
-    workingLabel: "Home Bundle | Peace of Mind",
-    category: "Brand Content",
-    note: "The original treatment for this idea. The finished reel is not necessarily the same story.",
-    relatedUrl: "https://www.instagram.com/reel/DbJLdO9Ie__/",
-  },
-  // Three football scripts. Titles verified by Mohamed; full text not recovered yet.
-  ...[
-    "\u0645\u0627\u0630\u0627 \u064a\u062f\u062e\u0646\u0648\u0646 \u0641\u064a \u0645\u0644\u0639\u0628 \u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062a\u061f",
-    "\u0647\u0644 \u062f\u0648\u0631\u064a \u0623\u0628\u0637\u0627\u0644 \u0623\u0648\u0631\u0648\u0628\u0627 \u0647\u0648 \u0627\u0644\u0644\u064a \u0628\u064a\u0635\u0646\u0639 \u0627\u0644\u0623\u0633\u0627\u0637\u064a\u0631\u061f",
-    "\u0627\u0644\u062f\u0648\u0631\u064a \u0627\u0644\u0633\u0639\u0648\u062f\u064a \u0646\u062c\u062d\u2026 \u0644\u0643\u0646 \u0647\u0644 \u062f\u0647 \u0643\u0627\u0646 \u0627\u0644\u0647\u062f\u0641 \u0623\u0635\u0644\u064b\u0627\u061f",
-  ].map(
-    (title, i): ScriptEntry => ({
-      slug: `sports-script-0${i + 1}`,
-      group: "sports",
-      kind: "full-script",
-      status: "text-pending",
-      title,
-      titleLang: "ar",
-      category: "Sports & Editorial",
-    }),
-  ),
+ {slug:"opal-shower-gel-where",group:"brand",kind:"full-script",status:"available",title:"هات شاور جيل",titleLang:"ar",brand:"OPAL Shower Gel",category:"Comedy Sketch",body:blocks(
+ "SCENE 01 — Leaving the apartment | لقطة واسعة ثابتة. الابن على وشك الخروج ويمسك مقبض الباب.",
+ "الابن: «يا ماما... عايزة حاجة وأنا جاي؟»",
+ "SCENE 02 — Brand | الأم من الداخل: «هات شاور جيل». الابن يفتح الباب برأسه: «طب ما قولتيليش نوعه إيه؟» الأم: «أوبااااال». الباب يُغلق.",
+ "SCENE 03 — New Formula | الباب يفتح مجددًا. الابن: «الراجل بيقول... قديم ولا جديد؟»",
+ "SCENE 04 — Fragrance | الابن ماسك موبايله: «يا ماما... بقالّي شوية برن ومبترديش». الأم: «كنت بكلم خالتك». الابن: «طب اسألي خالتو جيجي... تندر ولا خُمرة؟» الأم تنادي: «تندر ولا خُمرة؟» ثم يأتي الرد: «خوخ». الابن يتجمد وينظر للموبايل ثم يغلق الباب ببطء.",
+ "SCENE 05 — Sizes | الابن: «كبير ولا صغير؟» الأم تدعو. الابن متردد: «يعني الكبير؟» ثم: «الكبيرة موفرة أكتر».",
+ "SCENE 06 — 500 ML | الباب يُغلق ثم يُفتح. صوت الأب من الداخل: «المرتب خلص وإحنا لسه يوم ١٥!» الابن يتفاعل ويغلق الباب.",
+ "SCENE 07 — Burnt Food | الابن: «يا ماما...» الأم تصرخ: «حرقت الأكل... غوووور من وشي!» الابن يغلق الباب ببطء.",
+ "SCENE 08 — Ending | ليلًا. الابن يظهر مرهقًا ويدفع عربة سوبر ماركت مليئة بـ OPAL New Formula وOPAL Old Formula وكل الروائح وكل الأحجام. الابن: «بصي... جبتلك كل حاجة».",
+ "PRODUCT SHOTS & CTA | لقطات سينمائية قريبة للروائح والأحجام والفورميولا الجديدة والرغوة. VO: «شاور جيل OPAL... قوام جديد، روايح متنوعة، وأحجام لكل احتياجاتك».",
+ "END GAG | بنفس الكاميرا الثابتة، الابن يغني قرب الحمام وهو يضع كمية مبالغًا فيها على الليفة: «أكاااد من فرط الجمال أذوووب...» الأم: «الحيوان... مين اللي بيستخدم الشاور بالطريقة دي؟!» الابن يخاف ويجري خارج الكادر. CUT TO LOGO.",
+ "DIRECTOR NOTES | الأم لا تظهر أمام الكاميرا. الكوميديا قائمة على الإيقاع والتوقيت. كل فتحة باب أسرع من السابقة، وكل عودة تزيد إحباط الابن. الكاميرا ثابتة تمامًا حتى لقطات المنتج، مع Jump Cuts سريعة. فوائد المنتج تظهر طبيعيًا من أسئلة الابن: الفورميولا الجديدة، تنوع الروائح وتعدد الأحجام."
+ )},
+ {slug:"sports-script-01",group:"sports",kind:"full-script",status:"available",title:"ماذا يدخنون في ملعب الإمارات؟",titleLang:"ar",category:"Sports & Editorial",body:blocks(
+ "«ماذا يدخنون في ملعب الإمارات؟»",
+ "دي كانت التغريدة اللي كتبها جون هنري، مالك ليفربول، سنة 2013... بعد ما أرسنال قدم عرض بـ40 مليون جنيه إسترليني وجنيه واحد... للتعاقد مع لويس سواريز.",
+ "وقتها العالم كله اتريق على أرسنال، لكن الحقيقة مختلفة.",
+ "إدارة أرسنال كانت مقتنعة إن في بند في عقد سواريز هيجبر ليفربول يفتح باب التفاوض بمجرد ما العرض يزيد عن 40 مليون.",
+ "لكنهم اكتشفوا إن البند كان بيلزم النادي بالنظر في العرض... مش بيع اللاعب.",
+ "ومن هنا عرفنا إن العقود في كرة القدم ممكن تغير التاريخ.",
+ "فيجو استخدم الشرط الجزائي وانتقل من برشلونة لريال مدريد.",
+ "بعدها ظهر الشرط الجزائي البالغ 222 مليون يورو، وخرج نيمار من برشلونة في الصفقة الأكبر في تاريخ اللعبة.",
+ "وهاالند انتقل إلى مانشستر سيتي بسبب شرط جزائي كان أقل بكتير من قيمته السوقية.",
+ "أوقات... بند صغير في عقد ممكن يكون هو أسرع طريق لخسارة أفضل لاعب عندك."
+ )},
+ {slug:"sports-script-02",group:"sports",kind:"full-script",status:"available",title:"هل دوري أبطال أوروبا هو اللي بيصنع الأساطير؟",titleLang:"ar",category:"Sports Storytelling",body:blocks(
+ "PART 01 — THE QUESTION",
+ "هل دوري أبطال أوروبا هو اللي بيصنع الأساطير؟ خليني أسألك سؤال بسيط...",
+ "بوفون... واحد من أعظم حراس المرمى في تاريخ اللعبة... معندوش ولا بطولة دوري أبطال أوروبا.",
+ "فلو البطولات هي المعيار الوحيد... يبقى إيتو أسطورة أكبر من بوفون؟ الإجابة غالبًا هتكون: لا. لكن ليه؟",
+ "إحنا بقالنا سنين بنقيس عظمة اللاعبين بعدد البطولات، خصوصًا دوري أبطال أوروبا. لدرجة إن أي نقاش عن أفضل لاعب في التاريخ، أو أفضل مهاجم، أو أفضل حارس... لازم حد يطلع يقولك: «طب معاه كام تشامبيونزليج؟»",
+ "بس الحقيقة إن كرة القدم عمرها ما كانت لعبة عادلة بالشكل ده.",
+ "دوري أبطال أوروبا أهم بطولة للأندية، وبدون شك الفوز بيها بيضيف كتير لأي لاعب. بطولة بتجمع أفضل فرق أوروبا، والضغط فيها عالي، والمباريات الكبيرة فيها هي اللي بتصنع لحظات بتعيش عشرات السنين.",
+ "هل البطولة دي بتقيس مستوى اللاعب فعلًا؟ تعالى نبص على بوفون.",
+ "بوفون لعب أكتر من 25 سنة على أعلى مستوى. كسب كأس العالم، حقق بطولات كتير، واخد جوايز فردية كتير... وخسر التالتة.",
+ "PART 02 — TEAM SPORT",
+ "هل خسارة 3 مباريات في نهائي دوري أبطال أوروبا كل اللي يتبقى من مسيرة بوفون؟ هل ركلة جزاء واحدة كانت كفيلة إن تقييم الناس ليه يختلف؟",
+ "رونالدو البرازيل. بطل العالم مرتين، وأخد الكرة الذهبية مرتين، وغير شكل مركز المهاجم بالكامل. ومع ذلك... معندوش دوري أبطال أوروبا.",
+ "هل ده يمنع إن ناس كتير تعتبره أفضل مهاجم شافته في حياتها؟ على الناحية التانية... في لاعبين عندهم 4 و5 و6 بطولات دوري أبطال. هل ده معناه إن كل واحد فيهم أفضل من رونالدو؟ مش بالضرورة.",
+ "وده لأن البطولة بتقول إنك كنت جزءًا من فريق عظيم... ودي نقطة مهمة جدًا. كرة القدم لعبة جماعية.",
+ "PART 03 — CONTEXT",
+ "يعني ممكن تبقى أفضل لاعب في فريق أقل من منافسيك. وممكن تبقى لاعب جيد، لكن تلعب وسط جيل هو الأفضل في تاريخ ناديك. الاتنين هيخرجوا بمسيرة مختلفة تمامًا، رغم إن مستواهم الفردي مش بعيد عن بعض.",
+ "خليني أديك مثال. تخيل إن بوفون لعب طول مسيرته مع ريال مدريد في الفترة اللي كسب فيها خمس بطولات دوري أبطال خلال أقل من عشر سنين... هل كان هيعتزل من غير البطولة؟ غالبًا لا.",
+ "لو ناتشو قضى مسيرته كلها في فريق بعيد عن المنافسة الأوروبية... هل كان هيحقق الست بطولات؟ برضه لا.",
+ "يبقى هل البطولة هنا بتعكس قيمة اللاعب... ولا بتعكس الظروف اللي لعب فيها؟ وعشان كده، لما نيجي نحكم على أسطورة، لازم نبص للصورة كاملة. نبص لاستمراريته. قدر يحافظ على مستواه كام سنة؟",
+ "PART 04 — WHAT MAKES A LEGEND",
+ "هل كان الأفضل في العالم فعلًا في فترة من الفترات؟ هل غير طريقة لعب مركزه؟ هل ألهم جيل كامل؟ ونبص لتأثيره...",
+ "آه، كرة القدم لعبة جماعية، لكن الفرد يقدر يسيب بصمة. كرة القدم مليانة تفاصيل صغيرة ممكن تغير تاريخ لاعب كامل: ركلة جزاء. إصابة. قرعة. جيل قوي لعب ضده.",
+ "دوري أبطال أوروبا بطولة عظيمة. لكن مش كل لاعب عظيم لازم يكون عنده اللقب ده. ولو كانت البطولات هي كل حاجة... يبقى ناتشو أعظم من بوفون؟ وده شيء... أعتقد إن قليل جدًا هيوافق عليه.",
+ "PART 05 — THE LAST QUESTION",
+ "يمكن السؤال الحقيقي مش «معاه كام بطولة؟» السؤال الحقيقي هو... لما نقلب التاريخ بعد 30 سنة... مين اللاعب اللي الناس هتفضل تتكلم عنه؟"
+ )},
+ {slug:"sports-script-03",group:"sports",kind:"full-script",status:"available",title:"الدوري السعودي نجح… لكن هل ده كان الهدف أصلًا؟",titleLang:"ar",category:"Sports & Editorial",body:blocks(
+ "المشروع جزء من رؤية 2030، وهدفه يحول الدوري لمنتج عالمي، يجذب استثمارات، يزود حقوق البث، ويرفع مكانة السعودية رياضيًا، ويدعم استضافة البطولات الكبرى.",
+ "وده نجح بدرجة كبيرة.",
+ "لكن في المقابل، ظهر سؤال مهم: هل اللاعب السعودي بقى بياخد فرص كفاية؟",
+ "مع زيادة عدد الأجانب، المنافسة بقت أقوى، لكن دقائق لعب بعض اللاعبين المحليين قلت. في نفس الوقت، الاحتكاك اليومي بنجوم العالم ممكن يطور مستواهم على المدى البعيد.",
+ "يعني إحنا قدام معادلة صعبة...",
+ "دوري أقوى عالميًا، ومنتخب لازم يحافظ على جودة لاعبيه.",
+ "الحل مش تقليل الأجانب، لكن خلق توازن يضمن مشاركة اللاعب السعودي وتطوره.",
+ "لأن نجاح المشروع الحقيقي مش هيتقاس بالنجوم بس... لكن بقدرته على صناعة منتخب ينافس على أعلى مستوى."
+ )},
+ {slug:"opal-shower-gel-where-2",group:"brand",kind:"full-script",status:"available",title:"بقى فين؟ OPAL هو شاور جيل",titleLang:"ar",brand:"OPAL Shower Gel",category:"Comedy Sketch",body:blocks(
+ "الفكرة | بسبب تغيير شكل العبوة، الناس بقت مقتنعة إن الشاور جيل الجديد ده منتج تاني، وإن شاور جيل OPAL اللي متعودين عليه اختفى. كل شخصية تدخل تزود سوء الفهم، والبياع يحاول يشرح، لكن محدش بيسمعه.",
+ "SHOT 01 / HOOK | Wide داخل محل. ست كبيرة تدخل. الست: «لو سمحت يا ابني… عندك شاور جيل OPAL؟» البياع: «أهو يا فندم». (يشاور على العبوة الجديدة).",
+ "SHOT 02–03 | الست: «لا لا… أنا قصدي شاور جيل OPAL». البياع: «يا فندم ده هو». الست: «لا يا حبيبي… اللي كان أبيض… وبإيد… والغطا من فوق».",
+ "SHOT 04–07 | البياع يمسك العبوة الجديدة: «بصي يا فندم… دلوقتي بقت بمبة». يضغط البمبة: «أهو… تدوسي عليه ينزل». الست: «لا… ده غيره». البياع: «وقولتي كان كبير… دلوقتي بقى فيه ٣ أحجام». (يشاور على الرف). «صغير… وسط… وكبير». الست: «لا… أنا قصدي الكبير». البياع: «ما هو ده الكبير يا فندم».",
+ "SHOT 08–10 | ست تانية تدخل بعربية تسوق. العربية مليانة منتجات OPAL، ومن ضمنها أكتر من عبوة من الشاور جيل بالشكل الجديد. الست التانية: «أيوه صحيح… هو شاور جيل OPAL وقف إنتاج ولا إيه؟» البياع يبصلها… ثم يبص للعربية… ثم يبصلها تاني. يحاول يرد: «يا جماعة ده…» الست الأولى (تقاطعه): «وكان أبيض كده». البياع: «دلوقتي بقى بألوان مختلفة».",
+ "SHOT 11–15 | الست: «لا… القديم كان أحلى». تطلع الموبايل: «استنى أكلم بنتي». على التليفون: «ألو يا بنتي… إيه؟ ضربك تاني؟ والله ما أسيبه… استني… مش ده اللي بكلمك عشانه». بنت تدخل المحل بسرعة: «يا طنط… الراجل بيقولك إن ده هو شاور جيل OPAL». الست: «طنط؟! طنط في عينك… أنا صغيرة».",
+ "SHOT 16–18 / CLOSURE | البنت تمسك العبوة: «بصي… إحنا أصلاً بنجيب منه على طول. هو هو… بس غيروا شكل العبوة. وبقى فيه ٣ أحجام. وألوان مختلفة. وقوامه بقى أحلى. ورايحه بقت أقوى». الجميع يسكت. البياع يبتسم، ويحس إنهم أخيرًا فهموا.",
+ "جرس الباب يرن. واحدة تدخل. تبص على الرف: «لو سمحت… هو شاور جيل OPAL وقف إنتاج ولا إيه؟» البياع يبص للكاميرا باستسلام. Cut.",
+ "EXECUTION | كوميدي، Fast Pace، شخصيات تدخل واحدة ورا التانية، وكل شخصية تزود سوء الفهم. Wide أغلب الوقت، Close Ups على ردود الفعل، Push In بسيط وقت الإفيهات، Cuts سريعة للحفاظ على الريتم. موسيقى كوميدية خفيفة، صوت البمبة واضح، جرس الباب مع كل شخصية جديدة، ولحظات صمت قصيرة قبل الإفيهات.",
+ "PRODUCT MESSAGE | نفس شاور جيل OPAL اللي الناس بتحبه… لكن بعبوة جديدة، و٣ أحجام، وألوان متنوعة، وبمبة أسهل في الاستخدام، مع قوام أحلى ورايحه أقوى."
+ )},
+ {slug:"opal-alan-hoy-style",group:"brand",kind:"full-script",status:"available",title:"ريحة توديك الساحل",titleLang:"ar",brand:"OPAL Shower Gel",category:"Visual Comedy · Alan Hoy production style",body:blocks(
+ "الفكرة | أول ما ساندرا تخرج من الحمام، ريحة شاور جيل OPAL تكون قوية لدرجة إنها خلت كل اللي حواليها يتصرفوا كأنهم في الساحل. الفكرة تتقدم بصريًا من غير أي شرح في الأول، والـ Reveal ييجي في الآخر مع بائع الفريسكا.",
+ "SHOT 01 / HOOK | باب الحمام يفتح. ساندرا تخرج وهي بتنشف شعرها. تبص تحت… الأرض كلها رملة. تدوس برجليها… SFX: صوت المشي على الرمل. تبص حواليها باستغراب.",
+ "SHOT 02–04 | تبص يمين… طفلين قاعدين بيبنوا قلعة رمل في نص البيت. تبص شمال… أم قاعدة بتحضر سندوتشات لأولادها كأنهم نازلين البحر. راجل لابس مايوه ونظارة شمس، بيدهن صن بلوك بكل هدوء.",
+ "SHOT 05–08 | واحد يعدي قدامها وهو بينادي: «فرييييييسكاااا…». واحدة قاعدة تحت شمسية بحر. واحد بينفض فوطة بحر من «الرملة». طفل شايل عوامة أكبر منه وماشي عادي.",
+ "SHOT 09–10 / REVEAL | ساندرا تلف تبص على كل اللي حواليها: «هو… في إيه يا جماعة؟!» بائع الفريسكا يدخل الكادر وهو ماشي. يبصلها باستغراب وكأنه مستغرب إنها لسه مش فاهمة. بائع الفريسكا (بلهجة إسكندراني خفيفة): «لا يا أبلة… هما من ساعة ما شمّوا ريحة شاور جيل OPAL اللي طالعة منك… افتكروا نفسهم في الساحل». يسكت لحظة… يبص حواليه وينادي وهو ماشي: «فرييييسكااا… فريسكا يا مصيفين!»",
+ "END FRAME | Packshot – OPAL Shower Gel. Super: «ريحة توديك الساحل… حتى لو إنت في البيت»."
+ )},
+ {slug:"opal-meeting-room",group:"brand",kind:"full-script",status:"available",title:"معطر OPAL | Meeting Room",titleLang:"ar",brand:"OPAL Air Freshener",category:"Office Comedy",body:blocks(
+ "الفكرة | بنات قاعدين في الـ Meeting Room، لكن عاملينها فطار مش ميتينج. أول ما المدير يبص عليهم، الزمن يقلب Slow Motion، وكل واحدة تحاول تخفي الجريمة بطريقتها. آخر واحدة تنقذ الموقف برشة معطر OPAL. المدير يدخل… وكل حاجة شكلها Perfect.",
+ "المشهد الأول / 0–4 ثواني | Shot 1 · Wide Shot للـ Meeting Room. ترابيزة الميتينج كلها فطار: واحدة بتاكل جرجير. واحدة بتبني ساندوتش باهتمام مبالغ فيه. واحدة بتصب شاي. واحدة قاعدة تتفرج على الموبايل. SFX: صوت معالق · صوت كباية شاي · جو هادي جدًا.",
+ "المشهد الثاني / 4–6 ثواني | Shot 2 · المدير يعدي قدام الباب. يبص جوه… يكمل خطوتين… يقف. Shot 3 · Close Up على وش المدير. يبص تاني ويرجع ناحية الباب. SFX: Record Scratch. كل البنات في نفس اللحظة يرفعوا عينهم ويبصوا عليه. Cut.",
+ "المشهد الثالث / 6–10 ثواني / SLOW MOTION | موسيقى Epic. سلسلة لقطات سريعة جدًا: واحدة ترمي آخر لقمة في بقها. واحدة تشيل السفرة كلها. واحدة ترمي الزبالة في الباسكت. واحدة تفتح اللابتوب. واحدة تقلب ورق بسرعة. واحدة ترتب الكراسي. واحدة تمسح الترابيزة بإيدها. واحدة تحط المج تحت الترابيزة. وفي آخر ثانية… Close Up. إيد تمسك معطر OPAL. تششششش. رشة واحدة.",
+ "المشهد الرابع / 10–15 ثانية | الباب يتفتح. كلهم قاعدين بمنتهى الاحتراف: واحدة على Call. واحدة بتكتب. واحدة على اللابتوب. واحدة بتراجع شيتات. المدير يدخل… كان داخل بوش إنه هيقول حاجة… يقف. ياخد نفس. ويبص حواليه. يقول باستغراب: «لحظة… إيه الريحة الحلوة دي؟» واحدة ترد من غير ما ترفع عينها: «معطر OPAL». سكتة. تبصله: «فطرت؟»",
+ "المشهد الأخير | Cut. المدير قاعد وسطهم بيفطر. والفطار رجع كله على الترابيزة. بياكل جرجير… ويبص للبنات ويقول وهو بياكل: «مفيش بصل؟» كلهم يكملوا فطار عادي جدًا… ولا كأن أي حاجة حصلت. Cut على Logo OPAL."
+ )}
 ];
-
-/** The only scripts shown anywhere public: complete original text and a verified title. */
-export const readableScripts = scripts.filter(
-  (s) => s.status === "available" && s.title !== null && (s.body?.length ?? 0) > 0,
-);
-export const getScript = (slug: string) => readableScripts.find((s) => s.slug === slug);
-export const scriptsIn = (g: ScriptGroup) => readableScripts.filter((s) => s.group === g);
-/** Groups that have something to read. Empty groups, and an empty library, are hidden. */
-export const shownScriptGroups = (["brand", "sports"] as const).filter((g) => scriptsIn(g).length > 0);
+export const readableScripts = scripts.filter(s => s.status === "available" && s.title !== null && (s.body?.length ?? 0) > 0);
+export const getScript = (slug: string) => readableScripts.find(s => s.slug === slug);
+export const scriptsIn = (g: ScriptGroup) => readableScripts.filter(s => s.group === g);
+export const shownScriptGroups = (["brand","sports"] as const).filter(g => scriptsIn(g).length > 0);
 export const hasScripts = readableScripts.length > 0;
-
-export const kindLabel: Record<ScriptEntry["kind"], string> = {
-  treatment: "Treatment",
-  "full-script": "Full script",
-};
-
-/** Arabic label shown next to the English one, so a treatment is never mistaken for a screenplay. */
-export const kindLabelAr: Record<ScriptEntry["kind"], string> = {
-  treatment: "\u0645\u0639\u0627\u0644\u062c\u0629 \u0625\u0628\u062f\u0627\u0639\u064a\u0629",
-  "full-script": "\u0633\u064a\u0646\u0627\u0631\u064a\u0648 \u0643\u0627\u0645\u0644",
-};
+export const kindLabel: Record<ScriptEntry["kind"],string> = { treatment:"Script", "full-script":"Script" };
+export const kindLabelAr: Record<ScriptEntry["kind"],string> = { treatment:"سيناريو", "full-script":"سيناريو" };
