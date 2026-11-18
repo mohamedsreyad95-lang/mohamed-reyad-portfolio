@@ -19,12 +19,7 @@ function plural(n: number, one: string, many: string) {
 
 function summary(g: ScriptGroup) {
   const items = scriptsIn(g);
-  const t = items.filter((s) => s.kind === "treatment").length;
-  const f = items.length - t;
-  const parts: string[] = [];
-  if (f) parts.push(plural(f, "full script", "full scripts"));
-  if (t) parts.push(plural(t, "treatment", "treatments"));
-  return `${parts.join(" and ")} to read`;
+  return `${plural(items.length, "script", "scripts")} to read`;
 }
 
 const rowClass =
