@@ -15,8 +15,8 @@ export const Route = createFileRoute("/scripts/$slug")({
     }
     const { script } = loaderData;
     const name = script.title ?? "Script";
-    const title = `${name} | ${kindLabel[script.kind]} by Mohamed Reyad`;
-    const description = `${kindLabel[script.kind]} by Mohamed Reyad, in the original Arabic.`;
+    const title = `${name} | Script by Mohamed Reyad`;
+    const description = `Script by Mohamed Reyad, in the original Arabic.`;
     return {
       meta: [
         { title },
@@ -65,7 +65,6 @@ function Block({ block }: { block: ScriptBlock }) {
 
 /** One reader for both kinds: original Arabic, right to left, labelled for what it is. */
 function ArabicPage({ script }: { script: ScriptEntry }) {
-  const isTreatment = script.kind === "treatment";
   return (
     <div className="shadow-lift">
       <p className="flex flex-wrap items-center gap-x-3 gap-y-1 bg-ink px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-coral sm:px-14">
@@ -74,7 +73,6 @@ function ArabicPage({ script }: { script: ScriptEntry }) {
         <span lang="ar" dir="rtl" className="text-sm normal-case">
           {kindLabelAr[script.kind]}
         </span>
-        {isTreatment && <span className="ml-auto normal-case tracking-normal text-muted-foreground">Not the full script</span>}
       </p>
       <div lang="ar" dir="rtl" className="screenplay-ar grain px-6 py-12 sm:px-14 sm:py-16">
         <header className="text-center">

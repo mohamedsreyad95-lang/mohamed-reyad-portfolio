@@ -41,47 +41,31 @@ describe("portfolio content rules", () => {
     expect(profile.cvUrl).toBeNull();
   });
 
-  it("labels the three OPAL treatments as treatments, never full scripts", () => {
-    const slugs = ["opal-shower-gel-where", "opal-alan-hoy-style", "opal-meeting-room"];
-    for (const slug of slugs) {
-      expect(scripts.find((x) => x.slug === slug)!.kind).toBe("treatment");
+  it("publishes all seven complete scripts with full text", () => {
+    expect(readableScripts).toHaveLength(7);
+    expect(hasScripts).toBe(true);
+    expect(scripts.filter((x) => x.status === "available")).toHaveLength(7);
+    for (const script of readableScripts) {
+      expect(script.title).toBeTruthy();
+      expect(script.body?.length ?? 0).toBeGreaterThan(0);
     }
   });
 
-  it("keeps the OPAL treatments unpublished until their full Arabic text is supplied", () => {
-    for (const slug of ["opal-shower-gel-where", "opal-alan-hoy-style", "opal-meeting-room"]) {
-      const s = scripts.find((x) => x.slug === slug)!;
-      expect(s.body).toBeUndefined();
-      expect(readableScripts).not.toContain(s);
-    }
-  });
-
-  it("only publishes a script or treatment with a title and its complete text", () => {
-    for (const s of readableScripts) {
-      expect(s.status).toBe("available");
-      expect(s.title).not.toBeNull();
-      expect(s.body?.length ?? 0).toBeGreaterThan(0);
-    }
-  });
-
-  it("keeps the three verified Arabic football titles, unpublished until their text is in", () => {
-    const sports = scripts.filter((s) => s.group === "sports");
-    expect(sports.map((s) => s.title)).toEqual([
+  it("keeps the seven verified titles in the library", () => {
+    expect(readableScripts.map((s) => s.title)).toEqual([
+      "هات شاور جيل",
       "ماذا يدخنون في ملعب الإمارات؟",
       "هل دوري أبطال أوروبا هو اللي بيصنع الأساطير؟",
       "الدوري السعودي نجح… لكن هل ده كان الهدف أصلًا؟",
+      "بقى فين؟ OPAL هو شاور جيل",
+      "ريحة توديك الساحل",
+      "معطر OPAL | Meeting Room",
     ]);
-    for (const s of sports) {
-      expect(s.status).toBe("text-pending");
-      expect(readableScripts).not.toContain(s);
-    }
   });
 
-  it("hides the Scripts menu item and the sports section while nothing is readable", () => {
-    expect(hasScripts).toBe(false);
-    expect(shownScriptGroups).toEqual([]);
-    expect(NAV.map((n) => n.label)).toEqual(["Visual work", "About", "Contact"]);
-    expect(shownWorkAreas.map((a) => a.id)).toEqual(["brand", "creators", "weddings", "beverage-videos"]);
+  it("shows the Scripts menu and both populated groups", () => {
+    expect(shownScriptGroups).toEqual(["brand", "sports"]);
+    expect(NAV.map((n) => n.label)).toContain("Scripts");
   });
 
   it("shows no 'coming soon' style wording in public copy", () => {
