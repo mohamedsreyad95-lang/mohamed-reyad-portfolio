@@ -35,7 +35,7 @@ use the editor.
 - Project covers are typographic (`ProjectCover`), never generated stills, until real frames are supplied, so no fake thumbnails appear.
 - Optional links (LinkedIn, CV) are `null` in `src/data/profile.ts` and the UI hides them when null, so nothing is fabricated.
 - `src/test/content.test.ts` guards the verified-fact rules; update it when facts change.
-- Scripts carry `group` (brand/sports), `kind` (treatment/full-script) and `status`; full scripts render from `body` in the RTL Arabic reader and only open when `body` exists, so missing text shows as pending instead of filler.
+- Scripts carry `group` (brand/sports), `kind` (treatment/full-script) and `status`; only entries with complete `body` text are public (reader, homepage cards, nav item), while `/scripts` always loads and shows a short empty-library note, so no incomplete text is ever shown and the URL never 404s.
 - Arabic and mixed titles render through `ScriptTitle`, which splits on " | " so Arabic and Latin parts never wrap into each other.
 - The portrait renders only through `Threshold` (doorway frame) from `profile.portrait`; crop is set by its `focus` fields, so swapping in the real photo is a data change, not a layout change.
 - Visual work sections come from `WORK_AREAS` in `src/data/projects.ts`, including honest pending states; each area id is the anchor on `/work`, so About and homepage link with `hash`. `SERVICES` renders unlinked short headings separately so service-only changes never remove other work areas.

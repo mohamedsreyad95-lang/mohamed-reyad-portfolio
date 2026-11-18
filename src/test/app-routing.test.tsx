@@ -14,4 +14,15 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
+
+  it("serves a page for every main section", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    const ids = ["/", "/work", "/scripts", "/about", "/contact"].map((p) => router.matchRoutes(p).at(-1)?.routeId);
+    expect(ids).toEqual(["/", "/work", "/scripts/", "/about", "/contact"]);
+  });
+
+  it("keeps the Scripts library page open even while no script is published", async () => {
+    const { Route } = await import("@/routes/scripts.index");
+    expect(Route.options.loader).toBeUndefined();
+  });
 });

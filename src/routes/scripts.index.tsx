@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import {
   hasScripts,
@@ -18,13 +18,11 @@ const DESC =
   "Brand Scripts and Sports Scripts by Mohamed Reyad. Treatments and full scripts, with Arabic titles and dialogue kept in the original Arabic.";
 
 export const Route = createFileRoute("/scripts/")({
-  // No library page until there is something complete to read.
-  loader: () => {
-    if (!hasScripts) throw notFound();
-  },
   head: () => ({
     meta: [
       { title: TITLE },
+      // An empty library stays out of search results until a complete script is published.
+      ...(hasScripts ? [] : [{ name: "robots", content: "noindex" }]),
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
@@ -150,6 +148,31 @@ function ScriptsPage() {
       {shownScriptGroups.map((g) => (
         <GroupSection key={g} g={g} />
       ))}
+
+      {!hasScripts && (
+        <section aria-label="Library status" className="border-t border-border py-14 sm:py-20">
+          <p className="max-w-xl text-lg leading-relaxed text-foreground/80">
+            This library only holds complete original scripts, so nothing is published here yet. For writing
+            samples, get in touch.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-6">
+            <Link
+              to="/contact"
+              className="group inline-flex items-center gap-2 border-b border-foreground/25 pb-1 font-semibold transition-colors hover:border-coral hover:text-coral focus-visible:text-coral"
+            >
+              Contact
+              <ArrowRight aria-hidden="true" className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+            <Link
+              to="/work"
+              className="group inline-flex items-center gap-2 border-b border-foreground/25 pb-1 font-semibold transition-colors hover:border-coral hover:text-coral focus-visible:text-coral"
+            >
+              Visual work
+              <ArrowRight aria-hidden="true" className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
