@@ -2,8 +2,6 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import {
   hasScripts,
-  kindLabel,
-  kindLabelAr,
   SCRIPT_GROUPS,
   scriptsIn,
   shownScriptGroups,
@@ -18,13 +16,8 @@ function plural(n: number, one: string, many: string) {
 }
 
 function summary(g: ScriptGroup) {
-  const items = scriptsIn(g);
-  const t = items.filter((s) => s.kind === "treatment").length;
-  const f = items.length - t;
-  const parts: string[] = [];
-  if (f) parts.push(plural(f, "full script", "full scripts"));
-  if (t) parts.push(plural(t, "treatment", "treatments"));
-  return `${parts.join(" and ")} to read`;
+  const count = scriptsIn(g).length;
+  return `${plural(count, "full script", "full scripts")} to read`;
 }
 
 const rowClass =
@@ -45,8 +38,10 @@ function RowBody({ s, i }: { s: ScriptEntry; i: number }) {
           />
         )}
         <span className="mt-1 flex flex-wrap items-center gap-x-2 text-xs font-semibold text-muted-foreground">
-          <span className="uppercase tracking-[0.12em] text-coral">{kindLabel[s.kind]}</span>
-          <span lang="ar" dir="rtl">{kindLabelAr[s.kind]}</span>
+          <span className="uppercase tracking-[0.12em] text-coral">Full script</span>
+          <span lang="ar" dir="rtl">
+            {"\u0633\u064a\u0646\u0627\u0631\u064a\u0648 \u0643\u0627\u0645\u0644"}
+          </span>
         </span>
       </span>
       <ArrowRight
@@ -77,7 +72,9 @@ function GroupCard({ g, index }: { g: ScriptGroup; index: number }) {
         <span className="block text-coral">{group.label[1]}</span>
       </h3>
 
-      <p className="relative mt-6 max-w-md text-lg leading-relaxed text-foreground/80">{group.blurb}</p>
+      <p className="relative mt-6 max-w-md text-lg leading-relaxed text-foreground/80">
+        {group.blurb}
+      </p>
 
       <ul className="relative mt-8 divide-y divide-border border-y border-border">
         {preview.map((s, i) => (
@@ -101,7 +98,10 @@ function GroupCard({ g, index }: { g: ScriptGroup; index: number }) {
             {group.cue}
           </span>
           <span className="flex size-11 items-center justify-center rounded-full border border-foreground/25 transition-colors duration-300 group-hover:border-coral group-hover:bg-coral group-hover:text-primary-foreground">
-            <ArrowRight aria-hidden="true" className="size-5 transition-transform duration-300 group-hover:translate-x-0.5" />
+            <ArrowRight
+              aria-hidden="true"
+              className="size-5 transition-transform duration-300 group-hover:translate-x-0.5"
+            />
           </span>
           <span className="sr-only">: all {group.label.join(" ")}</span>
         </Link>
@@ -110,7 +110,7 @@ function GroupCard({ g, index }: { g: ScriptGroup; index: number }) {
   );
 }
 
-/** Homepage feature: Brand Scripts and Sports Scripts at equal weight, once either has text to read. */
+/** Homepage feature: Brand Scripts and Sports Scripts at equal weight, once complete scripts exist. */
 export function ScriptShowcase() {
   if (!hasScripts) return null;
   return (
@@ -126,7 +126,8 @@ export function ScriptShowcase() {
           </h2>
         </div>
         <p className="max-w-sm text-muted-foreground">
-          Half of the work is on the page. Every piece is labelled for what it is, and Arabic stays as written.
+          Half of the work is on the page. Complete original scripts only, with Arabic kept as
+          written.
         </p>
       </div>
       <ul className={`mt-10 grid gap-6 ${shownScriptGroups.length > 1 ? "md:grid-cols-2" : ""}`}>
