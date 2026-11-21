@@ -336,3 +336,100 @@
     transform: none;
   }
 }
+
+/* ==========================================================================
+   STORY HOME (reyad-storytelling-rebuild) — scoped under .story.
+   Editorial, cinematic, photographic. Own tokens, no reuse of site theme.
+   ========================================================================== */
+.story{
+  --s-bone:#ece6da; --s-bone2:#e3dccb; --s-ink:#171310; --s-ink2:#4d443a; --s-muted:#8a8071;
+  --s-rust:#a24a1c;
+  --s-display:"Anton",Impact,sans-serif;
+  --s-serif:"Newsreader",Georgia,serif;
+  --s-sans:"Inter",system-ui,sans-serif;
+  --s-arabic:"IBM Plex Sans Arabic","Noto Sans Arabic",sans-serif;
+  --s-ease:cubic-bezier(.22,.8,.2,1);
+  --s-pad:clamp(20px,5vw,72px);
+  background:var(--s-bone); color:var(--s-ink);
+  font-family:var(--s-sans); line-height:1.55; -webkit-font-smoothing:antialiased;
+  position:relative; overflow:hidden;
+}
+.story ::selection{background:var(--s-rust);color:#fff}
+.story img{display:block;max-width:100%}
+.story a{color:inherit;text-decoration:none}
+.story [lang=ar]{font-family:var(--s-arabic)}
+
+/* film grain */
+.story .grain{position:fixed;inset:-50%;z-index:200;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.story [data-rv]{opacity:0;transform:translateY(26px);transition:opacity .9s var(--s-ease),transform .9s var(--s-ease)}
+.story [data-rv].on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .story [data-rv]{opacity:1!important;transform:none!important}
+}
+
+/* story chrome */
+.story .st-top{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+  padding:18px var(--s-pad);transition:color .35s;color:var(--s-ink)}
+.story .st-mono{font-family:var(--s-display);font-size:22px;letter-spacing:.04em}
+.story .st-mono i{font-style:normal;color:var(--s-rust)}
+.story .st-top nav{display:flex;gap:26px}
+.story .st-top nav a{font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--s-ink2);transition:color .3s}
+.story .st-top nav a:hover{color:var(--s-rust)}
+.story .st-top.on-dark{color:var(--s-bone)}
+.story .st-top.on-dark nav a{color:rgba(236,230,218,.72)}
+.story .st-top.on-dark nav a:hover{color:var(--s-rust)}
+@media(max-width:560px){.story .st-top nav a:not(:last-child){display:none}}
+
+.story .st-chc{position:fixed;left:var(--s-pad);bottom:16px;z-index:100;font-size:10px;font-weight:600;letter-spacing:.24em;
+  color:#8a8071;mix-blend-mode:difference;pointer-events:none;transition:opacity .4s}
+@media(max-width:700px){.story .st-chc{display:none}}
+
+/* shared */
+.story .label{font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--s-rust);margin-bottom:clamp(14px,2.4vw,22px);display:flex;align-items:center;gap:12px}
+.story .label::after{content:"";width:44px;height:1px;background:var(--s-rust)}
+.story .kick{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--s-ink2)}
+.story .kick span{color:var(--s-muted);margin-left:10px}
+
+.story .st-ch{position:relative;padding:clamp(80px,12vh,140px) var(--s-pad);overflow:hidden}
+.story .ch-title{font-family:var(--s-serif);font-weight:400;font-size:clamp(38px,7vw,80px);line-height:1.02;letter-spacing:-.01em;text-wrap:balance;margin-bottom:clamp(32px,4.5vw,56px)}
+.story .ch-title em{font-style:italic;color:var(--s-rust)}
+
+/* chapter header — the index marker every chapter opens with */
+.story .chead{display:flex;align-items:flex-end;gap:clamp(14px,2.6vw,28px);margin-bottom:clamp(28px,4.5vw,52px)}
+.story .chn{font-family:var(--s-display);font-size:clamp(58px,11vw,124px);line-height:.8;letter-spacing:.01em;
+  color:transparent;-webkit-text-stroke:1.5px rgba(23,19,16,.38)}
+.story .chl{flex:1;display:flex;align-items:center;gap:14px;padding-bottom:clamp(4px,1vw,12px);
+  font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--s-rust)}
+.story .chl::after{content:"";flex:1;height:1px;background:currentColor;opacity:.45}
+.story .who .chn,.story .nums .chn{-webkit-text-stroke:1.5px rgba(236,230,218,.42)}
+.story .c7h{flex-direction:column;align-items:center;gap:10px}
+.story .c7h .chl{flex:none;padding-bottom:0}
+.story .c7h .chl::after{display:none}
+
+/* CH 01 — the opening */
+.story .intro{min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  padding-top:clamp(76px,10vh,110px);padding-bottom:clamp(30px,5vh,56px)}
+@media(min-width:701px){.story .intro{padding-bottom:clamp(80px,11vh,110px)}}
+.story .c1-stage{position:relative;z-index:1;display:flex;justify-content:center;height:min(56svh,600px)}
+.story .ghost{position:absolute;top:44%;left:50%;transform:translate(-50%,-50%) translateY(var(--py,0px));z-index:1;
+  font-family:var(--s-display);font-size:clamp(130px,24vw,380px);line-height:1;letter-spacing:.02em;white-space:nowrap;
+  color:transparent;-webkit-text-stroke:1.5px rgba(23,19,16,.34)}
+.story .c1-cut{position:relative;z-index:2;height:100%;width:auto;transform:translateY(var(--py,0px));
+  filter:drop-shadow(0 30px 50px rgba(23,19,16,.35))}
+.story .c1-txt{position:relative;z-index:3;max-width:600px;margin-top:clamp(22px,4vh,40px)}
+.story .c1-txt .label{margin-bottom:14px}
+.story .c1-txt .kick{margin-bottom:16px}
+.story .c1-txt .kick span{display:block;margin:4px 0 0;color:var(--s-muted)}
+.story .c1-txt h1{font-family:var(--s-serif);font-weight:400;font-size:clamp(30px,5.4vw,54px);line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.story .c1-txt h1 em{font-style:italic;color:var(--s-rust)}
+.story .cue{position:absolute;bottom:clamp(26px,5vh,50px);right:var(--s-pad);z-index:3;font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--s-muted);
+  display:flex;align-items:center;gap:12px;writing-mode:vertical-rl}
+.story .cue .line{width:1px;height:52px;background:var(--s-ink2);animation:st-cue 2s var(--s-ease) infinite;transform-origin:top}
+@keyframes st-cue{0%{transform:scaleY(0)}45%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+@media(max-width:700px){
+  .story .c1-stage{height:44svh}
+  .story .ghost{font-size:33vw}
+  .story .cue{display:none}
+}
