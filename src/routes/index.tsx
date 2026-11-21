@@ -5,6 +5,8 @@ import { StoryTop } from "@/components/story/StoryTop";
 import { Opening } from "@/components/story/Opening";
 import { Who } from "@/components/story/Who";
 import { Mind } from "@/components/story/Mind";
+import { Work } from "@/components/story/Work";
+import { Frame } from "@/components/story/Frame";
 
 const TITLE = "Mohamed Reyad — An interactive personal story";
 const DESC =
@@ -38,7 +40,8 @@ function StoryHome() {
       <Opening />
       <Who />
       <Mind />
-      {/* M3: chapters 04-05 (The work / Behind the frame) */}
+      <Work />
+      <Frame />
       {/* M4: chapters 06-07 (The numbers / What's next?) */}
     </div>
   );
