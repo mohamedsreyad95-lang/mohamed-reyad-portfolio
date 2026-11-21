@@ -433,3 +433,44 @@
   .story .ghost{font-size:33vw}
   .story .cue{display:none}
 }
+
+/* CH 02 — who am I? (dark chapter) */
+.story .who{background:var(--s-ink);color:var(--s-bone)}
+@media(min-width:701px){.story .who{min-height:100svh}}
+.story .who-lines{position:relative;z-index:2}
+.story .wl{font-family:var(--s-display);font-size:clamp(42px,10vw,124px);line-height:1.02;letter-spacing:.01em;text-transform:uppercase}
+.story .wl b{font-weight:inherit;color:var(--s-bone)}
+.story .wl i{font-family:var(--s-serif);font-style:italic;text-transform:none;color:var(--s-rust);letter-spacing:0}
+.story .wl.ol b{color:transparent;-webkit-text-stroke:1.5px rgba(236,230,218,.75)}
+.story .c2-cut{position:absolute;right:calc(var(--s-pad)*0.4);bottom:0;z-index:1;transform:translateY(var(--py,0px));height:min(56svh,540px);width:auto;opacity:.95;
+  filter:grayscale(1) contrast(1.1) drop-shadow(-18px 24px 44px rgba(0,0,0,.5))}
+@media(max-width:700px){
+  .story .who{display:flex;flex-direction:column}
+  .story .who .who-note{order:3}
+  .story .c2-cut{order:4;position:relative;right:auto;height:36svh;margin:22px -6% 0 0;align-self:flex-end}
+}
+.story .who-note{position:relative;z-index:2;max-width:430px;margin-top:clamp(30px,4.5vw,56px)}
+.story .who-note p{font-family:var(--s-serif);font-size:clamp(17px,2.4vw,22px);line-height:1.65;color:rgba(236,230,218,.88)}
+.story .who-note p+p{margin-top:1em}
+
+/* CH 03 — how I see the world (halftone field + word chain) */
+.story .mind::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(23,19,16,.10) 1px,transparent 1.7px);background-size:15px 15px;
+  -webkit-mask-image:linear-gradient(115deg,#000 0%,transparent 55%);mask-image:linear-gradient(115deg,#000 0%,transparent 55%)}
+.story .mind>*{position:relative;z-index:1}
+@media(min-width:900px){.story .mind{min-height:100svh;display:grid;grid-template-columns:7fr 5fr;gap:clamp(40px,6vw,80px);align-items:center}
+  .story .mind .chead{grid-column:1/-1;margin-bottom:0}}
+.story .mind-map{position:relative}
+.story .mw{font-family:var(--s-display);text-transform:uppercase;line-height:1;letter-spacing:.01em}
+.story .mw.outline{font-size:clamp(40px,7vw,84px);color:transparent;-webkit-text-stroke:1.4px var(--s-ink)}
+.story .mw.serif{font-family:var(--s-serif);font-size:clamp(44px,8vw,100px);text-transform:none;font-weight:400;margin-left:clamp(24px,6vw,110px)}
+.story .mw.serif em{color:var(--s-rust)}
+.story .mw.solid{font-size:clamp(52px,9.5vw,120px)}
+.story .mw.outlineSerif{font-size:clamp(36px,6.4vw,76px);margin-left:clamp(12px,4vw,70px);color:transparent;-webkit-text-stroke:1.4px var(--s-ink)}
+.story .mw.outlineSerif i{font-family:var(--s-serif);font-style:italic;text-transform:none;-webkit-text-stroke:0;color:var(--s-ink)}
+.story .mw.block{font-size:clamp(34px,6vw,72px);background:var(--s-ink);color:var(--s-bone);display:inline-block;padding:6px 18px 2px}
+.story .conn{display:block;font-family:var(--s-serif);font-style:italic;font-size:clamp(15px,2vw,20px);color:var(--s-muted);margin:10px 0 10px clamp(8px,2vw,30px)}
+.story .mind-side{margin-top:clamp(34px,5vw,0px)}
+.story .face{width:clamp(120px,16vw,180px);aspect-ratio:1;border-radius:50%;overflow:hidden;border:1.5px solid var(--s-ink);background:var(--s-bone2);margin-bottom:22px}
+.story .face img{width:190%;max-width:none;transform:translate(-22%,-4%);filter:grayscale(1) contrast(1.12)}
+.story .annot{font-family:var(--s-serif);font-style:italic;font-size:clamp(16px,2.2vw,20px);line-height:1.6;color:var(--s-ink2);border-left:2px solid var(--s-rust);padding-left:16px;margin-bottom:18px}

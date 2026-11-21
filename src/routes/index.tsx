@@ -3,6 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useStoryMotion } from "@/hooks/useStoryMotion";
 import { StoryTop } from "@/components/story/StoryTop";
 import { Opening } from "@/components/story/Opening";
+import { Who } from "@/components/story/Who";
+import { Mind } from "@/components/story/Mind";
 
 const TITLE = "Mohamed Reyad — An interactive personal story";
 const DESC =
@@ -34,7 +36,8 @@ function StoryHome() {
         01 / 07
       </p>
       <Opening />
-      {/* M2: chapters 02-03 (Who am I? / How I see the world) */}
+      <Who />
+      <Mind />
       {/* M3: chapters 04-05 (The work / Behind the frame) */}
       {/* M4: chapters 06-07 (The numbers / What's next?) */}
     </div>
