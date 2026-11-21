@@ -111,7 +111,10 @@ export function useStoryMotion(rootRef: RefObject<HTMLElement | null>) {
         pxs.forEach((el) => {
           const r = el.getBoundingClientRect();
           const c = r.top + r.height / 2 - vh / 2;
-          el.style.setProperty("--py", `${(-c * parseFloat(el.getAttribute("data-px") ?? "0")).toFixed(1)}px`);
+          el.style.setProperty(
+            "--py",
+            `${(-c * parseFloat(el.getAttribute("data-px") ?? "0")).toFixed(1)}px`,
+          );
         });
         ticking = false;
       };

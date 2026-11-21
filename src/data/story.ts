@@ -44,7 +44,11 @@ export const WHO_NOTE = [
 ] as const;
 
 /* CH 03 — How I see the world */
-export const MIND_CHAIN: { word: string; style: "outline" | "serif" | "solid" | "outlineSerif" | "block"; conn?: string }[] = [
+export const MIND_CHAIN: {
+  word: string;
+  style: "outline" | "serif" | "solid" | "outlineSerif" | "block";
+  conn?: string;
+}[] = [
   { word: "Ideas", style: "outline", conn: "become" },
   { word: "imagination", style: "serif", conn: "shaped by" },
   { word: "Storytelling", style: "solid", conn: "turned into" },
@@ -59,11 +63,23 @@ export const MIND_NOTES = [
 
 /* CH 05 — Behind the frame */
 export const PROCESS_STEPS = [
-  { n: "01", name: "Idea", text: "Start with the problem — the thing people already complain about." },
-  { n: "02", name: "Script", text: "Turn it into a scene: characters, a situation, a reason to keep watching." },
+  {
+    n: "01",
+    name: "Idea",
+    text: "Start with the problem — the thing people already complain about.",
+  },
+  {
+    n: "02",
+    name: "Script",
+    text: "Turn it into a scene: characters, a situation, a reason to keep watching.",
+  },
   { n: "03", name: "Shoot", text: "The scene goes in front of the camera, simple and real." },
   { n: "04", name: "Edit", text: "Cut, caption and pace it to the moment it lands." },
-  { n: "05", name: "Final", text: "The product arrives where it would actually help — never pasted in." },
+  {
+    n: "05",
+    name: "Final",
+    text: "The product arrives where it would actually help — never pasted in.",
+  },
 ] as const;
 
 /* CH 06 — The numbers. Display forms of the verified figures in projects.ts / profile.ts. */

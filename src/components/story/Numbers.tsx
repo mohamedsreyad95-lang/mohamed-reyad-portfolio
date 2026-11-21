@@ -17,7 +17,13 @@ export function Numbers() {
             </b>
             <p>{n.label}</p>
             {i === 0 ? (
-              <img className="cut c6-cut" src={STORY_ASSETS.cutout} alt="" data-px="0.06" aria-hidden="true" />
+              <img
+                className="cut c6-cut"
+                src={STORY_ASSETS.cutout}
+                alt=""
+                data-px="0.06"
+                aria-hidden="true"
+              />
             ) : null}
           </div>
         ))}

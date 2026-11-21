@@ -13,7 +13,16 @@ const SHORT_LABELS: Record<string, string> = {
 };
 
 const Arrow = () => (
-  <svg className="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+  <svg
+    className="arr"
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    aria-hidden="true"
+  >
     <path d="M7 17L17 7M17 7H8M17 7v9" />
   </svg>
 );
@@ -54,8 +63,8 @@ export function Work() {
             </a>
           </h3>
           <p className="pd">
-            Brand reels, including the shower gel rebranding. Everyday situations, with the product inside the
-            story.
+            Brand reels, including the shower gel rebranding. Everyday situations, with the product
+            inside the story.
           </p>
           <ReelLinks projects={brand} />
         </div>
@@ -73,7 +82,9 @@ export function Work() {
               Wedding <em>Show</em> <Arrow />
             </a>
           </h3>
-          <p className="pd">Mobile content and social media across more than 150 weddings, since April 2023.</p>
+          <p className="pd">
+            Mobile content and social media across more than 150 weddings, since April 2023.
+          </p>
           <ReelLinks projects={weddings} />
         </div>
         <span className="pstat">
@@ -89,7 +100,8 @@ export function Work() {
             Commercial <em>reels</em>
           </h3>
           <p className="pd">
-            A freelance body of work: more than 40 beverage videos made for businesses. Samples on request.
+            A freelance body of work: more than 40 beverage videos made for businesses. Samples on
+            request.
           </p>
         </div>
         <span className="pstat">
@@ -106,7 +118,9 @@ export function Work() {
               Script<em>writing</em> <Arrow />
             </Link>
           </h3>
-          <p className="pd">Brand scripts and sports storytelling, in Arabic. Written to be read, then filmed.</p>
+          <p className="pd">
+            Brand scripts and sports storytelling, in Arabic. Written to be read, then filmed.
+          </p>
         </div>
         <span className="pstat">
           <b>{scriptCount}</b>
